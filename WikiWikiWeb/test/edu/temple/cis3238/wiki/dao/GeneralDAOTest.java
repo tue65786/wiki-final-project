@@ -54,7 +54,8 @@ public void tearDown() {
 
 @Test
 public void testTagCRUD() {
-   System.out.println( "Working: testTagCrud" );
+   System.out.println( "Working: testTagCrud\n"
+					   + "--------------------" );
    GeneralDAO instance = new GeneralDAO( dbc );
    TagsVO actual;
    boolean expectedDelete;
@@ -78,7 +79,8 @@ public void testTagCRUD() {
 
 @Test
 public void testTopicCRUD() {
-   System.out.println( "Working: testTopicCrud" );
+   System.out.println( "\n\nWorking: testTopicCrud\n"
+					   + "-----------------------" );
    GeneralDAO instance = new GeneralDAO( dbc );
    TopicVO actual;
    TopicVO expected = new TopicVOBuilder().setTopicName( "testTopic" ).setTopicContent( "Hello world test" ).setRevisions( 0 ).build();
@@ -111,7 +113,8 @@ public void testTopicCRUD() {
 
 @Test
 public void testTopicAssignUnassignTags() {
-   System.out.println( "Working: testTopicAssignUnassignTags" );
+   System.out.println( "\n\nWorking: testTopicAssignUnassignTags\n"
+					   + "------------------------------------" );
    GeneralDAO instance = new GeneralDAO( dbc );
    TopicVO actualTopic;
    TopicVO expectedTopic = new TopicVOBuilder().setTopicName( "testTopic" ).setTopicContent( "Hello world test" ).setRevisions( 0 ).build();
@@ -121,7 +124,7 @@ public void testTopicAssignUnassignTags() {
    int tagID;
    int topicID;
    boolean bindingSuccess;
-   topicID= instance.addTopic( expectedTopic );
+   topicID = instance.addTopic( expectedTopic );
    System.out.println( "Added Topic ID = " + topicID );
    expectedTopic.setTopicID( topicID );
 
@@ -157,7 +160,7 @@ public void testTopicAssignUnassignTags() {
    actualTagsVOList = instance.getTagsByTopicID( topicID );
    System.out.println( "Assigned Tags Count = " + actualTagsVOList.size() );
    assertEquals( tagsVOList, actualTagsVOList );
-   
+
    System.out.println( "Unassign Tags from Topic" );
    bindingSuccess = instance.unassignTopicTags( actualTopic, tagsVOList );
    assertEquals( bindingSuccess, true );

@@ -7,6 +7,7 @@ package edu.temple.cis3238.wiki.vo;
 
 import edu.temple.cis3238.wiki.utils.*;
 import java.io.*;
+import java.util.*;
 import java.util.logging.*;
 
 /**
@@ -14,6 +15,7 @@ import java.util.logging.*;
  * @author (c)2016 Guiding Technologies
  */
 public class UsersVO implements Serializable {
+private static final Logger LOG = Logger.getLogger( UsersVO.class.getName() );
 
 private static final long serialVersionUID = -6129441578079281747L;
 private String emailAddress;
@@ -25,6 +27,30 @@ private String userRole;
 public static UsersVO newInstance(UsersVO _vo) {
    return new UsersVO( _vo.getUserID(), _vo.getUserName(), _vo.getPassword(), _vo.getUserRole(), _vo.getEmailAddress() );
 }
+
+   @Override
+   public boolean equals(Object obj) {
+	  if ( this == obj ) {
+		 return true;
+	  }
+	  if ( obj == null ) {
+		 return false;
+	  }
+	  if ( getClass() != obj.getClass() ) {
+		 return false;
+	  }
+	  final UsersVO other = (UsersVO) obj;
+	  if ( this.getUserID() != other.getUserID() ) {
+		 return false;
+	  }
+	  if ( !Objects.equals( this.password, other.password ) ) {
+		 return false;
+	  }
+	  if ( !Objects.equals( this.userName, other.userName ) ) {
+		 return false;
+	  }
+	  return true;
+   }
 
 /**
  * @return the emailAddress
@@ -44,7 +70,7 @@ public void setEmailAddress(String emailAddress) {
  * @return the password
  */
 public String getPassword() {
-   return password;
+   return StringUtils.toS(password);
 }
 
 /**
@@ -72,7 +98,7 @@ public void setUserID(int userID) {
  * @return the userName
  */
 public String getUserName() {
-   return userName;
+   return StringUtils.toS(userName);
 }
 
 /**
@@ -96,6 +122,20 @@ public void setUserRole(String userRole) {
    this.userRole = userRole;
 }
 
+   @Override
+   public int hashCode() {
+	  int hash = 5;
+	  hash = 59 * hash + Objects.hashCode(this.getPassword());
+	  hash = 59 * hash + this.getUserID();
+	  hash = 59 * hash + Objects.hashCode(this.getUserName());
+	  return hash;
+   }
+
+   @Override
+   public String toString() {
+	  return "UsersVO{" + "emailAddress=" + getEmailAddress() + ", password=" + getPassword() + ", userID=" + getUserID() + ", userName=" + getUserName() + ", userRole=" + getUserRole() + '}';
+   }
+
 public UsersVO(int _userID, String _userName, String _password, String _userRole, String _emailAddress) {
    this.userID = _userID;
    this.userName = _userName;
@@ -108,6 +148,5 @@ public UsersVO(String _userName, String _password) {
    this.userName = _userName;
    this.password = _password;
 }
-   private static final Logger LOG = Logger.getLogger( UsersVO.class.getName() );
 
 }
