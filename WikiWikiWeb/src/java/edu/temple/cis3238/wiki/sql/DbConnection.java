@@ -15,6 +15,7 @@ import java.util.logging.*;
  * @author (c)2016 Guiding Technologies
  */
 public class DbConnection implements IDbConnection {
+private static final boolean DEBUG = true;
 private static final String JDBC_DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 private static final Logger LOG = Logger.getLogger( DbConnection.class.getName() );
 private static Properties dbProps = null;
@@ -30,6 +31,9 @@ public void close() {
 	  try {
 		 if ( !conn.isClosed() ) {
 			conn.close();
+			if (DEBUG){
+			   LOG.info( "Connection Closed -- edu.temple.cis3238.wiki.sql.DbConnection.close()" );  
+			}
 		 }
 	  }
 	  catch ( Exception e ) {

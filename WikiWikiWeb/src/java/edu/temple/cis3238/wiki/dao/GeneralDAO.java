@@ -177,12 +177,10 @@ public boolean deleteTag(TagsVO _vo) {
 	  }
    } catch (SQLException ex) {
 	  LOG.log( Level.SEVERE, null, ex );
-   }
-   catch (NullPointerException ex){
+   } catch (NullPointerException ex) {
 	  LOG.log( Level.SEVERE, null, ex );
 	  ex.printStackTrace();
-   }
-   catch (Exception ex){
+   } catch (Exception ex) {
 	  LOG.log( Level.SEVERE, null, ex );
 	  ex.printStackTrace();
    }
@@ -193,7 +191,7 @@ public boolean deleteTopic(TopicVO _vo) {
    CallableStatement cs = null;
    int rowsAffected = 0;
    try {
-	  dbc.getConn().prepareCall( DB_STRINGS.TOPIC_DELETE );
+	  cs = dbc.getConn().prepareCall( DB_STRINGS.TOPIC_DELETE );
 	  cs.setInt( 1, _vo.getTopicID() );
 	  rowsAffected = cs.executeUpdate();
 	  try {
@@ -518,7 +516,42 @@ public ArrayList<TopicVO> getTopicsByTagID(int _id) {
 
 @Override
 public ArrayList<TopicVO> getTopicsByTagName(String _name) {
-   throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
+      CallableStatement cs = null;
+   ResultSet rs = null;
+   TopicVO vo = null;
+   ArrayList<TopicVO> voList = new ArrayList<TopicVO>();
+   TagsVO tag = getTagByName( _name );
+   if (tag == null || tag.getTagID() <= 0){
+	  LOG.logp( Level.INFO, this.getClass().getName(), "getTopicsByTagName(String)", "Invalid tag name" );
+	  return voList;
+   }
+   try {
+	  cs = dbc.getConn().prepareCall( DB_STRINGS.TOPIC_SELECT_BY_TAG );
+	  cs.setInt( 1, tag.getTagID());
+	  rs = cs.executeQuery();
+	  while ( rs.next() ) {
+		 TopicVOBuilder builder = new TopicVOBuilder();
+		 builder.setTopicID( rs.getInt( 1 ) ).setTopicName( rs.getString( 2 ) ).setTopicContent( rs.getString( 3 ) ).setTopicCreated( rs.getString( 4 ) ).setTopicModified( rs.getString( 5 ) ).setRevisions( rs.getInt( 6 ) );
+		 vo = builder.build();
+		 voList.add( TopicVO.newInstance( vo ) );
+	  }
+	  try {
+		 if ( !rs.isClosed() ) {
+			rs.close();
+		 }
+		 if ( !cs.isClosed() ) {
+			cs.close();
+		 }
+	  } catch (SQLException ex) {
+		 LOG.log( Level.WARNING, "Problem closing Db objects", ex );
+	  }
+   } catch (SQLException ex) {
+	  LOG.log( Level.SEVERE, null, ex );
+   } catch (Exception ex) {
+	  LOG.log( Level.SEVERE, null, ex );
+   }
+   return voList; 
+   
 }
 
 @Override

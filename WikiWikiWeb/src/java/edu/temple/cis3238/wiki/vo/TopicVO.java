@@ -44,6 +44,30 @@ public int compareTo(TopicVO _that) {
    return ctb.build();
 }
 
+   @Override
+   public boolean equals(Object obj) {
+	  if ( this == obj ) {
+		 return true;
+	  }
+	  if ( obj == null ) {
+		 return false;
+	  }
+	  if ( getClass() != obj.getClass() ) {
+		 return false;
+	  }
+	  final TopicVO other = (TopicVO) obj;
+	  if ( this.topicID != other.topicID ) {
+		 return false;
+	  }
+	  if ( !Objects.equals( this.getTopicContent(), other.getTopicContent() ) ) {
+		 return false;
+	  }
+	  if ( !Objects.equals( this.getTopicName(), other.getTopicName() ) ) {
+		 return false;
+	  }
+	  return true;
+   }
+
 /**
  * @return the revisions
  */
@@ -155,6 +179,16 @@ public String getTopicName() {
 public void setTopicName(String topicName) {
    this.topicName = topicName;
 }
+
+   @Override
+   public int hashCode() {
+	  int hash = 5;
+	  hash = 59 * hash + this.revisions;
+	  hash = 59 * hash + Objects.hashCode( this.getTopicContent() );
+	  hash = 59 * hash + this.topicID;
+	  hash = 59 * hash + Objects.hashCode( this.getTopicName() );
+	  return hash;
+   }
 
 @Override
 public String toString() {
