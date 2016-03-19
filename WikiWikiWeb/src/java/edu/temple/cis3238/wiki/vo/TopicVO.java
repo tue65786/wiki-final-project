@@ -8,12 +8,13 @@ package edu.temple.cis3238.wiki.vo;
 import java.io.*;
 import java.util.*;
 import java.util.logging.*;
+import org.apache.commons.lang3.builder.*;
 
 /**
  *
  * @author (c)2016 Guiding Technologies
  */
-public class TopicVO implements Serializable {
+public class TopicVO implements Serializable,Comparable<TopicVO> {
 
 private static final Logger LOG = Logger.getLogger( TopicVO.class.getName() );
 
@@ -30,6 +31,18 @@ private String topicName;
 public static TopicVO newInstance(TopicVO vo) {
    return new TopicVOBuilder().setTopicID( vo.getTopicID() ).setTopicName( vo.getTopicName() ).setTopicContent( vo.getTopicContent() ).setTopicCreated( vo.getTopicCreated() ).setTopicModified( vo.getTopicModified() ).setRevisions( vo.getRevisions() ).setTagsCollection( vo.getTagsCollection() ).set_topicHistoryCollection( vo.getTopicHistoryCollection() ).build();
 }
+
+   @Override
+   public int compareTo(TopicVO _that) {
+	  if (_that == null ){
+		 return 1;
+	  }
+	  CompareToBuilder ctb = new CompareToBuilder();
+	  ctb.append(this.getTopicID()>0,_that.getTopicID() >0);
+	  ctb.append(this.getTopicID(),_that.getTopicID());
+	  ctb.append(this.getTopicName().toLowerCase().trim(),_that.getTopicName().toLowerCase().trim());
+	  return ctb.build();
+   }
 
 /**
  * @return the revisions
