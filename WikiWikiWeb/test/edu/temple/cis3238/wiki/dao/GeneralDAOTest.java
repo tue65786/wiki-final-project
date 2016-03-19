@@ -44,13 +44,14 @@ public static void tearDownClass() {
 public void setUp() {
    dbc = new DbConnection();
    tagsVOList = new ArrayList<>();
-   
-} 
+
+}
 
 @After
 public void tearDown() {
    dbc.close();
 }
+
 @Test
 public void testTagCRUD() {
    System.out.println( "Working: testTagCrud" );
@@ -74,69 +75,105 @@ public void testTagCRUD() {
    assertEquals( expectedDelete, true );
 
 }
+
 @Test
 public void testTopicCRUD() {
    System.out.println( "Working: testTopicCrud" );
    GeneralDAO instance = new GeneralDAO( dbc );
    TopicVO actual;
-   TopicVO expected = new TopicVOBuilder().setTopicName( "testTopic").setTopicContent( "Hello world test").setRevisions( 0 ).build();
+   TopicVO expected = new TopicVOBuilder().setTopicName( "testTopic" ).setTopicContent( "Hello world test" ).setRevisions( 0 ).build();
    int topicId = instance.addTopic( expected );
    System.out.println( "Added Topic ID = " + topicId );
    expected.setTopicID( topicId );
-   
+
    actual = instance.getTopicByID( topicId );
    System.out.println( "Selected Topic By ID = " + actual.toString() );
    assertEquals( expected, actual );
-   
-   actual = instance.getTopicByName( expected.getTopicName());
+
+   actual = instance.getTopicByName( expected.getTopicName() );
    System.out.println( "Selected Topic by Name = " + actual.toString() );
    assertEquals( expected, actual );
-   
+
    System.out.println( "Updating Topic" );
-   expected.setTopicContent("Hello world updated test");
+   expected.setTopicContent( "Hello world updated test" );
    boolean success = instance.updateTopic( expected );
-   assertEquals( success, true);
+   assertEquals( success, true );
    actual = instance.getTopicByID( topicId );
    System.out.println( "Selected Updated Topic By ID = " + actual.toString() );
    assertEquals( expected, actual );
-   
+
    System.out.println( "Deleting Topic" );
    boolean expectedDelete;
    expectedDelete = instance.deleteTopic( expected );
    System.out.println( "Deleted Topic = " + actual.getTopicName() + " result = " + expectedDelete );
-   assertEquals( expectedDelete, true);
+   assertEquals( expectedDelete, true );
 }
+
 @Test
 public void testTopicAssignUnassignTags() {
    System.out.println( "Working: testTopicAssignUnassignTags" );
    GeneralDAO instance = new GeneralDAO( dbc );
-   TopicVO actual;
-   TopicVO expected = new TopicVOBuilder().setTopicName( "testTopic").setTopicContent( "Hello world test").setRevisions( 0 ).build();
-   int topicId = instance.addTopic( expected );
-   System.out.println( "Added Topic ID = " + topicId );
-   expected.setTopicID( topicId );
-   
-   actual = instance.getTopicByID( topicId );
-   System.out.println( "Selected Topic By ID = " + actual.toString() );
-   assertEquals( expected, actual );
-   
-   actual = instance.getTopicByName( expected.getTopicName());
-   System.out.println( "Selected Topic by Name = " + actual.toString() );
-   assertEquals( expected, actual );
-   
-   System.out.println( "Updating Topic" );
-   expected.setTopicContent("Hello world updated test");
-   boolean success = instance.updateTopic( expected );
-   assertEquals( success, true);
-   actual = instance.getTopicByID( topicId );
-   System.out.println( "Selected Updated Topic By ID = " + actual.toString() );
-   assertEquals( expected, actual );
-   
-   System.out.println( "Deleting Topic" );
+   TopicVO actualTopic;
+   TopicVO expectedTopic = new TopicVOBuilder().setTopicName( "testTopic" ).setTopicContent( "Hello world test" ).setRevisions( 0 ).build();
+   ArrayList<TagsVO> actualTagsVOList;
    boolean expectedDelete;
-   expectedDelete = instance.deleteTopic( expected );
-   System.out.println( "Deleted Topic = " + actual.getTopicName() + " result = " + expectedDelete );
-   assertEquals( expectedDelete, true);
+   TagsVO actualTag;
+   int tagID;
+   int topicID;
+   boolean bindingSuccess;
+   topicID= instance.addTopic( expectedTopic );
+   System.out.println( "Added Topic ID = " + topicID );
+   expectedTopic.setTopicID( topicID );
+
+   actualTopic = instance.getTopicByID( topicID );
+   System.out.println( "Selected Topic By ID = " + actualTopic.toString() );
+   assertEquals( expectedTopic, actualTopic );
+
+   TagsVO expectedTag = new TagsVO( 0, "testTag", 0 );
+   tagID = instance.addTag( expectedTag );
+   System.out.println( "Added Tag ID = " + tagID );
+   expectedTag.setTagID( tagID );
+
+   actualTag = instance.getTagByID( tagID );
+   System.out.println( "Selected Tag By ID = " + actualTag.toString() );
+   assertEquals( expectedTag, actualTag );
+   tagsVOList.add( TagsVO.newInstance( actualTag ) );
+
+   expectedTag = new TagsVO( 0, "another TestTag", 0 );
+   tagID = instance.addTag( expectedTag );
+   System.out.println( "Added Tag ID = " + tagID );
+   expectedTag.setTagID( tagID );
+   actualTag = instance.getTagByID( tagID );
+   System.out.println( "Selected Another Tag By ID = " + actualTag.toString() );
+   assertEquals( expectedTag, actualTag );
+   tagsVOList.add( TagsVO.newInstance( actualTag ) );
+
+   System.out.println( "Check Tags array size" );
+   assertEquals( tagsVOList.size(), 2 );
+   System.out.println( "Assign Tags to topic" );
+   bindingSuccess = instance.assignTopicTags( actualTopic, tagsVOList );
+   assertEquals( bindingSuccess, true );
+
+   actualTagsVOList = instance.getTagsByTopicID( topicID );
+   System.out.println( "Assigned Tags Count = " + actualTagsVOList.size() );
+   assertEquals( tagsVOList, actualTagsVOList );
+   
+   System.out.println( "Unassign Tags from Topic" );
+   bindingSuccess = instance.unassignTopicTags( actualTopic, tagsVOList );
+   assertEquals( bindingSuccess, true );
+
+   System.out.println( "Deleting Tags (loop)" );
+   for ( TagsVO aVO : tagsVOList ) {
+	  expectedDelete = instance.deleteTag( aVO );
+	  assertEquals( expectedDelete, true );
+	  System.out.println( "Deleted Tag = " + aVO.getTagID() + " result = " + expectedDelete );
+   }
+
+   System.out.println( "Deleting Topic" );
+   expectedDelete = instance.deleteTopic( expectedTopic );
+   System.out.println( "Deleted Topic = " + actualTopic.getTopicName() + " result = " + expectedDelete );
+   assertEquals( expectedDelete, true );
+
 }
 //
 ///**
