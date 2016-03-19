@@ -28,7 +28,7 @@ public static final String TOPIC_SEARCH_BY_KEYWORD = "{call dbo.spTopicSearchByK
 public static final String TOPIC_SELECT = "{call dbo.spTopicSelect(?,?)}";
 public static final String TOPIC_SELECT_BY_TAG = "{call dbo.spTopicSelectByTag(?)}";
 public static final String TOPIC_UPDATE = "{call dbo.spTopicUpdate(?,?,?)}";
-
+public static final String TOPIC_DELETE = "{call dbo.spTopicDelete(?)}";//[]
 //User
 public static final String USER_DELETE = "{call dbo.spUsersDelete(?)}";
 public static final String USER_INSERT = "{call dbo.spUsersInsert(?,?,?,?,?)}";

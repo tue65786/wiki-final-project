@@ -143,6 +143,8 @@ public boolean unassignTopicTags(TopicVO topicVO, ArrayList<TagsVO> tagsVOList);
  */
 public int addTag(TagsVO vo);
 
+public boolean deleteTag(TagsVO vo);
+
 //User Method
 public UsersVO findUserByUserNameAndPassword(String _username, String _password);
 /**

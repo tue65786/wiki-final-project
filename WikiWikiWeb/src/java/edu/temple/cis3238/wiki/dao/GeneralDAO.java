@@ -104,7 +104,7 @@ public int addUser(UsersVO _vo) {
  */
 private boolean changeTopicTagsBinding(TopicVO _topicVO, ArrayList<TagsVO> _tagsVO, boolean assign) {
    CallableStatement cs = null;
-   int updates = 0;
+   int rowsAffected = 0;
    int[] updateCounts = { 0 };
 
    if ( _topicVO == null || _tagsVO == null || _tagsVO.isEmpty() ) {
@@ -135,7 +135,7 @@ private boolean changeTopicTagsBinding(TopicVO _topicVO, ArrayList<TagsVO> _tags
 	  }
 
 	  for ( int i : updateCounts ) {
-		 updates += i;
+		 rowsAffected += i;
 	  }
 
    } catch (BatchUpdateException ex) {
@@ -148,13 +148,66 @@ private boolean changeTopicTagsBinding(TopicVO _topicVO, ArrayList<TagsVO> _tags
 	  LOG.log( Level.SEVERE, null, ex );
    }
 
-   return updates > 0;
+   return rowsAffected > 0;
 
 }
 
 @Override
 public boolean assignTopicTags(TopicVO _topicVO, ArrayList<TagsVO> _tagsVOList) {
    return changeTopicTagsBinding( _topicVO, _tagsVOList, true );
+}
+
+@Override
+public boolean deleteTag(TagsVO _vo) {
+   CallableStatement cs = null;
+   int rowsAffected = 0;
+
+   try {
+	  cs = dbc.getConn().prepareCall( DB_STRINGS.TAG_DELETE );
+	  cs.setInt( 1, _vo.getTagID() );
+	  rowsAffected = cs.executeUpdate();
+	  System.out.println( "rows deleted = " + rowsAffected );
+	  try {
+
+		 if ( !cs.isClosed() ) {
+			cs.close();
+		 }
+	  } catch (SQLException ex) {
+		 LOG.log( Level.WARNING, "Problem closing Db objects", ex );
+	  }
+   } catch (SQLException ex) {
+	  LOG.log( Level.SEVERE, null, ex );
+   }
+   catch (NullPointerException ex){
+	  LOG.log( Level.SEVERE, null, ex );
+	  ex.printStackTrace();
+   }
+   catch (Exception ex){
+	  LOG.log( Level.SEVERE, null, ex );
+	  ex.printStackTrace();
+   }
+   return rowsAffected > 0;
+}
+
+public boolean deleteTopic(TopicVO _vo) {
+   CallableStatement cs = null;
+   int rowsAffected = 0;
+   try {
+	  dbc.getConn().prepareCall( DB_STRINGS.TOPIC_DELETE );
+	  cs.setInt( 1, _vo.getTopicID() );
+	  rowsAffected = cs.executeUpdate();
+	  try {
+
+		 if ( !cs.isClosed() ) {
+			cs.close();
+		 }
+	  } catch (SQLException ex) {
+		 LOG.log( Level.WARNING, "Problem closing Db objects", ex );
+	  }
+   } catch (SQLException ex) {
+	  LOG.log( Level.SEVERE, null, ex );
+   }
+   return rowsAffected > 0;
 }
 
 @Override
@@ -176,7 +229,7 @@ public UsersVO findUserByUserNameAndPassword(String _username, String _password)
 	  rs = cs.executeQuery();
 
 	  //Retrieve ResultSet
-	  if ( rs.next() ) {//(int _userID, String _userName, String _password, String _userRole, String _emailAddress)
+	  if ( rs.next() ) {
 		 vo = new UsersVO( rs.getInt( 1 ), rs.getString( 2 ), rs.getString( 3 ), rs.getString( 4 ), rs.getString( 5 ) );
 		 try {
 			if ( !rs.isClosed() ) {
