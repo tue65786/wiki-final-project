@@ -1,17 +1,26 @@
-<%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
     <head>
         <title>Log In | WikiWikiWeb</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-        <script type="text/javascript" src="index.js"></script>
     </head>
     <body>
+        <% if (request.getParameter("user") != null) {
+                    out.println("<h1>Username: " + request.getParameter("user") + " is already taken</h1>");
+                } else {
+                    out.println("You were redirected");
+                }
+                out.println("<hr>");
+                %>
+        
         <form action="${pageContext.request.contextPath}/Example" method="get">
             Username: <input name="user" /><br />
             Password: <input name="pass" /><br />
             <button>Submit</button>
         </form>
+            
+            <a href="signup.jsp">New User</a>
+            
     </body>
 </html>
