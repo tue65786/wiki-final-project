@@ -16,20 +16,20 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>getPage</title>
+        <title>Browse Wiki pages | WikiWikiWeb</title>
     </head>
     <body>
         <%
-            IGeneralDAO  g = new GeneralDAO(new DbConnection());
+            IGeneralDAO g = new GeneralDAO(new DbConnection());
             ArrayList<TopicVO> allTopics = g.getTopics();
-            %>
-        
+        %>
+
         <h1>Hello World!</h1>
-        <% for(int i = 0; i < 4; i++) { %>
-        <tr>      
-            <%--  <td><%=allTopics.get(i).getTopicName()%></td> --%>
-           
-        </tr>
-    <% } %>
-    </body>
+        <% for (int i = 0; i < 4; i++) { %>
+    <tr>      
+        <%--  <td><%=allTopics.get(i).getTopicName()%></td> --%>
+    </tr>
+    <% }%>
+    <a href="decison.jsp"><input type="button" value="Back" /></a>
+</body>
 </html>
