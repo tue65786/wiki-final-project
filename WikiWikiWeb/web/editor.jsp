@@ -19,7 +19,7 @@
             <input type="button" value="Tag" onmousedown="markUp('link');" title="HyperLink (Ctrl+L)" /><br />
             <textarea class="editor"></textarea><br />
             <button>Cancel</button>
-            button>Submit</button
+            button>Submit</button>
 
             <!-- -->
             <form action="${pageContext.request.contextPath}/Logger" method="get">
@@ -27,7 +27,8 @@
                 <button>Submit</button>
             </form>
             <!-- -->
-        <hr>
+
+        <!--<hr>-->
         <form action='/WikiWikiWeb/Logout' method='get'>
             <button>Logout</button>
         </form>
