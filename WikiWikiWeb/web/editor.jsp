@@ -17,18 +17,19 @@
             %>
             <input type="button" value="Topic" onmousedown="markUp('boldlink');" title="Bold HyperLink (Ctrl+Shift+L)" />
             <input type="button" value="Tag" onmousedown="markUp('link');" title="HyperLink (Ctrl+L)" /><br />
-            <textarea class="editor"></textarea><br />
+            <textarea class="editor" name="editor"></textarea><br />
             <button>Cancel</button>
             <button>Submit</button>
+        </form>
 
-            <!-- -->
-            <form action="${pageContext.request.contextPath}/Logger" method="get">
-                Username: <input name="user" /><br />
-                <button>Submit</button>
-            </form>
-            <!-- -->
+        <!-- -->
+        <hr>
+        <form action="${pageContext.request.contextPath}/Logger" method="get">
+            Username: <input name="user" /><br />
+            <button>Log</button>
+        </form>
+        <!-- -->
 
-        <!--<hr>-->
         <form action='/WikiWikiWeb/Logout' method='get'>
             <button>Logout</button>
         </form>

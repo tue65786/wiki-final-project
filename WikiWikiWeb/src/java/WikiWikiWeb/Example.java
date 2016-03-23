@@ -19,7 +19,7 @@ public class Example extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
+
             //my code
             String userName = request.getParameter("user");
             String password = request.getParameter("pass");
@@ -27,40 +27,22 @@ public class Example extends HttpServlet {
 //            int hash = Crypto.getHash(userName, password);
 //            
 //            checkHash(hash);
-            
+
             //
-            UsersVO user = new UsersVO(userName , password);
+            UsersVO user = new UsersVO(userName, password);
             IGeneralDAO d = new GeneralDAO(new DbConnection());
-            
+
 //            if (d.findUserByUserNameAndPassword(user.getUserName(), user.getPassword()) == null)
 //                request.getRequestDispatcher("/index.jsp");
-            
-            
-            
             /*
              now we check if the user name and password works out
-            */
-            
-            
-            if(authenticated)
+             */
+            if (authenticated) {
                 request.getRequestDispatcher("/decison.jsp").forward(request, response);
-            else
+            } else {
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
-            
-        }
-    }
-    
-    protected void processEditor(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<h1>You typed:" + request.getParameter("test") + "</h1>"
-                    + "<form action='/WikiWikiWeb/Example' method=\"get\">"
-                    + "<button>Go Back</button>"
-                    + "</form><hr>"
-                    + "<form action='/WikiWikiWeb/Logout' method='get'>"
-                    + "<button>Logout</button>"
-                    + "</form>");
+            }
+
         }
     }
 
@@ -73,7 +55,16 @@ public class Example extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processEditor(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            out.println("<h1>You typed: " + request.getParameter("editor") + "</h1>"
+                    + "<form action='/WikiWikiWeb/Example' method=\"get\">"
+                    + "<button>Go Back</button>"
+                    + "</form><hr>"
+                    + "<form action='/WikiWikiWeb/Logout' method='get'>"
+                    + "<button>Logout</button>"
+                    + "</form>");
+        }
     }
 
     @Override
