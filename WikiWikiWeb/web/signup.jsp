@@ -12,11 +12,11 @@
         <title>Signup</title>
     </head>
     <body>
-        <form action="${pageContext.request.contextPath}/Signup" method="get">
-            Username: <input name="user" /><br />
-            Password: <input name="pass" /><br />
+        <p> Please enter a username and password </p>
+    <form action="${pageContext.request.contextPath}/Signup" method="post">
+            Username: <input name="user" size ="25"/><br />
+            Password: <input type="password" size ="25" name="pass" /><br />
             <button>Submit</button>
         </form>
-        <a href="index.jsp"><input type="button" value="Back" /></a>
     </body>
 </html>

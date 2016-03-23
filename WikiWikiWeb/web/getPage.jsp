@@ -16,20 +16,51 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Browse Wiki pages | WikiWikiWeb</title>
+        <title>getPage</title>
     </head>
     <body>
+        
+        
         <%
-            IGeneralDAO g = new GeneralDAO(new DbConnection());
+            IGeneralDAO  g = new GeneralDAO(new DbConnection());
             ArrayList<TopicVO> allTopics = g.getTopics();
-        %>
+            
+            String test ="8";
+            
+            ArrayList<String> testTopics = new ArrayList();
+            testTopics.add("Topic1");
+            testTopics.add("Topic2");
+            testTopics.add("Topic3");
+            testTopics.add("Topic4");
+            testTopics.add("Topic5");
+            %>
+        
+        <!-- TEST LINK
+        <a href ="wiki.jsp?id=<%= test %>"><%= test %></a>
+        -->
+        
+        
+        <%-- UNCOMMENT THIS WHEN YOU GET STUFF IN DATABASE
+        
+        <% for(int i = 0; i < allTopics.size(); i+=1) { %>
+        
+            <% String current = allTopics.get(i).getTopicName();%>
+            <a href = "wiki.jsp?id=<%= current %>"> <%= current %> </a>
+            
+            <% } %>  
 
-        <h1>Hello World!</h1>
-        <% for (int i = 0; i < 4; i++) { %>
-    <tr>      
-        <%--  <td><%=allTopics.get(i).getTopicName()%></td> --%>
-    </tr>
-    <% }%>
-    <a href="decison.jsp"><input type="button" value="Back" /></a>
-</body>
+        UNCOMMENT THIS WHEN YOU GET STUFF IN DATABASE--%>
+            
+        <!-- testing 1,2,3.. -->
+        <% for(int i = 0; i < testTopics.size(); i+=1) { %>
+        
+            <% String current = testTopics.get(i);%>
+            <br>
+            <a href = "wiki.jsp?id=<%= current %>"> <%= current %> </a>
+            </br>
+            <% } %>  
+            
+        <!-- SUCCESS! -->
+ 
+    </body>
 </html>

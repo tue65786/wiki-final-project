@@ -7,7 +7,7 @@ package edu.temple.cis3238.wiki.dao;
 
 /**
  *
- * @author (c)2016 Guiding Technologies
+ * @author (c)2016 Doreen, Dan, Christian
  */
 public class DB_STRINGS {
 

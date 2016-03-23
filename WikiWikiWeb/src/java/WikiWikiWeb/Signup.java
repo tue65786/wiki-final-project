@@ -1,18 +1,20 @@
+package WikiWikiWeb;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package WikiWikiWeb;
 
-import edu.temple.cis3238.parser.*;
 import edu.temple.cis3238.wiki.dao.GeneralDAO;
 import edu.temple.cis3238.wiki.dao.IGeneralDAO;
 import edu.temple.cis3238.wiki.sql.DbConnection;
-import edu.temple.cis3238.wiki.vo.TagsVO;
-import edu.temple.cis3238.wiki.vo.TopicVO;
+import edu.temple.cis3238.wiki.vo.UsersVO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,8 +25,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author CAP
  */
-@WebServlet(name = "Parser", urlPatterns = {"/Parser"})
-public class Parser extends HttpServlet {
+@WebServlet(urlPatterns = {"/Signup"})
+public class Signup extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,66 +37,36 @@ public class Parser extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processParser(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             //my code
-            //get the id
-            String id = request.getParameter("id");
-           //ALWAYS TOPIC
-
-String wikiText = "Hi this will be our sample wikiText.  The [[dog]] ate the {{cat}}";
-
-            //get the wiki text from dan's database
-            /*
-                1. find the topic or tag that matches the String id
-                2. Then get that topic or tag wikiText  
-             */
-            DbConnection dbc = new DbConnection();
-            IGeneralDAO d = new GeneralDAO(dbc);
-          
-
-            dbc.close();
-            TopicVO topic = null;
             
+            String userName = request.getParameter("user");
+            String password = request.getParameter("password");
             
-            try {
-  topic = d.getTopicByID(1);
-//            topic = d.getTopicByName(id);
-            wikiText = topic.getTopicContent();
-            } catch( Exception e){
-                response.sendRedirect("getPage.jsp?errorMsg=Page Does Not Exist");
-            }
+            IGeneralDAO g = new GeneralDAO(new DbConnection());
             
-//            try{
-//             if((topic = d.getTopicByName(id)) == null){
-//                tag = d.getTagByName(id);
-//                //wikiText = tapg.getWikiText();
-//             }
-//             else{
-//                 //wikiText = topic.getWikiText();
-//                 
-//             }
-//                     
-//            } catch(Exception e){
-//                    //page not found
-//                    //we should return the user to getPage.jsp
+            //check if this username is already taken
+//            ArrayList<UsersVO> users = g.getUsers();
+//            Iterator<UsersVO> iter = users.iterator();
+//            while(iter.hasNext()){
+//                if (iter.next().getUserName().equals(userName)){                    
+//                    request.getRequestDispatcher("/signup.jsp");
+//                }
 //            }
-
-            //call the parser method
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet NewServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet NewServlet at " + request.getParameter("id") + "</h1>");
-            out.println("<p>" + edu.temple.cis3238.parser.Parser.parseAndAnnotate(wikiText) + "</p>");
-out.println("<h1>WIKI</h1><p/>"+edu.temple.cis3238.parser.Parser.parseAndAnnotate(wikiText));
-            out.println("</body>");
-            out.println("</html>");
-
+            
+            //checkPasswordCriteria (i.e. does it have upper case letter, number, special symbol)
+        
+     
+            
+           //if username not already taken && valid pasword
+                    
+                    
+            g.addUser(new UsersVO(userName, password));
+            
+           request.getRequestDispatcher("/decison.jsp").forward(request, response);
         }
     }
 
@@ -110,7 +82,7 @@ out.println("<h1>WIKI</h1><p/>"+edu.temple.cis3238.parser.Parser.parseAndAnnotat
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processParser(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -124,7 +96,7 @@ out.println("<h1>WIKI</h1><p/>"+edu.temple.cis3238.parser.Parser.parseAndAnnotat
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processParser(request, response);
+        processRequest(request, response);
     }
 
     /**
