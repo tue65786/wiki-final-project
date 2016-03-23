@@ -15,24 +15,18 @@
                 }
                 out.println("<hr>");
             %>
-<<<<<<< HEAD
             <input type="button" value="Topic" onmousedown="markUp('boldlink');" title="Bold HyperLink (Ctrl+Shift+L)" />
             <input type="button" value="Tag" onmousedown="markUp('link');" title="HyperLink (Ctrl+L)" /><br />
             <textarea class="editor"></textarea><br />
-=======
-            <textarea name="test"></textarea><br />
->>>>>>> 35fa926f743506125d9b945abb828ba1ea0d14a5
             <button>Cancel</button>
-            <!--button>Submit</button-->
-            
+            button>Submit</button
+
             <!-- -->
             <form action="${pageContext.request.contextPath}/Logger" method="get">
-            Username: <input name="user" /><br />
-            <button>Submit</button>
+                Username: <input name="user" /><br />
+                <button>Submit</button>
             </form>
             <!-- -->
-            
-        </form>
         <hr>
         <form action='/WikiWikiWeb/Logout' method='get'>
             <button>Logout</button>
