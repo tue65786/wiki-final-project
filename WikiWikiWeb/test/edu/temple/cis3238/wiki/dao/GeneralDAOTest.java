@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author (c)2016 Guiding Technologies
+ * @author (c)2016 Doreen, Dan, Christian
  */
 public class GeneralDAOTest {
 

@@ -12,7 +12,7 @@ import java.util.logging.*;
 
 /**
  *
- * @author (c)2016 Guiding Technologies
+ * @author (c)2016 Doreen, Dan, Christian
  */
 public class UsersVO implements Serializable {
 private static final Logger LOG = Logger.getLogger( UsersVO.class.getName() );

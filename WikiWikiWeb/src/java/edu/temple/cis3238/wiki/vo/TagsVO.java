@@ -13,7 +13,7 @@ import org.apache.commons.lang3.builder.*;
 
 /**
  *
- * @author (c)2016 Guiding Technologies
+ * @author (c)2016 Doreen, Dan, Christian
  */
 public class TagsVO implements Serializable, Comparable<TagsVO>,IValueObject<TagsVO> {
 private static final Logger LOG = Logger.getLogger( TagsVO.class.getName() );
