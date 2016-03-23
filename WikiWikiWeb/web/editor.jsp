@@ -3,9 +3,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Create a Wiki | WikiWikiWeb</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-        <script type="text/javascript" src="index.js"></script>
+        <title>Create or Update a Wiki | WikiWikiWeb</title>
     </head>
     <body>
         <form action="${pageContext.request.contextPath}/Example" method="post">
@@ -17,13 +15,19 @@
                 }
                 out.println("<hr>");
             %>
-            <input type="button" value="&#x1f517" onmousedown="markUp('link');" title="HyperLink (Ctrl+L)"/><br />
-            <textarea class="editor"></textarea><br />
+            <textarea name="test"></textarea><br />
             <button>Cancel</button>
+            <!--button>Submit</button-->
+            
+            <!-- -->
+            <form action="${pageContext.request.contextPath}/Logger" method="get">
+            Username: <input name="user" /><br />
             <button>Submit</button>
+            </form>
+            <!-- -->
+            
         </form>
         <hr>
-        <a href="decison.jsp"><input type="button" value="Back" /></a>
         <form action='/WikiWikiWeb/Logout' method='get'>
             <button>Logout</button>
         </form>
