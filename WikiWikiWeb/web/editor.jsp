@@ -17,7 +17,8 @@
                 }
                 out.println("<hr>");
             %>
-            <input type="button" value="&#x1f517" onmousedown="markUp('link');" title="HyperLink (Ctrl+L)"/><br />
+            <input type="button" value="Topic" onmousedown="markUp('boldlink');" title="Bold HyperLink (Ctrl+Shift+L)" />
+            <input type="button" value="Tag" onmousedown="markUp('link');" title="HyperLink (Ctrl+L)" /><br />
             <textarea class="editor"></textarea><br />
             <button>Cancel</button>
             <button>Submit</button>

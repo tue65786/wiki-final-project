@@ -9,8 +9,11 @@ function markUp(type) {
 
     // modify text depending on the type of markUp
     switch (type) {
-        case 'link':    // bold wiki markup
+        case 'boldlink':    // bold link
             text = ('[[').concat(text).concat(']]');
+            break;
+        case 'link':        // regular link
+            text = ('{{').concat(text).concat('}}');
             break;
         default:
             break;
@@ -21,8 +24,12 @@ function markUp(type) {
 }
 
 // allows for wiki markup shortcut keys
-$(document).on('keydown', '.editor', function(e) {
-    if (e.ctrlKey && e.keyCode === 76) {    // hyperlink
-        markUp('link');
+$(document).on('keydown', '.editor', function (e) {
+    if (e.ctrlKey && e.keyCode === 76) {
+        if (e.shiftKey) {
+            markUp('boldlink'); // bold hyperlink
+        } else {
+            markUp('link');     // regular hyperlink
+        }
     }
 });

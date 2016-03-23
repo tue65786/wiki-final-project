@@ -15,7 +15,7 @@
         %>
 
         <form action="${pageContext.request.contextPath}/Example" method="get">
-            Username: <input name="user" /><br />
+            Username: <input name="user" value="examples"/><br />
             Password: <input name="pass" /><br />
             <button>Submit</button>
         </form>
