@@ -878,6 +878,9 @@ public boolean updateUser(UsersVO _vo) {
 
 public GeneralDAO(DbConnection _dbc) {
    super();
+   if (_dbc == null){
+	  throw new NullPointerException("DbConnection can not be null");
+   }
    this.dbc = _dbc;
 }
 
