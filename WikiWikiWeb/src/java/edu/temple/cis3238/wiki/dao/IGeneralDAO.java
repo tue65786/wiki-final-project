@@ -82,11 +82,24 @@ public int addTopic(TopicVO vo);
 public boolean updateTopic(TopicVO vo);
 
 //TopicHistory Methods
-public ArrayList<TopicHistoryVO> getTopicHistoryByTopicID(int _id);
-
-public ArrayList<TopicHistoryVO> getTopicHistoryByTopicName(String _name);
-
-public TopicVO revertTopicFromHistory(TopicHistoryVO vo);
+/**
+ * Retrieves audit list of updates to Topic 
+ * @param _topicId The id of the {@linkplain TopicVO}
+ * @return  ArrayList of {@linkplain TopicHistory} Objects
+ */
+public ArrayList<TopicHistoryVO> getTopicHistoryByTopicID(int _topicId);
+/**
+ * Retrieves audit list of updates to Topic 
+ * @param _topicName The name of the {@linkplain TopicVO}
+ * @return  ArrayList of {@linkplain TopicHistory} Objects
+ */
+public ArrayList<TopicHistoryVO> getTopicHistoryByTopicName(String _topicName);
+/**
+ * Reverts topic content from TopicHistory
+ * @param vo The TopicHistory Object
+ * @return success
+ */
+public boolean revertTopicFromHistory(TopicHistoryVO vo);
 
 //Tag Methods
 /**
@@ -147,11 +160,14 @@ public boolean deleteTag(TagsVO vo);
 
 //User Method
 public UsersVO findUserByUserNameAndPassword(String _username, String _password);
+
+public UsersVO findUserByName(String _username);
 /**
  * Retrieves all users
  * @return 
  */
 public ArrayList<UsersVO> getUsers();
+
 /**
  * Add new user
  * @param vo

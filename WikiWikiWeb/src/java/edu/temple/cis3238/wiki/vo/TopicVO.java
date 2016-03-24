@@ -14,7 +14,7 @@ import org.apache.commons.lang3.builder.*;
  *
  * @author (c)2016 Doreen, Dan, Christian
  */
-public class TopicVO implements Serializable, Comparable<TopicVO>,IValueObject<TopicVO> {
+public class TopicVO implements Serializable, Comparable<TopicVO>, IValueObject<TopicVO> {
 
 private static final Logger LOG = Logger.getLogger( TopicVO.class.getName() );
 
@@ -44,29 +44,29 @@ public int compareTo(TopicVO _that) {
    return ctb.build();
 }
 
-   @Override
-   public boolean equals(Object obj) {
-	  if ( this == obj ) {
-		 return true;
-	  }
-	  if ( obj == null ) {
-		 return false;
-	  }
-	  if ( getClass() != obj.getClass() ) {
-		 return false;
-	  }
-	  final TopicVO other = (TopicVO) obj;
-	  if ( this.topicID != other.topicID ) {
-		 return false;
-	  }
-	  if ( !Objects.equals( this.getTopicContent(), other.getTopicContent() ) ) {
-		 return false;
-	  }
-	  if ( !Objects.equals( this.getTopicName(), other.getTopicName() ) ) {
-		 return false;
-	  }
+@Override
+public boolean equals(Object obj) {
+   if ( this == obj ) {
 	  return true;
    }
+   if ( obj == null ) {
+	  return false;
+   }
+   if ( getClass() != obj.getClass() ) {
+	  return false;
+   }
+   final TopicVO other = (TopicVO) obj;
+   if ( this.topicID != other.topicID ) {
+	  return false;
+   }
+   if ( !Objects.equals( this.getTopicContent(), other.getTopicContent() ) ) {
+	  return false;
+   }
+   if ( !Objects.equals( this.getTopicName(), other.getTopicName() ) ) {
+	  return false;
+   }
+   return true;
+}
 
 /**
  * @return the revisions
@@ -180,20 +180,21 @@ public void setTopicName(String topicName) {
    this.topicName = topicName;
 }
 
-   @Override
-   public int hashCode() {
-	  int hash = 5;
-	  hash = 59 * hash + this.revisions;
-	  hash = 59 * hash + Objects.hashCode( this.getTopicContent() );
-	  hash = 59 * hash + this.topicID;
-	  hash = 59 * hash + Objects.hashCode( this.getTopicName() );
-	  return hash;
-   }
+@Override
+public int hashCode() {
+   int hash = 5;
+   hash = 59 * hash + this.revisions;
+   hash = 59 * hash + Objects.hashCode( this.getTopicContent() );
+   hash = 59 * hash + this.topicID;
+   hash = 59 * hash + Objects.hashCode( this.getTopicName() );
+   return hash;
+}
 
 @Override
 public String toString() {
    return "TopicVO{" + "revisions=" + revisions + ", topicContent=" + getTopicContent() + ", topicCreated=" + getTopicCreated() + ", topicID=" + topicID + ", topicModified=" + getTopicModified() + ", topicName=" + getTopicName() + '}';
 }
+
 @Override
 public String toTableRow() {
    return "<tr><td>" + revisions + "</td><td>" + getTopicContent() + "</td><td>" + getTopicCreated() + "</td><td>" + topicID + "</td><td>" + getTopicModified() + "</td><td>" + getTopicName() + "</td></tr>";
@@ -217,6 +218,18 @@ public TopicVO(int _topicID, String _topicName, String _topicContent, String _to
    this.revisions = _revisions;
    this.tagsCollection = _tagsCollection;
    this.topicHistoryCollection = _topicHistoryCollection;
+}
+/**
+ * Constructs a topic for INSERT
+ * @param _topicName
+ * @param _topicContent 
+ */
+public TopicVO(String _topicName, String _topicContent) {
+   this.topicContent = _topicContent;
+   this.topicName = _topicName;
+   this.topicCreated = "";
+   this.topicModified = "";
+   this.revisions = 0;
 }
 
 }
