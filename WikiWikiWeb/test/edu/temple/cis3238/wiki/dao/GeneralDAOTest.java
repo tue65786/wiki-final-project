@@ -178,6 +178,47 @@ public void testTopicAssignUnassignTags() {
    assertEquals( expectedDelete, true );
 
 }
+@Test
+public void testUsersCRUD(){
+   System.out.println( "\n\nWorking: testUsersCrud\n"
+					   + "-----------------------" );
+   GeneralDAO instance = new GeneralDAO( dbc );
+   UsersVO actual;
+   UsersVO expected = new UsersVO("aTestUser","aTestPassword");
+   boolean expectedDelete;
+   boolean success;
+   int userId;
+   
+   userId = instance.addUser(expected );
+   System.out.println( "Added User ID = " + userId );
+   expected.setUserID(userId );
+
+   actual = instance.getUserByID( userId );
+   System.out.println( "Selected User By ID = " + actual.toString() );
+   assertEquals( expected, actual );
+
+   actual = instance.findUserByName(expected.getUserName());
+   System.out.println( "Selected User by UserName = " + actual.toString() );
+   assertEquals( expected, actual );
+
+   actual = instance.findUserByUserNameAndPassword(expected.getUserName(),expected.getPassword());
+   System.out.println( "Selected User by UserName and Password = " + actual.toString() );
+   assertEquals( expected, actual );
+   
+   System.out.println( "Updating User" );
+   expected.setEmailAddress( "someone@somewhere.edu" );
+   success = instance.updateUser(expected );
+   assertEquals( success, true );
+   actual = instance.getUserByID( userId );
+   System.out.println( "Selected Updated User By ID = " + actual.toString() );
+   assertEquals( expected, actual );
+
+   System.out.println( "Deleting User" );
+   
+   expectedDelete = instance.deleteUser( expected );
+   System.out.println( "Deleted User = " + actual.getUserName()+ " result = " + expectedDelete );
+   assertEquals( expectedDelete, true );
+}
 //
 ///**
 // * Test of addTag method, of class GeneralDAO.

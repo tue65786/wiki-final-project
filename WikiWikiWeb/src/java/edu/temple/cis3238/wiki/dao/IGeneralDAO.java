@@ -168,6 +168,8 @@ public UsersVO findUserByName(String _username);
  */
 public ArrayList<UsersVO> getUsers();
 
+public UsersVO getUserByID(int _id);//USER_SELECT_BY_ID
+
 /**
  * Add new user
  * @param vo
@@ -175,10 +177,16 @@ public ArrayList<UsersVO> getUsers();
  */
 public int addUser(UsersVO vo);
 /**
+ * Deletes a User
+ * @param _vo
+ * @return  success
+ */
+public boolean deleteUser(UsersVO _vo);
+/**
  * Update existing user
  * @param vo
  * @return success
  */
-public boolean updateUser(UsersVO vo);
+public boolean updateUser(UsersVO _vo);
 
 }

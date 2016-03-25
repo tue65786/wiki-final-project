@@ -7,6 +7,12 @@ package edu.temple.cis3238.wiki.dao;
 
 import edu.temple.cis3238.wiki.sql.*;
 import edu.temple.cis3238.wiki.utils.*;
+import edu.temple.cis3238.wiki.vo.TagsVO;
+import edu.temple.cis3238.wiki.vo.TopicHistoryVO;
+import edu.temple.cis3238.wiki.vo.TopicVO;
+import edu.temple.cis3238.wiki.vo.TopicVOBuilder;
+import edu.temple.cis3238.wiki.vo.UsersVO;
+import edu.temple.cis3238.wiki.vo.*;
 import edu.temple.cis3238.wiki.vo.*;
 import java.sql.*;
 import java.util.*;
@@ -19,7 +25,7 @@ import java.util.logging.*;
 public class GeneralDAO implements IGeneralDAO {
 
 private static final Logger LOG = Logger.getLogger( GeneralDAO.class.getName() );
-
+private static boolean DEBUG = true;
 private DbConnection dbc;
 
 @Override
@@ -113,6 +119,7 @@ private boolean changeTopicTagsBinding(TopicVO _topicVO, ArrayList<TagsVO> _tags
    int[] updateCounts = { 0 };
 
    if ( _topicVO == null || _tagsVO == null || _tagsVO.isEmpty() ) {
+	  LOG.logp( Level.INFO, this.getClass().getName(), "changeTopicTagsBinding(TopicVO,TagsVO[],boolean)", "Invalid params. Topic and Tags Array must not be null." );
 	  return false;
    }
    try {
@@ -154,7 +161,6 @@ private boolean changeTopicTagsBinding(TopicVO _topicVO, ArrayList<TagsVO> _tags
    }
 
    return rowsAffected > 0;
-
 }
 
 @Override
@@ -171,7 +177,9 @@ public boolean deleteTag(TagsVO _vo) {
 	  cs = dbc.getConn().prepareCall( DB_STRINGS.TAG_DELETE );
 	  cs.setInt( 1, _vo.getTagID() );
 	  rowsAffected = cs.executeUpdate();
-	  System.out.println( "rows deleted = " + rowsAffected );
+	  if ( DEBUG ) {
+		 System.out.println( "Tags deleted = " + rowsAffected );
+	  }
 	  try {
 
 		 if ( !cs.isClosed() ) {
@@ -195,10 +203,45 @@ public boolean deleteTag(TagsVO _vo) {
 public boolean deleteTopic(TopicVO _vo) {
    CallableStatement cs = null;
    int rowsAffected = 0;
+   if ( _vo.getTopicID() <= 0 ) {
+	  LOG.logp( Level.WARNING, this.getClass().getName(), "deleteTopic(int)", "Invalid param. TopicID must be a positive integer." );
+   }
    try {
 	  cs = dbc.getConn().prepareCall( DB_STRINGS.TOPIC_DELETE );
 	  cs.setInt( 1, _vo.getTopicID() );
 	  rowsAffected = cs.executeUpdate();
+	  if ( DEBUG ) {
+		 System.out.println( "Topics deleted = " + rowsAffected );
+	  }
+	  try {
+
+		 if ( !cs.isClosed() ) {
+			cs.close();
+		 }
+	  } catch (SQLException ex) {
+		 LOG.log( Level.WARNING, "Problem closing Db objects", ex );
+	  }
+   } catch (SQLException ex) {
+	  LOG.log( Level.SEVERE, null, ex );
+   } catch (Exception ex) {
+	  LOG.log( Level.SEVERE, null, ex );
+   }
+   return rowsAffected > 0;
+}
+
+public boolean deleteUser(UsersVO _vo) {
+   CallableStatement cs = null;
+   int rowsAffected = 0;
+   if ( _vo.getUserID() <= 0 ) {
+	  LOG.logp( Level.WARNING, this.getClass().getName(), "deleteUser(int)", "Invalid param. UserID must be a positive integer." );
+   }
+   try {
+	  cs = dbc.getConn().prepareCall( DB_STRINGS.USER_DELETE );
+	  cs.setInt( 1, _vo.getUserID() );
+	  rowsAffected = cs.executeUpdate();
+	  if ( DEBUG ) {
+		 System.out.println( "Users deleted = " + rowsAffected );
+	  }
 	  try {
 
 		 if ( !cs.isClosed() ) {
@@ -232,7 +275,13 @@ public UsersVO findUserByName(String _username) {
 
 	  //Retrieve ResultSet
 	  if ( rs.next() ) {
-		 vo = new UsersVO( rs.getInt( 1 ), rs.getString( 2 ), rs.getString( 3 ), rs.getString( 4 ), rs.getString( 5 ) );
+		 vo = new UsersVOBuilder()
+				 .setUserID( rs.getInt( 1 ) )
+				 .setUserName( rs.getString( 2 ) )
+				 .setPassword( rs.getString( 3 ) )
+				 .setUserRole( rs.getString( 4 ) )
+				 .setEmailAddress( rs.getString( 5 ) )
+				 .build();
 		 try {
 			if ( !rs.isClosed() ) {
 			   rs.close();
@@ -266,7 +315,7 @@ public UsersVO findUserByUserNameAndPassword(String _username, String _password)
 
    //Has input
    if ( _username.length() * _password.length() == 0 ) {
-	  LOG.logp( Level.INFO, this.getClass().getName(), "findUserByUserNameAndPassword(String, String)", "Invalid params" );
+	  LOG.logp( Level.INFO, this.getClass().getName(), "findUserByUserNameAndPassword(String, String)", "Invalid params. Username and Password can not be null" );
 	  return null;
    }
    try {
@@ -277,7 +326,13 @@ public UsersVO findUserByUserNameAndPassword(String _username, String _password)
 
 	  //Retrieve ResultSet
 	  if ( rs.next() ) {
-		 vo = new UsersVO( rs.getInt( 1 ), rs.getString( 2 ), rs.getString( 3 ), rs.getString( 4 ), rs.getString( 5 ) );
+		 vo = new UsersVOBuilder()
+				 .setUserID( rs.getInt( 1 ) )
+				 .setUserName( rs.getString( 2 ) )
+				 .setPassword( rs.getString( 3 ) )
+				 .setUserRole( rs.getString( 4 ) )
+				 .setEmailAddress( rs.getString( 5 ) )
+				 .build();
 		 try {
 			if ( !rs.isClosed() ) {
 			   rs.close();
@@ -314,7 +369,7 @@ private TagsVO getTag(int _id, String _name) {
    ResultSet rs = null;
    TagsVO vo = null;
    if ( StringUtils.toS( _name ).isEmpty() && _id <= 0 ) {
-	  LOG.logp( Level.INFO, this.getClass().getName(), "getTag(int, String)", "Invalid params. Either TagID or TagName must be set." );
+	  LOG.logp( Level.WARNING, this.getClass().getName(), "getTag(int, String)", "Invalid params. Either TagID or TagName must be set." );
 	  return null;
    }
    try {
@@ -331,7 +386,6 @@ private TagsVO getTag(int _id, String _name) {
 		 cs.setNull( 2, java.sql.Types.NVARCHAR );
 	  }
 	  rs = cs.executeQuery();
-
 	  if ( rs.next() ) {
 		 vo = TagsVO.newInstance( new TagsVO( rs.getInt( 1 ), rs.getString( 2 ), rs.getInt( 3 ) ) );
 		 try {
@@ -345,7 +399,6 @@ private TagsVO getTag(int _id, String _name) {
 			LOG.log( Level.WARNING, "Problem closing Db objects", ex );
 		 }
 	  }
-
    } catch (SQLException ex) {
 	  LOG.log( Level.SEVERE, null, ex );
    } catch (Exception ex) {
@@ -463,7 +516,12 @@ private ArrayList<TopicVO> getTopic(int _id, String _name) {
 
 	  while ( rs.next() ) {
 		 TopicVOBuilder builder = new TopicVOBuilder();
-		 builder.setTopicID( rs.getInt( 1 ) ).setTopicName( rs.getString( 2 ) ).setTopicContent( rs.getString( 3 ) ).setTopicCreated( rs.getString( 4 ) ).setTopicModified( rs.getString( 5 ) ).setRevisions( rs.getInt( 6 ) );
+		 builder.setTopicID( rs.getInt( 1 ) )
+				 .setTopicName( rs.getString( 2 ) )
+				 .setTopicContent( rs.getString( 3 ) )
+				 .setTopicCreated( rs.getString( 4 ) )
+				 .setTopicModified( rs.getString( 5 ) )
+				 .setRevisions( rs.getInt( 6 ) );
 		 vo = builder.build();
 		 voList.add( TopicVO.newInstance( vo ) );
 	  }
@@ -497,6 +555,48 @@ public TopicVO getTopicByID(int _id) {
    } else {
 	  return null;
    }
+
+}
+
+public UsersVO getUserByID(int _id) {
+   CallableStatement cs = null;
+   ResultSet rs = null;
+   UsersVO vo = null;
+   if ( _id <= 0 ) {
+	  return null;
+   }
+
+   try {
+	  cs = dbc.getConn().prepareCall( DB_STRINGS.USER_SELECT_BY_ID );
+	  cs.setInt(1,  _id );
+	  rs = cs.executeQuery();
+	  if ( rs.next() ) {
+		 UsersVOBuilder builder = new UsersVOBuilder()
+				 .setUserID( rs.getInt( 1 ) )
+				 .setUserName( rs.getString( 2 ) )
+				 .setPassword( rs.getString( 3 ) )
+				 .setUserRole( rs.getString( 4 ) )
+				 .setEmailAddress( rs.getString( 5 ) );
+		 vo = builder.build();
+		 try {
+			if ( !rs.isClosed() ) {
+			   rs.close();
+			}
+			if ( !cs.isClosed() ) {
+			   cs.close();
+			}
+		 } catch (SQLException ex) {
+			LOG.log( Level.WARNING, "Problem closing Db objects", ex );
+		 }
+		 return vo;
+	  }
+
+   } catch (SQLException ex) {
+	  LOG.log( Level.SEVERE, null, ex );
+   } catch (Exception ex) {
+	  LOG.log( Level.SEVERE, null, ex );
+   }
+   return null;
 
 }
 
@@ -664,7 +764,12 @@ public ArrayList<TopicVO> getTopicsByTagName(String _name) {
 	  rs = cs.executeQuery();
 	  while ( rs.next() ) {
 		 TopicVOBuilder builder = new TopicVOBuilder();
-		 builder.setTopicID( rs.getInt( 1 ) ).setTopicName( rs.getString( 2 ) ).setTopicContent( rs.getString( 3 ) ).setTopicCreated( rs.getString( 4 ) ).setTopicModified( rs.getString( 5 ) ).setRevisions( rs.getInt( 6 ) );
+		 builder.setTopicID( rs.getInt( 1 ) )
+				 .setTopicName( rs.getString( 2 ) )
+				 .setTopicContent( rs.getString( 3 ) )
+				 .setTopicCreated( rs.getString( 4 ) )
+				 .setTopicModified( rs.getString( 5 ) )
+				 .setRevisions( rs.getInt( 6 ) );
 		 vo = builder.build();
 		 voList.add( TopicVO.newInstance( vo ) );
 	  }
@@ -701,7 +806,13 @@ public ArrayList<UsersVO> getUsers() {
 
 	  //Retrieve ResultSet
 	  while ( rs.next() ) {
-		 vo = new UsersVO( rs.getInt( 1 ), rs.getString( 2 ), rs.getString( 3 ), rs.getString( 4 ), rs.getString( 5 ) );
+		 vo = new UsersVOBuilder()
+				 .setUserID( rs.getInt( 1 ) )
+				 .setUserName( rs.getString( 2 ) )
+				 .setPassword( rs.getString( 3 ) )
+				 .setUserRole( rs.getString( 4 ) )
+				 .setEmailAddress( rs.getString( 5 ) )
+				 .build();
 		 voList.add( UsersVO.newInstance( vo ) );
 	  }
 	  try {
@@ -737,6 +848,9 @@ public boolean revertTopicFromHistory(TopicHistoryVO _vo) {
 
 	  //Execute update and retieve rows updated
 	  rowsAffected = cs.executeUpdate();
+	  if ( DEBUG ) {
+		 System.out.println( "Topics Reverted = " + rowsAffected );
+	  }
 
 	  if ( !cs.isClosed() ) {
 		 cs.close();
@@ -756,7 +870,7 @@ public ArrayList<TopicVO> searchTopic(String _query) {
    TopicVO vo = null;
    ArrayList<TopicVO> voList = new ArrayList<TopicVO>();
    if ( StringUtils.toS( _query ).isEmpty() ) {
-	  LOG.logp( Level.WARNING, this.getClass().getName(), "searchTopic(String)", "Invalid params" );
+	  LOG.logp( Level.WARNING, this.getClass().getName(), "searchTopic(String)", "Invalid params. Query can not be null." );
 	  return null;
    }
    try {
@@ -810,11 +924,20 @@ public boolean updateTopic(TopicVO _vo) {
    try {
 	  cs = dbc.getConn().prepareCall( DB_STRINGS.TOPIC_UPDATE );
 	  cs.setInt( 1, _vo.getTopicID() );
-	  cs.setString( 2, _vo.getTopicName() );
+	  if ( _vo.getTopicName().isEmpty() ) {
+		 cs.setNull( 2, java.sql.Types.NVARCHAR );
+	  } else {
+		 cs.setString( 2, _vo.getTopicName() );
+	  }
+
 	  cs.setString( 3, _vo.getTopicContent() );
 
 	  //Execute update and retieve rows updated
 	  rowsAffected = cs.executeUpdate();
+
+	  if ( DEBUG ) {
+		 System.out.println( "Topics updated = " + rowsAffected );
+	  }
 
 	  if ( !cs.isClosed() ) {
 		 cs.close();
@@ -843,27 +966,30 @@ public boolean updateUser(UsersVO _vo) {
 	  } else {
 		 cs.setString( 2, _vo.getUserName() );
 	  }
-	  
+
 	  if ( _vo.getPassword().isEmpty() ) {
 		 cs.setNull( 3, java.sql.Types.NVARCHAR );
 	  } else {
 		 cs.setString( 3, _vo.getPassword() );
 	  }
-	  
+
 	  if ( _vo.getUserRole().isEmpty() ) {
 		 cs.setNull( 4, java.sql.Types.NVARCHAR );
 	  } else {
 		 cs.setString( 4, _vo.getUserRole() );
 	  }
-	  
+
 	  if ( _vo.getEmailAddress().isEmpty() ) {
 		 cs.setNull( 5, java.sql.Types.NVARCHAR );
 	  } else {
 		 cs.setString( 5, _vo.getEmailAddress() );
 	  }
-	  
+
 	  //Execute update and retieve rows updated
 	  rowsAffected = cs.executeUpdate();
+	  if ( DEBUG ) {
+		 System.out.println( "Users updated = " + rowsAffected );
+	  }
 
 	  if ( !cs.isClosed() ) {
 		 cs.close();
@@ -878,8 +1004,8 @@ public boolean updateUser(UsersVO _vo) {
 
 public GeneralDAO(DbConnection _dbc) {
    super();
-   if (_dbc == null){
-	  throw new NullPointerException("DbConnection can not be null");
+   if ( _dbc == null ) {
+	  throw new NullPointerException( "DbConnection can not be null" );
    }
    this.dbc = _dbc;
 }

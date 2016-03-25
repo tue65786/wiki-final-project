@@ -25,7 +25,7 @@ private String userName;
 private String userRole;
 
 public static UsersVO newInstance(UsersVO _vo) {
-   return new UsersVO( _vo.getUserID(), _vo.getUserName(), _vo.getPassword(), _vo.getUserRole(), _vo.getEmailAddress() );
+   return new UsersVOBuilder().setUserID( _vo.getUserID() ).setUserName( _vo.getUserName() ).setPassword( _vo.getPassword() ).setUserRole( _vo.getUserRole() ).setEmailAddress( _vo.getEmailAddress() ).build();
 }
 
    @Override
@@ -138,10 +138,10 @@ public void setUserRole(String userRole) {
 
 public UsersVO(int _userID, String _userName, String _password, String _userRole, String _emailAddress) {
    this.userID = _userID;
-   this.userName = _userName;
-   this.password = _password;
-   this.userRole = _userRole;
-   this.emailAddress = _emailAddress;
+   this.userName = StringUtils.toS(_userName );
+   this.password =StringUtils.toS( _password );
+   this.userRole = StringUtils.toS( _userRole ) ;
+   this.emailAddress = StringUtils.toS(_emailAddress );
 }
 
 public UsersVO(String _userName, String _password) {
