@@ -7,12 +7,6 @@ package edu.temple.cis3238.wiki.dao;
 
 import edu.temple.cis3238.wiki.sql.*;
 import edu.temple.cis3238.wiki.utils.*;
-import edu.temple.cis3238.wiki.vo.TagsVO;
-import edu.temple.cis3238.wiki.vo.TopicHistoryVO;
-import edu.temple.cis3238.wiki.vo.TopicVO;
-import edu.temple.cis3238.wiki.vo.TopicVOBuilder;
-import edu.temple.cis3238.wiki.vo.UsersVO;
-import edu.temple.cis3238.wiki.vo.*;
 import edu.temple.cis3238.wiki.vo.*;
 import java.sql.*;
 import java.util.*;
@@ -663,7 +657,7 @@ public ArrayList<TopicHistoryVO> getTopicHistoryByTopicName(String _topicName) {
    TopicHistoryVO vo = null;
    ArrayList<TopicHistoryVO> voList = new ArrayList<TopicHistoryVO>();
    if ( StringUtils.toS( _topicName ).isEmpty() ) {
-	  LOG.logp( Level.INFO, this.getClass().getName(), "getTopicHistoryByTopicName(String)", "Invalid param. TopicName can not be null.F" );
+	  LOG.logp( Level.WARNING, this.getClass().getName(), "getTopicHistoryByTopicName(String)", "Invalid param. TopicName can not be null." );
 	  return null;
    }
    try {
@@ -919,8 +913,8 @@ public boolean unassignTopicTags(TopicVO _topicVO, ArrayList<TagsVO> _tagsVOList
 public boolean updateTopic(TopicVO _vo) {
    CallableStatement cs = null;
    int rowsAffected = 0;
-   if ( _vo.getTopicID() <= 0 ) {
-	  LOG.logp( Level.WARNING, this.getClass().getName(), "updateTopic(TopicVO)", "Invalid param. TopicID is not valid." );
+   if ( _vo == null || _vo.getTopicID() <= 0 ) {
+	  LOG.logp( Level.WARNING, this.getClass().getName(), "updateTopic(TopicVO)", "Invalid param. TopicVO id null or TopicID is not valid." );
 	  return false;
 
    }
@@ -957,8 +951,8 @@ public boolean updateTopic(TopicVO _vo) {
 public boolean updateUser(UsersVO _vo) {
    CallableStatement cs = null;
    int rowsAffected = 0;
-   if ( _vo.getUserID() <= 0 ) {
-	  LOG.logp( Level.WARNING, this.getClass().getName(), "updateUser(UsersVO)", "Invalid param. UserID is not valid." );
+   if ( _vo == null || _vo.getUserID() <= 0 ) {
+	  LOG.logp( Level.WARNING, this.getClass().getName(), "updateUser(UsersVO)", "Invalid param. UserVO is null or UserID is not valid." );
 	  return false;
    }
    try {
