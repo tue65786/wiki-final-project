@@ -172,7 +172,9 @@ public boolean assignTopicTags(TopicVO _topicVO, ArrayList<TagsVO> _tagsVOList) 
 public boolean deleteTag(TagsVO _vo) {
    CallableStatement cs = null;
    int rowsAffected = 0;
-
+   if ( _vo == null || _vo.getTagID() <= 0 ) {
+	  LOG.logp( Level.WARNING, this.getClass().getName(), "deleteTag(TagsVO)", "Invalid params. TagsVO not be null and tagID must be a positive integer." );
+   }
    try {
 	  cs = dbc.getConn().prepareCall( DB_STRINGS.TAG_DELETE );
 	  cs.setInt( 1, _vo.getTagID() );
@@ -181,7 +183,6 @@ public boolean deleteTag(TagsVO _vo) {
 		 System.out.println( "Tags deleted = " + rowsAffected );
 	  }
 	  try {
-
 		 if ( !cs.isClosed() ) {
 			cs.close();
 		 }
@@ -203,8 +204,9 @@ public boolean deleteTag(TagsVO _vo) {
 public boolean deleteTopic(TopicVO _vo) {
    CallableStatement cs = null;
    int rowsAffected = 0;
-   if ( _vo.getTopicID() <= 0 ) {
-	  LOG.logp( Level.WARNING, this.getClass().getName(), "deleteTopic(int)", "Invalid param. TopicID must be a positive integer." );
+   if ( _vo == null || _vo.getTopicID() <= 0 ) {
+	  LOG.logp( Level.WARNING, this.getClass().getName(), "deleteTopic(int)", "Invalid params. TopicVO must not be null and TopicID must be a positive integer." );
+	  return false;
    }
    try {
 	  cs = dbc.getConn().prepareCall( DB_STRINGS.TOPIC_DELETE );
@@ -232,8 +234,9 @@ public boolean deleteTopic(TopicVO _vo) {
 public boolean deleteUser(UsersVO _vo) {
    CallableStatement cs = null;
    int rowsAffected = 0;
-   if ( _vo.getUserID() <= 0 ) {
-	  LOG.logp( Level.WARNING, this.getClass().getName(), "deleteUser(int)", "Invalid param. UserID must be a positive integer." );
+   if ( _vo == null || _vo.getUserID() <= 0 ) {
+	  LOG.logp( Level.WARNING, this.getClass().getName(), "deleteUser(int)", "Invalid params. UsersVO can not be null and UserID must be a positive integer." );
+	  return false;
    }
    try {
 	  cs = dbc.getConn().prepareCall( DB_STRINGS.USER_DELETE );
@@ -568,7 +571,7 @@ public UsersVO getUserByID(int _id) {
 
    try {
 	  cs = dbc.getConn().prepareCall( DB_STRINGS.USER_SELECT_BY_ID );
-	  cs.setInt(1,  _id );
+	  cs.setInt( 1, _id );
 	  rs = cs.executeQuery();
 	  if ( rs.next() ) {
 		 UsersVOBuilder builder = new UsersVOBuilder()

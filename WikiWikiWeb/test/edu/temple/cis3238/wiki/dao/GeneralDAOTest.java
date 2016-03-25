@@ -214,7 +214,6 @@ public void testUsersCRUD(){
    assertEquals( expected, actual );
 
    System.out.println( "Deleting User" );
-   
    expectedDelete = instance.deleteUser( expected );
    System.out.println( "Deleted User = " + actual.getUserName()+ " result = " + expectedDelete );
    assertEquals( expectedDelete, true );
