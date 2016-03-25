@@ -1,99 +1,29 @@
 USE [cis3238FinalProject]
 GO
-/****** Object:  User [CIS3238]    Script Date: 03/19/2016 16:13:00 ******/
+/****** Object:  User [CIS3238]    Script Date: 03/24/2016 08:50:49 ******/
 CREATE USER [CIS3238] FOR LOGIN [CIS3238] WITH DEFAULT_SCHEMA=[dbo]
 GO
-/****** Object:  FullTextCatalog [TopicFTC]    Script Date: 03/19/2016 16:13:02 ******/
+/****** Object:  FullTextCatalog [TopicFTC]    Script Date: 03/24/2016 08:50:49 ******/
 CREATE FULLTEXT CATALOG [TopicFTC]WITH ACCENT_SENSITIVITY = ON
 AS DEFAULT
 AUTHORIZATION [dbo]
 GO
-/****** Object:  Table [dbo].[TopicTags]    Script Date: 03/19/2016 16:12:58 ******/
+/****** Object:  Table [dbo].[Tags]    Script Date: 03/24/2016 08:50:52 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[TopicTags](
-	[TopicID] [int] NOT NULL,
-	[TagID] [int] NOT NULL,
- CONSTRAINT [PK_TopicTags] PRIMARY KEY CLUSTERED 
+CREATE TABLE [dbo].[Tags](
+	[TagID] [int] IDENTITY(1,1) NOT NULL,
+	[TagName] [nvarchar](1024) NOT NULL,
+	[ParentTagId] [int] NULL,
+ CONSTRAINT [PK_Tags] PRIMARY KEY CLUSTERED 
 (
-	[TopicID] ASC,
 	[TagID] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-INSERT [dbo].[TopicTags] ([TopicID], [TagID]) VALUES (1, 1)
-INSERT [dbo].[TopicTags] ([TopicID], [TagID]) VALUES (1, 18)
-/****** Object:  StoredProcedure [dbo].[spTopicChangeTagBinding]    Script Date: 03/19/2016 16:12:55 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE PROCEDURE [dbo].[spTopicChangeTagBinding]
-@TopicID int,
-@TagID int,
-@mustAssign bit
-
-AS
-SET NOCOUNT OFF
-IF (@mustAssign = 1)
-BEGIN
-  IF NOT EXISTS(SELECT 1 FROM [cis3238FinalProject].dbo.TopicTags WHERE TopicID = @TopicID AND TagID = @TagID)
-  BEGIN
-    INSERT INTO [cis3238FinalProject].dbo.TopicTags(TopicID, TagID) VALUES(@TopicID, @TagID)
-  END
-END
-ELSE
-BEGIN
-  DELETE FROM [cis3238FinalProject].dbo.TopicTags WHERE TopicID = @TopicID AND @TagID = @TagID
-END
-RETURN @@ROWCOUNT
-GO
-/****** Object:  Table [dbo].[TopicHistory]    Script Date: 03/19/2016 16:12:58 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[TopicHistory](
-	[TopicHistoryID] [int] IDENTITY(1,1) NOT NULL,
-	[TopicID] [int] NOT NULL,
-	[TopicConent] [nvarchar](max) NULL,
-	[TopicHistoryCreated] [datetime] NULL,
- CONSTRAINT [PK_TopicHistory] PRIMARY KEY CLUSTERED 
-(
-	[TopicHistoryID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-CREATE FULLTEXT INDEX ON [dbo].[TopicHistory](
-[TopicConent] LANGUAGE [English])
-KEY INDEX [PK_TopicHistory]ON ([TopicFTC], FILEGROUP [PRIMARY])
-WITH (CHANGE_TRACKING = AUTO, STOPLIST = SYSTEM)
-GO
-SET IDENTITY_INSERT [dbo].[TopicHistory] ON
-INSERT [dbo].[TopicHistory] ([TopicHistoryID], [TopicID], [TopicConent], [TopicHistoryCreated]) VALUES (1, 1, N'Hello world! Welcome to WikWikiWeb', CAST(0x0000A5CD011CCF6F AS DateTime))
-SET IDENTITY_INSERT [dbo].[TopicHistory] OFF
-/****** Object:  StoredProcedure [dbo].[spTopicHistorySelectByTopic]    Script Date: 03/19/2016 16:12:55 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE PROC [dbo].[spTopicHistorySelectByTopic] 
-    @TopicID int
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
-
-	BEGIN TRAN
-
-	SELECT [TopicHistoryID], [TopicID], [TopicConent], [TopicHistoryCreated] 
-	FROM   [dbo].[TopicHistory] 
-	WHERE  ([TopicID] = @TopicID )
-
-	COMMIT
-GO
-/****** Object:  UserDefinedFunction [dbo].[fnCamelCase]    Script Date: 03/19/2016 16:13:00 ******/
+/****** Object:  UserDefinedFunction [dbo].[fnCamelCase]    Script Date: 03/24/2016 08:50:53 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -119,7 +49,7 @@ BEGIN
 	RETURN @CAMEL_NAME;
 END
 GO
-/****** Object:  Table [dbo].[Topic]    Script Date: 03/19/2016 16:12:58 ******/
+/****** Object:  Table [dbo].[Topic]    Script Date: 03/24/2016 08:50:53 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -143,121 +73,22 @@ CREATE FULLTEXT INDEX ON [dbo].[Topic](
 KEY INDEX [PK_Topic]ON ([TopicFTC], FILEGROUP [PRIMARY])
 WITH (CHANGE_TRACKING = AUTO, STOPLIST = SYSTEM)
 GO
-SET IDENTITY_INSERT [dbo].[Topic] ON
-INSERT [dbo].[Topic] ([TopicID], [TopicName], [TopicContent], [TopicCreated], [TopicModified], [Revisions]) VALUES (1, N'HelloWorld', N'Hello world! Welcome to WikWikiWeb', CAST(0x0000A5CD00000000 AS DateTime), CAST(0x0000A5CD00000000 AS DateTime), 1)
-SET IDENTITY_INSERT [dbo].[Topic] OFF
-/****** Object:  Trigger [TopicHistoryLogger]    Script Date: 03/19/2016 16:13:02 ******/
+/****** Object:  Table [dbo].[TopicTags]    Script Date: 03/24/2016 08:50:53 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TRIGGER [dbo].[TopicHistoryLogger] 
-   ON  [dbo].[Topic] 
-   AFTER UPDATE
-AS 
-BEGIN
-	SET NOCOUNT ON;
-	
-IF EXISTS (SELECT * FROM INSERTED) 
-	BEGIN
-		IF EXISTS (SELECT * FROM DELETED) 
-			BEGIN
-				INSERT INTO TopicHistory 
-					([TopicID],[TopicConent],[TopicHistoryCreated])
-				SELECT TopicID, TopicContent,GETDATE()
-					FROM DELETED
-			END	
-	END	
-
-END
-GO
-/****** Object:  StoredProcedure [dbo].[spTopicUpdate]    Script Date: 03/19/2016 16:12:56 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE PROC [dbo].[spTopicUpdate] 
-    @TopicID int,
-    @TopicName nvarchar(1024) = NULL,
-    @TopicContent nvarchar(MAX) = NULL
-    
-AS 
-BEGIN
-	--SET NOCOUNT ON
-	
-
-	--INSERT INTO TopicHistory 
-	--SELECT @TopicID, (SELECT TopicContent from Topic Where TopicID = @TopicID),GETDATE()
-	
-	SET NOCOUNT OFF
-	
-	UPDATE [dbo].[Topic]
-	SET    [TopicName] = ISNULL(@TopicName,TopicName), [TopicContent] = ISNULL(@TopicContent,TopicContent)
-	,[TopicModified] = GETDATE(), [Revisions] = Revisions + 1
-	WHERE  [TopicID] = @TopicID
-	
-	
-END
-GO
-/****** Object:  StoredProcedure [dbo].[spTopicSelectByTag]    Script Date: 03/19/2016 16:12:55 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE PROC [dbo].[spTopicSelectByTag]
-@TagID int
-AS
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
-
-	BEGIN TRAN
-		SET NOCOUNT OFF;
-		SELECT t.[TopicID], t.[TopicName], t.[TopicContent], t.[TopicCreated], t.[TopicModified], t.[Revisions] 
-		FROM dbo.Topic t INNER JOIN dbo.TopicTags tt ON t.TopicID = tt.TopicID 
-		WHERE tt.TagID = @TagID
-	
-	COMMIT
-GO
-/****** Object:  StoredProcedure [dbo].[spTopicSelect]    Script Date: 03/19/2016 16:12:55 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE PROC [dbo].[spTopicSelect] 
-    @TopicID int = NULL,
-    @TopicName nvarchar(max)
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
-
-	BEGIN TRAN
-
-	SELECT [TopicID], [TopicName], [TopicContent], [TopicCreated], [TopicModified], [Revisions] 
-	FROM   [dbo].[Topic] 
-	WHERE  ([TopicID] = @TopicID OR @TopicID IS NULL) AND (TopicName = @TopicName OR @TopicName IS NULL)
-
-	COMMIT
-GO
-/****** Object:  Table [dbo].[Tags]    Script Date: 03/19/2016 16:12:58 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Tags](
-	[TagID] [int] IDENTITY(1,1) NOT NULL,
-	[TagName] [nvarchar](1024) NOT NULL,
-	[ParentTagId] [int] NULL,
- CONSTRAINT [PK_Tags] PRIMARY KEY CLUSTERED 
+CREATE TABLE [dbo].[TopicTags](
+	[TopicID] [int] NOT NULL,
+	[TagID] [int] NOT NULL,
+ CONSTRAINT [PK_TopicTags] PRIMARY KEY CLUSTERED 
 (
+	[TopicID] ASC,
 	[TagID] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-SET IDENTITY_INSERT [dbo].[Tags] ON
-INSERT [dbo].[Tags] ([TagID], [TagName], [ParentTagId]) VALUES (1, N'Wiki', NULL)
-INSERT [dbo].[Tags] ([TagID], [TagName], [ParentTagId]) VALUES (18, N'General', NULL)
-SET IDENTITY_INSERT [dbo].[Tags] OFF
-/****** Object:  View [dbo].[vwTopicInTags]    Script Date: 03/19/2016 16:13:02 ******/
+/****** Object:  View [dbo].[vwTopicInTags]    Script Date: 03/24/2016 08:50:54 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -411,7 +242,184 @@ End
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPaneCount', @value=1 , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'vwTopicInTags'
 GO
-/****** Object:  StoredProcedure [dbo].[spTopicSearchByKeyword]    Script Date: 03/19/2016 16:12:55 ******/
+/****** Object:  View [dbo].[vwTopicTagsCount]    Script Date: 03/24/2016 08:50:54 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[vwTopicTagsCount] AS
+SELECT TopicID
+      ,[TopicName]
+      ,COUNT([TagID]) TagsCount
+  FROM [cis3238FinalProject].[dbo].[vwTopicInTags]
+  GROUP BY TopicID, TopicName
+GO
+/****** Object:  View [dbo].[vwTagsTopicCount]    Script Date: 03/24/2016 08:50:55 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[vwTagsTopicCount] AS
+SELECT TagID
+      ,[TagName]
+      ,COUNT([TopicID]) TopicsCount
+  FROM [cis3238FinalProject].[dbo].[vwTopicInTags]
+  GROUP BY TagID, TagName
+GO
+/****** Object:  StoredProcedure [dbo].[spTopicChangeTagBinding]    Script Date: 03/24/2016 08:51:01 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[spTopicChangeTagBinding]
+@TopicID int,
+@TagID int,
+@mustAssign bit
+
+AS
+SET NOCOUNT OFF
+IF (@mustAssign = 1)
+BEGIN
+  IF NOT EXISTS(SELECT 1 FROM [cis3238FinalProject].dbo.TopicTags WHERE TopicID = @TopicID AND TagID = @TagID)
+  BEGIN
+    INSERT INTO [cis3238FinalProject].dbo.TopicTags(TopicID, TagID) VALUES(@TopicID, @TagID)
+  END
+END
+ELSE
+BEGIN
+  DELETE FROM [cis3238FinalProject].dbo.TopicTags WHERE TopicID = @TopicID AND @TagID = @TagID
+END
+RETURN @@ROWCOUNT
+GO
+/****** Object:  Table [dbo].[TopicHistory]    Script Date: 03/24/2016 08:51:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TopicHistory](
+	[TopicHistoryID] [int] IDENTITY(1,1) NOT NULL,
+	[TopicID] [int] NOT NULL,
+	[TopicConent] [nvarchar](max) NULL,
+	[TopicHistoryCreated] [datetime] NULL,
+ CONSTRAINT [PK_TopicHistory] PRIMARY KEY CLUSTERED 
+(
+	[TopicHistoryID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+CREATE FULLTEXT INDEX ON [dbo].[TopicHistory](
+[TopicConent] LANGUAGE [English])
+KEY INDEX [PK_TopicHistory]ON ([TopicFTC], FILEGROUP [PRIMARY])
+WITH (CHANGE_TRACKING = AUTO, STOPLIST = SYSTEM)
+GO
+/****** Object:  StoredProcedure [dbo].[spTopicHistorySelectByTopic]    Script Date: 03/24/2016 08:51:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[spTopicHistorySelectByTopic] 
+    @TopicID int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+
+	BEGIN TRAN
+
+	SELECT [TopicHistoryID], [TopicID], [TopicConent], [TopicHistoryCreated] 
+	FROM   [dbo].[TopicHistory] 
+	WHERE  ([TopicID] = @TopicID )
+
+	COMMIT
+GO
+/****** Object:  Trigger [TopicHistoryLogger]    Script Date: 03/24/2016 08:51:04 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TRIGGER [dbo].[TopicHistoryLogger] 
+   ON  [dbo].[Topic] 
+   AFTER UPDATE
+AS 
+BEGIN
+	SET NOCOUNT ON;
+	
+IF EXISTS (SELECT * FROM INSERTED) 
+	BEGIN
+		IF EXISTS (SELECT * FROM DELETED) 
+			BEGIN
+				INSERT INTO TopicHistory 
+					([TopicID],[TopicConent],[TopicHistoryCreated])
+				SELECT TopicID, TopicContent,GETDATE()
+					FROM DELETED
+			END	
+	END	
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[spTopicUpdate]    Script Date: 03/24/2016 08:51:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[spTopicUpdate] 
+    @TopicID int,
+    @TopicName nvarchar(1024) = NULL,
+    @TopicContent nvarchar(MAX) = NULL
+    
+AS 
+BEGIN
+	SET NOCOUNT OFF
+	
+	UPDATE [dbo].[Topic]
+	SET    [TopicName] = ISNULL(@TopicName,TopicName)
+			, [TopicContent] = ISNULL(@TopicContent,TopicContent)
+			, [TopicModified] = GETDATE()
+			, [Revisions] = Revisions + 1
+	WHERE  [TopicID] = @TopicID
+	
+	RETURN @@ROWCOUNT
+END
+GO
+/****** Object:  StoredProcedure [dbo].[spTopicSelectByTag]    Script Date: 03/24/2016 08:51:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[spTopicSelectByTag]
+@TagID int
+AS
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+
+	BEGIN TRAN
+		SET NOCOUNT OFF;
+		SELECT t.[TopicID], t.[TopicName], t.[TopicContent], t.[TopicCreated], t.[TopicModified], t.[Revisions] 
+		FROM dbo.Topic t INNER JOIN dbo.TopicTags tt ON t.TopicID = tt.TopicID 
+		WHERE tt.TagID = @TagID
+	
+	COMMIT
+GO
+/****** Object:  StoredProcedure [dbo].[spTopicSelect]    Script Date: 03/24/2016 08:51:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[spTopicSelect] 
+    @TopicID int = NULL,
+    @TopicName nvarchar(max)
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+
+	BEGIN TRAN
+
+	SELECT [TopicID], [TopicName], [TopicContent], [TopicCreated], [TopicModified], [Revisions] 
+	FROM   [dbo].[Topic] 
+	WHERE  ([TopicID] = @TopicID OR @TopicID IS NULL) AND (TopicName = @TopicName OR @TopicName IS NULL)
+
+	COMMIT
+GO
+/****** Object:  StoredProcedure [dbo].[spTopicSearchByKeyword]    Script Date: 03/24/2016 08:51:02 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -458,7 +466,7 @@ SELECT
 
 COMMIT
 GO
-/****** Object:  StoredProcedure [dbo].[spTopicInsert]    Script Date: 03/19/2016 16:12:55 ******/
+/****** Object:  StoredProcedure [dbo].[spTopicInsert]    Script Date: 03/24/2016 08:51:02 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -489,7 +497,58 @@ ELSE
 	END 	
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spTopicDelete]    Script Date: 03/19/2016 16:12:55 ******/
+/****** Object:  StoredProcedure [dbo].[spTopicHistorySelectByTopicName]    Script Date: 03/24/2016 08:51:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[spTopicHistorySelectByTopicName] 
+    @TopicName nvarchar(max)
+AS 
+	--SET NOCOUNT ON 
+	DECLARE @TopicID int = (
+					SELECT TOP 1 TopicID 
+						FROM Topic 
+						WHERE LOWER(TopicName) = LOWER(@TopicName)
+					)
+	IF @TopicID IS NOT NULL
+		BEGIN
+			SELECT [TopicHistoryID], [TopicID], [TopicConent], [TopicHistoryCreated] 
+				FROM   [dbo].[TopicHistory] 
+				WHERE  ([TopicID] = @TopicID )
+		END
+GO
+/****** Object:  StoredProcedure [dbo].[spTopicHistoryRevertTopicByTopicHistoryID]    Script Date: 03/24/2016 08:51:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[spTopicHistoryRevertTopicByTopicHistoryID]
+    @TopicHistoryID int
+AS 
+	SET NOCOUNT ON;
+	DECLARE @TopicID int = 0
+	DECLARE @TopicConent nvarchar(max)
+	DECLARE @TopicModified datetime	
+	
+	IF EXISTS(SELECT 1 FROM TopicHistory WHERE TopicHistoryID = @TopicHistoryID)
+		BEGIN
+			SELECT	@TopicID=TopicID
+					,@TopicConent=TopicConent
+					,@TopicModified=TopicHistoryCreated 
+				FROM TopicHistory
+
+			IF (@TopicConent IS NOT NULL AND @TopicID IS NOT NULL)
+					BEGIN
+					SET NOCOUNT OFF;
+						UPDATE Topic SET TopicContent = @TopicConent
+										,TopicModified = @TopicModified
+							WHERE TopicID = @TopicID
+					END 	
+		END 		
+	RETURN @@ROWCOUNT
+GO
+/****** Object:  StoredProcedure [dbo].[spTopicDelete]    Script Date: 03/24/2016 08:51:02 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -513,7 +572,7 @@ AS
 	WHERE  [TopicID] = @TopicID
 	RETURN @@ROWCOUNT
 GO
-/****** Object:  StoredProcedure [dbo].[spTagsSelectByTopic]    Script Date: 03/19/2016 16:12:55 ******/
+/****** Object:  StoredProcedure [dbo].[spTagsSelectByTopic]    Script Date: 03/24/2016 08:51:03 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -532,7 +591,7 @@ AS
 	
 	COMMIT
 GO
-/****** Object:  StoredProcedure [dbo].[spTagsDelete]    Script Date: 03/19/2016 16:12:54 ******/
+/****** Object:  StoredProcedure [dbo].[spTagsDelete]    Script Date: 03/24/2016 08:51:03 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -553,7 +612,7 @@ SET NOCOUNT OFF;
 	
 RETURN @@ROWCOUNT
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 03/19/2016 16:12:58 ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 03/24/2016 08:51:03 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -570,10 +629,7 @@ CREATE TABLE [dbo].[Users](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-SET IDENTITY_INSERT [dbo].[Users] ON
-INSERT [dbo].[Users] ([UserID], [UserName], [Password], [UserRole], [EmailAddress]) VALUES (1, N'admin', N'ilovewiki', N'admin', N'wiki@wiki.com')
-SET IDENTITY_INSERT [dbo].[Users] OFF
-/****** Object:  UserDefinedFunction [dbo].[fnTitleCase]    Script Date: 03/19/2016 16:13:00 ******/
+/****** Object:  UserDefinedFunction [dbo].[fnTitleCase]    Script Date: 03/24/2016 08:51:03 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -619,7 +675,7 @@ BEGIN
 	RETURN @StrOut
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[fnSplit]    Script Date: 03/19/2016 16:13:00 ******/
+/****** Object:  UserDefinedFunction [dbo].[fnSplit]    Script Date: 03/24/2016 08:51:03 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -739,7 +795,7 @@ BEGIN
 	RETURN
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[fnCSVToInt]    Script Date: 03/19/2016 16:13:00 ******/
+/****** Object:  UserDefinedFunction [dbo].[fnCSVToInt]    Script Date: 03/24/2016 08:51:03 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -767,7 +823,7 @@ AS
       RETURN
   END
 GO
-/****** Object:  StoredProcedure [dbo].[spTagsSelect]    Script Date: 03/19/2016 16:12:55 ******/
+/****** Object:  StoredProcedure [dbo].[spTagsSelect]    Script Date: 03/24/2016 08:51:03 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -788,7 +844,7 @@ AS
 
 	COMMIT
 GO
-/****** Object:  StoredProcedure [dbo].[spTagsInsert]    Script Date: 03/19/2016 16:12:54 ******/
+/****** Object:  StoredProcedure [dbo].[spTagsInsert]    Script Date: 03/24/2016 08:51:03 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -812,7 +868,7 @@ BEGIN
 		END 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spTagsUpdate]    Script Date: 03/19/2016 16:12:55 ******/
+/****** Object:  StoredProcedure [dbo].[spTagsUpdate]    Script Date: 03/24/2016 08:51:03 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -830,27 +886,32 @@ BEGIN
 	
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spUsersUpdate]    Script Date: 03/19/2016 16:12:56 ******/
+/****** Object:  StoredProcedure [dbo].[spUsersUpdate]    Script Date: 03/24/2016 08:51:04 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROC [dbo].[spUsersUpdate] 
     @UserID int,
-    @UserName nvarchar(128),
-    @Password nvarchar(512),
+    @UserName nvarchar(128) = NULL,
+    @Password nvarchar(512) = NULL,
     @UserRole nvarchar(64) = NULL,
     @EmailAddress nvarchar(1028) = NULL
 AS 
 BEGIN
 	SET NOCOUNT OFF
 	UPDATE [dbo].[Users]
-	SET    [UserName] = @UserName, [Password] = @Password, [UserRole] = isnull(@UserRole,UserRole), [EmailAddress] = @EmailAddress
+	SET		[UserName] = ISNULL(@UserName,UserName)
+			, [Password] = ISNULL(@Password,[Password])
+			, [UserRole] = ISNULL(@UserRole,UserRole)
+			, [EmailAddress] = ISNULL(@EmailAddress,EmailAddress)
 	WHERE  [UserID] = @UserID
+	
+	RETURN @@ROWCOUNT
 	
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spUsersSelectByUserNameAndPassword]    Script Date: 03/19/2016 16:12:56 ******/
+/****** Object:  StoredProcedure [dbo].[spUsersSelectByUserNameAndPassword]    Script Date: 03/24/2016 08:51:04 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -870,7 +931,21 @@ AS
 
 	COMMIT
 GO
-/****** Object:  StoredProcedure [dbo].[spUsersSelectByID]    Script Date: 03/19/2016 16:12:56 ******/
+/****** Object:  StoredProcedure [dbo].[spUsersSelectByUserName]    Script Date: 03/24/2016 08:51:04 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[spUsersSelectByUserName] 
+    @UserName nvarchar(max)
+AS 
+	SET NOCOUNT ON;
+	
+	SELECT TOP 1 [UserID], [UserName], [Password], [UserRole], [EmailAddress] 
+	FROM   [dbo].[Users] 
+	WHERE  (LOWER([UserName]) = LOWER(@UserName))
+GO
+/****** Object:  StoredProcedure [dbo].[spUsersSelectByID]    Script Date: 03/24/2016 08:51:04 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -888,7 +963,21 @@ AS
 
 	COMMIT
 GO
-/****** Object:  StoredProcedure [dbo].[spUsersInsert]    Script Date: 03/19/2016 16:12:56 ******/
+/****** Object:  StoredProcedure [dbo].[spUsersSelect]    Script Date: 03/24/2016 08:51:04 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[spUsersSelect] 
+    @UserName nvarchar(max) = NULL
+AS 
+	SET NOCOUNT ON;
+	
+	SELECT  [UserID], [UserName], [Password], [UserRole], [EmailAddress] 
+	FROM   [dbo].[Users] 
+	WHERE  (LOWER([UserName]) = LOWER(@UserName) OR @UserName IS NULL)
+GO
+/****** Object:  StoredProcedure [dbo].[spUsersInsert]    Script Date: 03/24/2016 08:51:04 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -907,7 +996,7 @@ BEGIN
 SET @inserted = Ident_current ('[dbo].[Users]')
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spUsersDelete]    Script Date: 03/19/2016 16:12:56 ******/
+/****** Object:  StoredProcedure [dbo].[spUsersDelete]    Script Date: 03/24/2016 08:51:04 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -923,30 +1012,30 @@ AS
 	WHERE  [UserID] = @UserID
 	COMMIT
 GO
-/****** Object:  Default [DF_Topic_Revisions]    Script Date: 03/19/2016 16:12:58 ******/
+/****** Object:  Default [DF_Topic_Revisions]    Script Date: 03/24/2016 08:50:53 ******/
 ALTER TABLE [dbo].[Topic] ADD  CONSTRAINT [DF_Topic_Revisions]  DEFAULT ((0)) FOR [Revisions]
 GO
-/****** Object:  Default [DF_TopicHistory_TopicHistoryCreated]    Script Date: 03/19/2016 16:12:58 ******/
+/****** Object:  Default [DF_TopicHistory_TopicHistoryCreated]    Script Date: 03/24/2016 08:51:02 ******/
 ALTER TABLE [dbo].[TopicHistory] ADD  CONSTRAINT [DF_TopicHistory_TopicHistoryCreated]  DEFAULT (getdate()) FOR [TopicHistoryCreated]
 GO
-/****** Object:  Default [DF_Users_UserRole]    Script Date: 03/19/2016 16:12:58 ******/
+/****** Object:  Default [DF_Users_UserRole]    Script Date: 03/24/2016 08:51:03 ******/
 ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Users_UserRole]  DEFAULT (N'viewer') FOR [UserRole]
 GO
-/****** Object:  ForeignKey [FK_TopicHistory_Topic]    Script Date: 03/19/2016 16:12:58 ******/
-ALTER TABLE [dbo].[TopicHistory]  WITH CHECK ADD  CONSTRAINT [FK_TopicHistory_Topic] FOREIGN KEY([TopicID])
-REFERENCES [dbo].[Topic] ([TopicID])
-GO
-ALTER TABLE [dbo].[TopicHistory] CHECK CONSTRAINT [FK_TopicHistory_Topic]
-GO
-/****** Object:  ForeignKey [FK_TopicTags_Tags]    Script Date: 03/19/2016 16:12:58 ******/
+/****** Object:  ForeignKey [FK_TopicTags_Tags]    Script Date: 03/24/2016 08:50:53 ******/
 ALTER TABLE [dbo].[TopicTags]  WITH CHECK ADD  CONSTRAINT [FK_TopicTags_Tags] FOREIGN KEY([TagID])
 REFERENCES [dbo].[Tags] ([TagID])
 GO
 ALTER TABLE [dbo].[TopicTags] CHECK CONSTRAINT [FK_TopicTags_Tags]
 GO
-/****** Object:  ForeignKey [FK_TopicTags_Topic]    Script Date: 03/19/2016 16:12:58 ******/
+/****** Object:  ForeignKey [FK_TopicTags_Topic]    Script Date: 03/24/2016 08:50:53 ******/
 ALTER TABLE [dbo].[TopicTags]  WITH CHECK ADD  CONSTRAINT [FK_TopicTags_Topic] FOREIGN KEY([TopicID])
 REFERENCES [dbo].[Topic] ([TopicID])
 GO
 ALTER TABLE [dbo].[TopicTags] CHECK CONSTRAINT [FK_TopicTags_Topic]
+GO
+/****** Object:  ForeignKey [FK_TopicHistory_Topic]    Script Date: 03/24/2016 08:51:02 ******/
+ALTER TABLE [dbo].[TopicHistory]  WITH CHECK ADD  CONSTRAINT [FK_TopicHistory_Topic] FOREIGN KEY([TopicID])
+REFERENCES [dbo].[Topic] ([TopicID])
+GO
+ALTER TABLE [dbo].[TopicHistory] CHECK CONSTRAINT [FK_TopicHistory_Topic]
 GO
