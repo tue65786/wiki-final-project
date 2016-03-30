@@ -1,11 +1,16 @@
 package WikiWikiWeb;
 
+import edu.temple.cis3238.parser.WikiMarkup;
 import edu.temple.cis3238.wiki.dao.GeneralDAO;
 import edu.temple.cis3238.wiki.dao.IGeneralDAO;
 import edu.temple.cis3238.wiki.sql.DbConnection;
+import edu.temple.cis3238.wiki.vo.TagsVO;
+import edu.temple.cis3238.wiki.vo.TopicVO;
 import edu.temple.cis3238.wiki.vo.UsersVO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -57,13 +62,54 @@ public class Example extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.println("<h1>You typed: " + request.getParameter("editor") + "</h1>"
-                    + "<form action='/WikiWikiWeb/Example' method=\"get\">"
-                    + "<button>Go Back</button>"
-                    + "</form><hr>"
-                    + "<form action='/WikiWikiWeb/Logout' method='get'>"
-                    + "<button>Logout</button>"
-                    + "</form>");
+            
+            /*
+             * Gets the topic name and tag name(s)
+            */
+            String topicContent = request.getParameter("editor");
+
+            Scanner scanner = new Scanner(topicContent);
+            String s = null;
+            String topicName = null;
+            ArrayList<String> tagNames = new ArrayList<>();
+            int end = 0;
+
+            while (scanner.hasNext()) {
+                s = scanner.next();
+                System.out.println(s);
+                if (s.substring(0, 2).equals(WikiMarkup.FRONT_TOPIC.toString())) {
+                    //we know we are in a topic expression 
+                    end = s.indexOf(WikiMarkup.BACK_TOPIC.toString());
+                    topicName = s.substring(2, end);
+
+                } else if (s.substring(0, 2).equals(WikiMarkup.FRONT_TAG.toString())) {
+                    //we know we are in a topic expression
+                    end = s.indexOf(WikiMarkup.BACK_TAG.toString());
+                    tagNames.add(s.substring(2, end));
+
+                } //add more else if for more regexes
+                else {
+                }
+            }
+            out.println(topicName + "\n" + tagNames.toString());
+            
+            /*
+             * Adds topic and tags to database
+            */
+//            DbConnection dbc = new DbConnection();
+//            GeneralDAO d = new GeneralDAO(dbc);
+//            ArrayList<TagsVO> tagVOs = new ArrayList<>();
+//            TagsVO tag = null;
+//
+//            TopicVO topic = new TopicVO(topicName, topicContent);
+//            for (String tagName : tagNames) {
+//                tag = new TagsVO(d.getTags().size(), tagName, d.getTopicByName(topic.getTopicName()).getTopicID());
+//                tagVOs.add(tag);
+//                d.addTag(tag);
+//            }
+//            d.assignTopicTags(topic, tagVOs);
+//
+//            dbc.close();
         }
     }
 
@@ -71,5 +117,4 @@ public class Example extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

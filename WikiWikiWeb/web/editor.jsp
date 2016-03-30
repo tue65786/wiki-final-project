@@ -4,6 +4,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Create or Update a Wiki | WikiWikiWeb</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+        <script type="text/javascript" src="index.js"></script>
     </head>
     <body>
         <form action="${pageContext.request.contextPath}/Example" method="post">

@@ -44,7 +44,8 @@ public class Parser extends HttpServlet {
             String id = request.getParameter("id");
            //ALWAYS TOPIC
 
-String wikiText = "Hi this will be our sample wikiText.  The [[dog]] ate the {{cat}}";
+//String wikiText = "Hi this will be our sample wikiText.  The [[dog]] ate the {{cat}}";
+String wikiText = "osdufyg [[bfhewlekr]] jhgfjdksdfhbvj {{dksla}} djfhgfj {{dsasd}} jfghgfjdks";
 
             //get the wiki text from dan's database
             /*
