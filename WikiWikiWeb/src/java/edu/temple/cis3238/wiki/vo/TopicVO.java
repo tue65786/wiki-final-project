@@ -5,8 +5,10 @@
  */
 package edu.temple.cis3238.wiki.vo;
 
+import edu.temple.cis3238.wiki.utils.*;
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.logging.*;
 import org.apache.commons.lang3.builder.*;
 
@@ -20,13 +22,14 @@ private static final Logger LOG = Logger.getLogger( TopicVO.class.getName() );
 
 private static final long serialVersionUID = -4450521690544636648L;
 private int revisions;
-private ArrayList<TagsVO> tagsCollection;
+private CopyOnWriteArrayList<TagsVO> tagsCollection;
 private String topicContent;
 private String topicCreated;
 private ArrayList<TopicHistoryVO> topicHistoryCollection;
 private int topicID;
 private String topicModified;
 private String topicName;
+private TagsVO[] tagsArray;
 
 public static TopicVO newInstance(TopicVO vo) {
    return new TopicVOBuilder().setTopicID( vo.getTopicID() ).setTopicName( vo.getTopicName() ).setTopicContent( vo.getTopicContent() ).setTopicCreated( vo.getTopicCreated() ).setTopicModified( vo.getTopicModified() ).setRevisions( vo.getRevisions() ).setTagsCollection( vo.getTagsCollection() ).set_topicHistoryCollection( vo.getTopicHistoryCollection() ).build();
@@ -85,7 +88,7 @@ public void setRevisions(int revisions) {
 /**
  * @return the tagsCollection
  */
-public ArrayList<TagsVO> getTagsCollection() {
+public CopyOnWriteArrayList<TagsVO> getTagsCollection() {
    return tagsCollection;
 }
 
@@ -93,7 +96,18 @@ public ArrayList<TagsVO> getTagsCollection() {
  * @param tagsCollection the tagsCollection to set
  */
 public void setTagsCollection(ArrayList<TagsVO> tagsCollection) {
-   this.tagsCollection = tagsCollection;
+   if ( tagsCollection != null && !tagsCollection.isEmpty() ) {
+	  this.tagsCollection = new CopyOnWriteArrayList<TagsVO>(  );
+	  this.tagsCollection.addAll( tagsCollection);
+   }
+}
+
+public void setTagsCollection(CopyOnWriteArrayList<TagsVO> tagsCollection) {
+   if ( tagsCollection != null && !tagsCollection.isEmpty() ) {
+	  this.tagsCollection = new CopyOnWriteArrayList<TagsVO>(  );
+	  this.tagsCollection.addAll( tagsCollection);
+    //tagsArray = tagsCollection.toArray( new TagsVO[tagsCollection.size()]); 
+   }
 }
 
 /**
@@ -170,14 +184,14 @@ public void setTopicModified(String topicModified) {
  * @return the topicName
  */
 public String getTopicName() {
-   return topicName;
+   return StringUtils.stripInvalidChars(topicName);
 }
 
 /**
  * @param topicName the topicName to set
  */
 public void setTopicName(String topicName) {
-   this.topicName = topicName;
+   this.topicName =  StringUtils.stripInvalidChars(topicName);
 }
 
 @Override
@@ -189,7 +203,9 @@ public int hashCode() {
    hash = 59 * hash + Objects.hashCode( this.getTopicName() );
    return hash;
 }
-
+public boolean hasTagsCollection(){
+   return (tagsCollection != null && !tagsCollection.isEmpty());
+}
 @Override
 public String toString() {
    return "TopicVO{" + "revisions=" + revisions + ", topicContent=" + getTopicContent() + ", topicCreated=" + getTopicCreated() + ", topicID=" + topicID + ", topicModified=" + getTopicModified() + ", topicName=" + getTopicName() + '}';
@@ -216,13 +232,33 @@ public TopicVO(int _topicID, String _topicName, String _topicContent, String _to
    this.topicCreated = _topicCreated;
    this.topicModified = _topicModified;
    this.revisions = _revisions;
+   if ( _tagsCollection != null && !_tagsCollection.isEmpty() ) {
+	  try{
+	  this.tagsCollection = new CopyOnWriteArrayList<TagsVO>(_tagsCollection);
+	  }catch(Exception e){
+		 
+	  }
+   }
+   this.topicHistoryCollection = _topicHistoryCollection;
+}
+
+
+public TopicVO(int _topicID, String _topicName, String _topicContent, String _topicCreated, String _topicModified, int _revisions, CopyOnWriteArrayList<TagsVO> _tagsCollection, ArrayList<TopicHistoryVO> _topicHistoryCollection) {
+   this.topicID = _topicID;
+   this.topicName = _topicName;
+   this.topicContent = _topicContent;
+   this.topicCreated = _topicCreated;
+   this.topicModified = _topicModified;
+   this.revisions = _revisions;
    this.tagsCollection = _tagsCollection;
    this.topicHistoryCollection = _topicHistoryCollection;
 }
+
 /**
  * Constructs a topic for INSERT
+ *
  * @param _topicName
- * @param _topicContent 
+ * @param _topicContent
  */
 public TopicVO(String _topicName, String _topicContent) {
    this.topicContent = _topicContent;

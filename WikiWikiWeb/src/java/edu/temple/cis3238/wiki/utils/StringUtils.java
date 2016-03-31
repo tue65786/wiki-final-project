@@ -6,7 +6,10 @@
 package edu.temple.cis3238.wiki.utils;
 
 import java.io.*;
+import java.text.*;
+import java.util.*;
 import java.util.logging.*;
+import java.util.regex.*;
 
 /**
  * Includes<ol><li>Safe toString methods</li><li>Placeholder filler methods</li></ol>
@@ -15,8 +18,26 @@ import java.util.logging.*;
  */
 public class StringUtils {
 
+public static final String DEFAULT_SQL_DATETIME_FMT = "yyyy-MM-dd HH:mm:ss.SSS";
+public static final String DEFAULT_DISPLAY_DATETIME_FMT = "yyyy-MM-dd HH:mm:ss";
 private static final Logger LOG = Logger.getLogger( StringUtils.class.getName() );
 private static final String PH_LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+public static String formatDate(String dateStr) {
+   return formatDate( dateStr, DEFAULT_DISPLAY_DATETIME_FMT );
+}
+
+public static String formatDate(String dateStr, String formattedDateOut) {
+   DateFormat dateformat = new SimpleDateFormat( DEFAULT_SQL_DATETIME_FMT, Locale.ENGLISH );
+   DateFormat dateformatOut = new SimpleDateFormat( formattedDateOut, Locale.ENGLISH );
+   try {
+	  return dateformatOut.format( dateformat.parse( dateStr ) );
+   } catch (Exception ex) {
+	  Logger.getLogger( StringUtils.class.getName() ).log( Level.SEVERE, null, ex );
+
+   }
+   return dateStr;
+}
 
 public static String coalesce(Object... items) {
    if ( items == null ) {
@@ -33,14 +54,16 @@ public static String coalesce(Object... items) {
 public static void main(String[] args) {
    for ( int i = 0; i < 1000; i++ ) {
 	  System.out.println( "IDX= " + i + " RAND= " + getRandomString( "randTest", 20 + ( i % 20 ) ) );
-	  System.out.println( getLoremWords( i % 100) );
+	  System.out.println( getLoremWords( i % 100 ) );
    }
 }
+
 /**
  * Random semi-unique string
+ *
  * @param prefix
  * @param length
- * @return 
+ * @return
  */
 public static final String getRandomString(String prefix, int length) {
    Integer r = (int) ( Math.random() * 1000000.0 );
@@ -147,7 +170,7 @@ public static String getLoremParagraphs(int paragraphs) {
 public static String getLoremWords(int words) {
    String[] lArr = PH_LOREM_IPSUM.split( "\\s" );
 
-   int idx = lArr.length-1;
+   int idx = lArr.length - 1;
    StringBuilder l = new StringBuilder();
 
    for ( int i = 0; i < words; i++ ) {
@@ -161,5 +184,46 @@ public static String getLoremWords(int words) {
 	  idx++;
    }
    return org.apache.commons.lang3.StringUtils.removeEnd( l.toString(), "." ) + ".";
+}
+
+public static String truncateAtWord(String input, int length) {
+   int offset;
+   offset = 2;
+   if ( input == null || input.length() < ( length - offset ) ) {
+	  return input;
+   }
+   int iNextSpace;
+   iNextSpace = input.lastIndexOf( " ", length );
+   String trunc = input;
+   try {
+	  trunc = String.format( input
+			  .substring( 0, ( iNextSpace > 0 ) ? iNextSpace : ( length - offset ) )
+			  .trim() );
+	  return trunc + " ...";
+   } catch (Exception e) {
+	  return trunc;
+   }
+}
+
+/**
+ * Removes:
+ * <ol>
+ * <li>[[[ and ]]]</li>
+ * <li>&quot; and apostrophe</li>
+ * <li>&amp; ampersand and gt / lt signs &gt; + &lt;</li>
+ * <li>semicolon</li>
+ * </ol>
+ *
+ * @param in
+ * @return
+ */
+public static String stripInvalidChars(String in) {
+   Pattern pattern = Pattern.compile( "(\\[\\[\\[|\\]\\]\\]|\"|'|&|<|>|;)" );
+   Matcher matcher = pattern.matcher( StringUtils.toS( in ) );
+   try {
+	  in = matcher.replaceAll( "" );
+   } catch (Exception e) {
+   }
+   return StringUtils.toS( in );
 }
 }

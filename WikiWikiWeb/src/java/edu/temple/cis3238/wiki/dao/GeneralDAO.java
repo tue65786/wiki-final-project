@@ -452,13 +452,18 @@ public ArrayList<TagsVO> getTags() {
 @Override
 public ArrayList<TagsVO> getTagsByTopicID(int _topicid) {
    ArrayList<TagsVO> voList = new ArrayList<TagsVO>();
+
    CallableStatement cs = null;
    ResultSet rs = null;
    TagsVO vo = null;
-
+   if ( _topicid <= 0 ) {
+	  LOG.logp( Level.WARNING, this.getClass().getName(), "getTagsByTopicID(int)", "Invalid params. TopicID must be a positive int." );
+	  return null;
+   }
    try {
 	  cs = dbc.getConn().prepareCall( DB_STRINGS.TAG_SELECT_BY_TOPIC_ID );
 	  cs.setInt( 1, _topicid );
+	  System.out.println("TOPIC ID LOOKIUP FOR TAGS="+_topicid);
 	  rs = cs.executeQuery();
 
 	  while ( rs.next() ) {
@@ -482,7 +487,9 @@ public ArrayList<TagsVO> getTagsByTopicID(int _topicid) {
    }
    return voList;
 }
-
+private ArrayList<TopicVO> getTopic(int _id, String _name){
+   return getTopic( _id, _name, true );
+}
 /**
  * Retrieves Topics
  *
@@ -490,11 +497,12 @@ public ArrayList<TagsVO> getTagsByTopicID(int _topicid) {
  * @param _name case insensitive name
  * @return Single or list of {@linkplain TopicVO TopicVOs}
  */
-private ArrayList<TopicVO> getTopic(int _id, String _name) {
+private ArrayList<TopicVO> getTopic(int _id, String _name,boolean loadCollections) {
    CallableStatement cs = null;
    ResultSet rs = null;
    TopicVO vo = null;
    ArrayList<TopicVO> voList = new ArrayList<TopicVO>();
+   ArrayList<TagsVO> topicTagsVOList = null;
 
    try {
 	  cs = dbc.getConn().prepareCall( DB_STRINGS.TOPIC_SELECT );
@@ -520,6 +528,16 @@ private ArrayList<TopicVO> getTopic(int _id, String _name) {
 				 .setTopicModified( rs.getString( 5 ) )
 				 .setRevisions( rs.getInt( 6 ) );
 		 vo = builder.build();
+		if (loadCollections && vo.getTopicID()>0){
+		   try {
+			topicTagsVOList = getTagsByTopicID( vo.getTopicID() );
+			if (topicTagsVOList != null){
+			   vo.setTagsCollection( topicTagsVOList );
+			}
+		 } catch (Exception e) {
+			   LOG.log(Level.WARNING,"Tag Get Error",e);
+		 }
+		}
 		 voList.add( TopicVO.newInstance( vo ) );
 	  }
 	  try {
