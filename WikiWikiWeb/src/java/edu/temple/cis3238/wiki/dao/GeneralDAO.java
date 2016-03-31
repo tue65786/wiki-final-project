@@ -463,7 +463,6 @@ public ArrayList<TagsVO> getTagsByTopicID(int _topicid) {
    try {
 	  cs = dbc.getConn().prepareCall( DB_STRINGS.TAG_SELECT_BY_TOPIC_ID );
 	  cs.setInt( 1, _topicid );
-	  System.out.println("TOPIC ID LOOKIUP FOR TAGS="+_topicid);
 	  rs = cs.executeQuery();
 
 	  while ( rs.next() ) {

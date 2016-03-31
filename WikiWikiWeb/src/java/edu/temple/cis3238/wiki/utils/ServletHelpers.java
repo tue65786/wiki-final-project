@@ -82,7 +82,7 @@ public  <T> T getAttribute(String sessionAttrib,T defaultValue ) {
 		   }
 		}
 		catch ( Exception e ) {
-		   e.printStackTrace();
+		  
 		   paramString = defaultVal;
 		}
 		return (paramString);
@@ -95,11 +95,12 @@ public  <T> T getAttribute(String sessionAttrib,T defaultValue ) {
 	  * @param response current context request from JSP or Servlet
 	  */
 	 public ServletHelpers(HttpServletRequest request, HttpServletResponse response) {
+		this.request = request;
+		this.response = response;
 		if ( request == null || response == null ) {
 		   throw new NullPointerException( "Request and Response can not be null" );
 		}
-		this.request = request;
-		this.response = response;
+		
 		if ( request.getSession() != null ) {
 		   session = request.getSession();
 		}

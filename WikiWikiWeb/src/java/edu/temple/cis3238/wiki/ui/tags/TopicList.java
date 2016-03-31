@@ -37,7 +37,6 @@ private static final String TABLE_ROW_TEMPLATE = "<tr class='[[[CLASS]]]'>"
 		+ "<td>[[[TAGS]]]</td>"
 		+ "</tr>";
 private String listStyle;
-private TreeMap<String, String> replacementMap;
 private String sortField;
 private String tagLinkPage;
 private String tagLinkRequestParam;
@@ -57,7 +56,6 @@ public void doTag() throws JspException {
    JspWriter out = getJspContext().getOut();
 
    try {
-	  System.out.println( "topicsList size" + topicsList.size() );
 	  if ( topicsList == null || topicsList.isEmpty() ) {
 		 out.println( "<p>Topics List Empty.</p>" );
 	  } else {
@@ -87,6 +85,7 @@ public void doTag() throws JspException {
 }
 public void setListStyle(String listStyle) {
    this.listStyle = StringUtils.toS( listStyle );
+   System.out.println( "edu.temple.cis3238.wiki.ui.tags.TopicList.setListStyle()" );
 }
 public void setSortField(String sortField) {
    this.sortField = sortField;
@@ -105,14 +104,13 @@ public void setTopicLinkRequestParam(String topicLinkRequestParam) {
 }
 public void setTopicsList(TopicCollection _topicCollection) {
    this.topicsList = _topicCollection.getTopics();
-   System.out.println( "edu.temple.cis3238.wiki.ui.tags.TopicList.setTopicsList()" );
 }
 private String getTopicStats(TopicVO vo) {
    StringBuilder sb = new StringBuilder( "" );
    if ( !vo.getTopicModified().isEmpty() ) {
-	  sb.append( "Modified: " ).append( vo.getTopicModified() );
+	  sb.append( " " ).append( vo.getTopicModified() );
    }
-   sb.append( " Revisions:" ).append( vo.getRevisions() + "" );
+   sb.append( " [Rev." ).append( vo.getRevisions() + "]" );
    return sb.toString();
 }
 
@@ -130,6 +128,8 @@ private String makeHref(TopicVO vo) {
 private String makeHref(TagsVO vo) {
    return StringUtils.toS( this.tagLinkPage ) + "?" + StringUtils.toS( this.tagLinkRequestParam ) + "=" + vo.getTagName() + "&tagPK=" + vo.getTagID();
 }
+
+
 private String makeTagsCSV(TopicVO vo) {
    StringBuilder sb = new StringBuilder( "" );
    if ( vo == null || vo.getTagsCollection() == null || vo.getTagsCollection().isEmpty() ) {
@@ -142,7 +142,11 @@ private String makeTagsCSV(TopicVO vo) {
    }
    return org.apache.commons.lang3.StringUtils.removeEnd( StringUtils.toS( sb.toString() ), "|" );
 }
-
+/**
+ * Output form view.
+ * @param vo
+ * @return 
+ */
 private String makeTopicItem(TopicVO vo) {
    String ret = LIST_TEMPLATE + "";
    return ret.
@@ -151,7 +155,12 @@ private String makeTopicItem(TopicVO vo) {
 		   .replace( "[[[STATS]]]", getTopicStats( vo ) )
 		   .replace( "[[[TAGS]]]", makeTagsCSV( vo ) );
 }
-
+/**
+ * Output table row
+ * @param vo
+ * @param row
+ * @return 
+ */
 private String makeTopicRow(TopicVO vo, int row) {
    boolean oddrow = row % 2 == 0;
    String ret = TABLE_ROW_TEMPLATE + "";

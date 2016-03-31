@@ -25,19 +25,18 @@
    web = new ServletHelpers( request, response );
    topics = dao.getTopics();
    topicCollection.setTopics( topics );
-   
+
    //Safely get request params
-   String requestTopic = web.getStrParameter( "pTopicID", "" );  
+   String requestTopic = web.getStrParameter( "pTopicID", "" );
    int requestTopicID = web.getIntParameter( "topicPK", 0 );
    String requestTag = web.getStrParameter( "pTagID", "" );
    int requestTagId = web.getIntParameter( "tagPK", 0 );
-   String listType = web.getStrParameter( "type", "LIST" );
-   //topicCollection.setListType( listType);
-   if (requestTagId >0){
-	  requestMessages = "<h3>SELECTED TAG " + requestTag+"</h3>";
-   }
-   else if (requestTopicID>0){
-	  requestMessages = "<h3>SELECTED TOPIC " + requestTopic+"</h3>";
+   String type = web.getStrParameter( "type", "LIST" );
+   topicCollection.setListType( type );
+   if ( requestTagId > 0 ) {
+	  requestMessages = "<h3>SELECTED TAG " + requestTag + "</h3>";
+   } else if ( requestTopicID > 0 ) {
+	  requestMessages = "<h3>SELECTED TOPIC " + requestTopic + "</h3>";
    }
    dbc.close();
 %>
@@ -59,6 +58,7 @@
     </head>
     <body>
         <h1>Tag Lib Demo</h1>
+		<a href="SampleTagLibAndBean.jsp?type=TABLE">Set bean to table</a>| <a href="SampleTagLibAndBean.jsp?type=LIST">Set bean to list</a>
 		<%=requestMessages%>
 		<h5>TABLE</h5>
 		<wiki:TopicList topicsList="${topicCollection}" 
@@ -68,7 +68,7 @@
 						tagLinkRequestParam="pTagID" 
 						topicLinkPage="SampleTagLibAndBean.jsp" 
 						topicLinkRequestParam="pTopicID">
-			
+
 		</wiki:TopicList> 
 		<hr/>
 		<h5>LIST</h5>
@@ -79,7 +79,18 @@
 						tagLinkRequestParam="pTagID" 
 						topicLinkPage="SampleTagLibAndBean.jsp" 
 						topicLinkRequestParam="pTopicID">
-			
+
+		</wiki:TopicList> 
+		
+		<h5>FROM BEAN</h5>
+		<wiki:TopicList topicsList="${topicCollection}" 
+						listStyle="${topicCollection.listType}"  
+						sortField="" 
+						tagLinkPage="SampleTagLibAndBean.jsp" 
+						tagLinkRequestParam="pTagID" 
+						topicLinkPage="SampleTagLibAndBean.jsp" 
+						topicLinkRequestParam="pTopicID">
+
 		</wiki:TopicList> 
     </body>
 </html>
