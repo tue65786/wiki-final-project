@@ -7,6 +7,7 @@ package edu.temple.cis3238.wiki.dao;
 
 import edu.temple.cis3238.wiki.vo.*;
 import java.util.*;
+import java.util.concurrent.*;
 
 /**
  *
@@ -33,10 +34,17 @@ public TopicVO getTopicByID(int _id);
 
 /**
  * Retrieves all topics
- *
- * @return
+ * <br/>By default, assigned tag(s) collection <b><u>are</u></b> populated. <i>Populating tags takes extra time.</i>
+ * @return Array of Topic Objects
  */
 public ArrayList<TopicVO> getTopics();
+/**
+ * Retrieves all topics
+ * @param populateTopicTags True retrieves assigned TagsVO  stores in  
+ * {@linkplain TopicVO#tagsCollection} ( {@linkplain CopyOnWriteArrayList}  &lt;{@linkplain TagsVO}&gt; ).
+ * @return ArrayList of TopicVO Objects
+ */
+public ArrayList<TopicVO> getTopics(boolean populateTopicTags);
 
 /**
  * Retrieves all topics assigned to tag
@@ -184,7 +192,7 @@ public int addUser(UsersVO vo);
 public boolean deleteUser(UsersVO _vo);
 /**
  * Update existing user
- * @param vo
+ * @param _vo UserVO to update. Nulls are ignored
  * @return success
  */
 public boolean updateUser(UsersVO _vo);

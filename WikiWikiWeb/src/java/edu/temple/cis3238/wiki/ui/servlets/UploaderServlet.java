@@ -21,14 +21,14 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 @WebServlet(name = "UploaderServlet", urlPatterns = { "/Uploader" })
 public class UploaderServlet extends HttpServlet {
  private static final String UPLOAD_DIRECTORY = "upload";
-
-    // upload settings
+private static final String REDIRECT_ON_COMPLETE_PAGE = "Wiki.jsp";    
+// upload settings
     private static final int MEMORY_THRESHOLD = 1024 * 1024 * 3; 	// 3MB
     private static final int MAX_FILE_SIZE = 1024 * 1024 * 40; // 40MB
     private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 50; // 50MB
     private String topicID;
 /**
- * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+ * Processes requests for HTTP  <code>POST</code> method.
  *
  * @param request  servlet request
  * @param response servlet response
@@ -85,7 +85,6 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             if (formItems != null && formItems.size() > 0) {
                 // iterates over form's fields
                 for (FileItem item : formItems) {
-                    // processes only fields that are not form fields
                     if (!item.isFormField()) {
                         fileName = new File(item.getName()).getName();
                         String filePath = uploadPath + File.separator + fileName;
@@ -108,7 +107,6 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
 							|| storeFile.getName().toLowerCase().endsWith("gif") 
 							|| storeFile.getName().toLowerCase().endsWith("png") 
 							|| storeFile.getName().toLowerCase().endsWith("jpeg")) {
-                            // saves the file on disk
                             item.write(storeFile);
 
                             request.setAttribute("message", "Topic "+ StringUtils.toS(topicID)
@@ -117,7 +115,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
                             System.out.println("----------------------------");
                             System.out.println("FILENAME is :" + fileName);
                             System.out.println("----------------------------");
-                            request.setAttribute("stuRefID", StringUtils.toS(topicID));
+                            request.setAttribute("topicID", StringUtils.toS(topicID));
                         }
                     }
                 }

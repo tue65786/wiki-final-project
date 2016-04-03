@@ -705,16 +705,19 @@ public ArrayList<TopicHistoryVO> getTopicHistoryByTopicName(String _topicName) {
    }
    return voList;
 }
-
 @Override
-public ArrayList<TopicVO> getTopics() {
-   ArrayList<TopicVO> voList = getTopic( 0, null );
+public ArrayList<TopicVO> getTopics(boolean populateTopicTags){
+  ArrayList<TopicVO> voList = getTopic( 0, null,populateTopicTags );
    if ( voList != null && !voList.isEmpty() ) {
 	  return voList;
    } else {
 	  LOG.logp( Level.INFO, this.getClass().getName(), "getTopics()", "No topics found." );
 	  return null;
-   }
+   }  
+}
+@Override
+public ArrayList<TopicVO> getTopics() {
+   return getTopics(true);
 }
 
 @Override

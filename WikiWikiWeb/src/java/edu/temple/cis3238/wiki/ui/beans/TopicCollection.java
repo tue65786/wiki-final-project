@@ -3,51 +3,72 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 package edu.temple.cis3238.wiki.ui.beans;
 
 import edu.temple.cis3238.wiki.vo.*;
 import java.io.*;
 import java.util.*;
+import java.util.logging.*;
 
 /**
  *
- * @author (c)2016 
+ * @author Christian, Doreen, Dan
  */
-public class TopicCollection implements Serializable{
+public class TopicCollection implements Serializable {
 
-   private static final long serialVersionUID = 7059187297992104099L;
+private static final Logger LOG = Logger.getLogger( TopicCollection.class.getName() );
+private static final long serialVersionUID = 7059187297992104099L;
 
-   /**
-    * @return the listType
-    */
-   public String getListType() {
-	  return listType;
-   }
+public String listType;
+private TopicVO currentTopic;
+private ArrayList<TopicVO> topics;
 
-   /**
-    * @param listType the listType to set
-    */
-   public void setListType(String listType) {
-	  this.listType = listType;
-   }
-public TopicCollection(){
-   
+/**
+ * @return the currentTopic
+ */
+public TopicVO getCurrentTopic() {
+   return currentTopic;
 }
-   private ArrayList<TopicVO> topics;
-   public String listType = "TABLE";
-   /**
-    * @return the topics
-    */
-   public ArrayList<TopicVO> getTopics() {
-	  return topics;
-   }
 
-   /**
-    * @param topics the topics to set
-    */
-   public void setTopics(ArrayList<TopicVO> topics) {
-	  this.topics = topics;
-   }
+/**
+ * @param currentTopic the currentTopic to set
+ */
+public void setCurrentTopic(TopicVO currentTopic) {
+   this.currentTopic = currentTopic;
+}
+
+/**
+ * @return the listType
+ */
+public String getListType() {
+   return listType;
+}
+
+/**
+ * @param listType the listType to set
+ */
+public void setListType(String listType) {
+   this.listType = listType;
+}
+
+/**
+ * @return the topics
+ */
+public ArrayList<TopicVO> getTopics() {
+   return topics;
+}
+
+/**
+ * @param topics the topics to set
+ */
+public void setTopics(ArrayList<TopicVO> topics) {
+   this.topics = topics;
+}
+
+public TopicCollection() {
+   topics = new ArrayList<TopicVO>();
+   currentTopic = new TopicVO( "", "" );
+   listType = "TABLE";
+
+}
 }
