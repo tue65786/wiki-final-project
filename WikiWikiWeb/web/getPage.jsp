@@ -4,6 +4,7 @@
     Author     : CAP
 --%>
 
+<%@page import="edu.temple.cis3238.wiki.vo.TagsVO"%>
 <%@page import="edu.temple.cis3238.wiki.vo.TopicVO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="edu.temple.cis3238.wiki.dao.GeneralDAO"%>
@@ -22,8 +23,10 @@
         
         
         <%
-            IGeneralDAO  g = new GeneralDAO(new DbConnection());
+            DbConnection dbc = new DbConnection();
+            IGeneralDAO  g = new GeneralDAO(dbc);
             ArrayList<TopicVO> allTopics = g.getTopics();
+            ArrayList<TagsVO> allTags = g.getTags();
             
             String test ="8";
             
@@ -35,32 +38,44 @@
             testTopics.add("Topic5");
             %>
         
-        <!-- TEST LINK
-        <a href ="wiki.jsp?id=<%= test %>"><%= test %></a>
-        -->
+     
+            <h2> TOPICS </h2>
         
-        
-        <%-- UNCOMMENT THIS WHEN YOU GET STUFF IN DATABASE
+            <%String current = null;%>
         
         <% for(int i = 0; i < allTopics.size(); i+=1) { %>
         
-            <% String current = allTopics.get(i).getTopicName();%>
+            <% current = allTopics.get(i).getTopicName();%>
+            <br>
             <a href = "wiki.jsp?id=<%= current %>"> <%= current %> </a>
+            </br>
             
             <% } %>  
 
-        UNCOMMENT THIS WHEN YOU GET STUFF IN DATABASE--%>
+                <h3> TAGS </h3>
+            
+        <% for(int i = 0; i < allTags.size(); i+=1) { %>
+        
+            <% current = allTags.get(i).getTagName();%>
+            <br>
+            <a href = "wiki.jsp?tag=<%= current %>"> <%= current %> </a>
+            </br>
+            
+            <% } %> 
             
         <!-- testing 1,2,3.. -->
-        <% for(int i = 0; i < testTopics.size(); i+=1) { %>
+       
+        <%-- for(int i = 0; i < testTopics.size(); i+=1) { %>
         
             <% String current = testTopics.get(i);%>
             <br>
             <a href = "wiki.jsp?id=<%= current %>"> <%= current %> </a>
             </br>
-            <% } %>  
+            <% } --%>  
             
-        <!-- SUCCESS! -->
+        <!-- SUCCESS! -->   
+        
+        <% dbc.close(); %>
  
     </body>
 </html>

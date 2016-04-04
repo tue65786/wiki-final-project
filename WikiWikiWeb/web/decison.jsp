@@ -12,11 +12,13 @@
         <title>decision</title>
     </head>
     <body>
+        <% String username = request.getParameter("username");%>
+        
     <form action="getPage.jsp">
         <button> getWiki </button>
         </form>       
         
-    <form action="editor.jsp">
+    <form action="editor.jsp?username=<%=username%>">
         <button> createWiki </button>
         </form>     </body>
 </html>
