@@ -128,7 +128,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
 	  ServletFileUpload upload = new ServletFileUpload( factory );
 	  upload.setFileSizeMax( MAX_FILE_SIZE );
 	  upload.setSizeMax( MAX_REQUEST_SIZE );
-	  if ( request.getSession().getAttribute( "topicCollection" ) != null ) {
+	  if ( request.getSession() != null && request.getSession().getAttribute( "topicCollection" ) != null ) {
 		 try {
 			collection = (TopicCollection) request.getSession().getAttribute( "topicCollection" );
 			setTopic( collection.getCurrentTopic() );
@@ -203,7 +203,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
 }
 
 private void setStatus(HttpServletRequest request, boolean success, String msg) {
-   request.setAttribute( "success", success );
+   request.setAttribute( "success", success+"" );
    this.setSuccess( success );
    if ( msg != null ) {
 	  setMessage( StringUtils.stripInvalidChars( msg ) );
