@@ -124,6 +124,7 @@ public void testTopicAssignUnassignTags() {
    int tagID;
    int topicID;
    boolean bindingSuccess;
+   
    topicID = instance.addTopic( expectedTopic );
    System.out.println( "Added Topic ID = " + topicID );
    expectedTopic.setTopicID( topicID );
