@@ -11,6 +11,8 @@
 <%@page import="edu.temple.cis3238.wiki.dao.GeneralDAO"%>
 <%@page import="edu.temple.cis3238.wiki.dao.IGeneralDAO"%>
 <%@page import="edu.temple.cis3238.wiki.sql.*"%>
+<%@page import="edu.temple.cis3238.wiki.vo.UsersVO"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -38,7 +40,23 @@
             
             <% } %>
             
-            <% dbc.close();%>
+            
+            
+           <%-- <% //this is just a test // %>
+            
+            <% 
+                String name = null;
+                ArrayList <UsersVO> allNames = g.getUsers();
+                
+                for (int i = 0 ; i < allNames.size(); i++){
+                    name = allNames.get(i).getUserName(); %>
+                    <br>
+                     <%= name %>
+                     </br>
+               <% } %>
+            
+            <% //ending this test // %> --%>
+            <% dbc.close();%> 
         
     </body>
 </html>

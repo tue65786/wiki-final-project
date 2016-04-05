@@ -18,13 +18,17 @@
         <title>decision</title>
     </head>
     <body>
-        <% String username = request.getParameter("username");
+    <% 
+        
+            String username = request.getParameter("username");
             String current = null;
-        DbConnection dbc = new DbConnection();
-            IGeneralDAO  g = new GeneralDAO(dbc);
-                    ArrayList<TagsVO> allTags = g.getTags();
+            DbConnection dbc = new DbConnection();
+            IGeneralDAO g = new GeneralDAO(dbc);
+            ArrayList<TagsVO> allTags = g.getTags();
+            out.println("<h1>Welcome " + username + "</h1>");
         %>
         
+        <br></br>
     <form action="getPage.jsp">
         <button> getWiki </button>
         </form>       
@@ -34,7 +38,7 @@
         </form>     </body>
     
    
-           <h3> TAGS </h3>
+           <h3> search by TAGS </h3>
            
            
         <% for(int i = 0; i < allTags.size(); i+=1) { %>

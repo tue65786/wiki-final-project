@@ -1,21 +1,15 @@
-package WikiWikiWeb;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package WikiWikiWeb;
 
-import edu.temple.cis3238.security.*;
-import edu.temple.cis3238.wiki.dao.GeneralDAO;
-import edu.temple.cis3238.wiki.dao.IGeneralDAO;
-import edu.temple.cis3238.wiki.sql.DbConnection;
-import edu.temple.cis3238.wiki.vo.UsersVO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.regex.Pattern;
+import edu.temple.cis3238.wiki.dao.*;
+import edu.temple.cis3238.wiki.sql.DbConnection;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author CAP
  */
-@WebServlet(urlPatterns = {"/Signup"})
-public class Signup extends HttpServlet {
+@WebServlet(name = "Login", urlPatterns = {"/Login"})
+public class Login extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,67 +37,22 @@ public class Signup extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             
-            
-            String userName = request.getParameter("user");
+            String username = request.getParameter("user");
             String password = request.getParameter("pass");
-            boolean newUser = true;
-            
             DbConnection dbc = new DbConnection();
-            IGeneralDAO g = new GeneralDAO(dbc);
+            IGeneralDAO d = new GeneralDAO(dbc);
             
-            ArrayList<UsersVO> users = g.getUsers();
-            Iterator<UsersVO> iter = users.iterator();
-            
-            while(iter.hasNext()){
-                if(iter.next().getUserName().equals(userName)){
-                    newUser = false;
-                    request.getRequestDispatcher("/signup.jsp?errorMessageUserName=true").forward(request, response);
-                }
+            if(d.findUserByUserNameAndPassword(username, password) == null){
+                response.sendRedirect("/WikiWikiWeb/index.jsp?invalidCreds");
+                //request.getRequestDispatcher("/index.jsp?invalidCreds").forward(request, response);
             }
-
-//            
-//            if(!Password.isValidPassword(password)){
-//                request.getRequestDispatcher("/signup.jsp?invalidPassword=yes").forward(request, response);
-//                
-//            }
-
-            if(newUser)
-                g.addUser(new UsersVO(userName, password));
-            
-            
+            else {
+                response.sendRedirect("/WikiWikiWeb/decison.jsp?username=" + username);
+                //request.getRequestDispatcher("/decison.jsp?username=" + username).forward(request, response);
+                
+            }
             dbc.close();
             
-
-            
-           request.getRequestDispatcher("/index.jsp?newUser=true").forward(request, response);
-            
-            /* my old code below
-            
-            String userName = request.getParameter("user");
-            String password = request.getParameter("password");
-            
-            IGeneralDAO g = new GeneralDAO(new DbConnection());
-            
-            //check if this username is already taken
-//            ArrayList<UsersVO> users = g.getUsers();
-//            Iterator<UsersVO> iter = users.iterator();
-//            while(iter.hasNext()){
-//                if (iter.next().getUserName().equals(userName)){                    
-//                    request.getRequestDispatcher("/signup.jsp");
-//                }
-//            }
-            
-            //checkPasswordCriteria (i.e. does it have upper case letter, number, special symbol)
-        
-     
-            
-           //if username not already taken && valid pasword
-                    
-                    
-            g.addUser(new UsersVO(userName, password));
-            
-           request.getRequestDispatcher("/decison.jsp").forward(request, response); 
-            */
         }
     }
 
