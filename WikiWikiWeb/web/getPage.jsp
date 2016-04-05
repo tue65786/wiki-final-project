@@ -37,7 +37,10 @@
             testTopics.add("Topic5");
             %>
         
-     
+     <form action='/WikiWikiWeb/Logout' method='get'>
+            <button>Logout</button>
+        </form>
+                
             <h2> TOPICS </h2>
         
             <%String current = null;%>

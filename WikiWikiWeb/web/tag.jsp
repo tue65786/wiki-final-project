@@ -56,7 +56,11 @@
                <% } %>
             
             <% //ending this test // %> --%>
+           
             <% dbc.close();%> 
-        
+            
+        <form action='/WikiWikiWeb/Logout' method='get'>
+            <button>Logout</button>
+        </form>
     </body>
 </html>

@@ -37,7 +37,10 @@
         <button> createWiki </button>
         </form>     </body>
     
-   
+   <form action='/WikiWikiWeb/Logout' method='get'>
+            <button>Logout</button>
+        </form>
+
            <h3> search by TAGS </h3>
            
            
