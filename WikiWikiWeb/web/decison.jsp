@@ -5,6 +5,12 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="edu.temple.cis3238.wiki.vo.TagsVO"%>
+<%@page import="edu.temple.cis3238.wiki.vo.TopicVO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="edu.temple.cis3238.wiki.dao.GeneralDAO"%>
+<%@page import="edu.temple.cis3238.wiki.dao.IGeneralDAO"%>
+<%@page import="edu.temple.cis3238.wiki.sql.*"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,7 +18,12 @@
         <title>decision</title>
     </head>
     <body>
-        <% String username = request.getParameter("username");%>
+        <% String username = request.getParameter("username");
+            String current = null;
+        DbConnection dbc = new DbConnection();
+            IGeneralDAO  g = new GeneralDAO(dbc);
+                    ArrayList<TagsVO> allTags = g.getTags();
+        %>
         
     <form action="getPage.jsp">
         <button> getWiki </button>
@@ -21,4 +32,19 @@
     <form action="editor.jsp?username=<%=username%>">
         <button> createWiki </button>
         </form>     </body>
+    
+   
+           <h3> TAGS </h3>
+           
+           
+        <% for(int i = 0; i < allTags.size(); i+=1) { %>
+        
+            <% current = allTags.get(i).getTagName();%>
+            <br>
+            <a href = "tag.jsp?tag=<%= current %>"> <%= current %> </a>
+            </br>
+            
+            <% } %>
+            
+         <% dbc.close(); %>
 </html>

@@ -26,7 +26,6 @@
             DbConnection dbc = new DbConnection();
             IGeneralDAO  g = new GeneralDAO(dbc);
             ArrayList<TopicVO> allTopics = g.getTopics();
-            ArrayList<TagsVO> allTags = g.getTags();
             
             String test ="8";
             
@@ -47,21 +46,12 @@
         
             <% current = allTopics.get(i).getTopicName();%>
             <br>
-            <a href = "wiki.jsp?id=<%= current %>"> <%= current %> </a>
+            <a href = "wiki.jsp?topic=<%= current %>"> <%= current %> </a>
             </br>
             
             <% } %>  
 
-                <h3> TAGS </h3>
-            
-        <% for(int i = 0; i < allTags.size(); i+=1) { %>
-        
-            <% current = allTags.get(i).getTagName();%>
-            <br>
-            <a href = "wiki.jsp?tag=<%= current %>"> <%= current %> </a>
-            </br>
-            
-            <% } %> 
+       
             
         <!-- testing 1,2,3.. -->
        
