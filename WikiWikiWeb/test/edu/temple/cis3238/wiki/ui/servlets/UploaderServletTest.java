@@ -58,11 +58,11 @@ public void testUpload() throws Exception {
    HttpServletRequest request = createMock( HttpServletRequest.class );
    HttpServletResponse response = createMock( HttpServletResponse.class );
    RequestDispatcher requestDispatcher = createMock( RequestDispatcher.class );
-   
+
    response.setContentType( "text/html;charset=UTF-8" );
 
    expect( request.getContentType() ).andReturn( "multipart/form-data;UTF-8" );
-   request.setAttribute( (String) anyObject(), anyObject());
+   request.setAttribute( (String) anyObject(), anyObject() );
    //request.setAttribute( (String) anyObject(), anyObject( TopicVO.class ) );
    expect( request.getRequestDispatcher( "/" + UploaderServlet.REDIRECT_ON_COMPLETE_PAGE ) ).andReturn( requestDispatcher );
    expect( request.getSession() ).andReturn( new MockServletSession() );
@@ -73,7 +73,7 @@ public void testUpload() throws Exception {
    replay( request );
 
    UploaderServlet testServlet = new UploaderServlet();
-   testServlet.processRequest(request, response );
+   testServlet.processRequest( request, response );
 
    assertTrue( testServlet.isSuccess() );
 }
@@ -130,10 +130,12 @@ private class MockServletSession implements HttpSession {
 
 @Override
 public Object getAttribute(String _name) {
-   if (_name.equals("topicCollection")){
+   if ( _name.equals( "topicCollection" ) ) {
 	  TopicCollection collection = new TopicCollection();
 	  collection.setCurrentTopic( new TopicVOBuilder().setTopicID( 1 ).build() );
+	  return collection;
    }
+   
    return new TopicVOBuilder().setTopicID( 1 ).build();
 }
 
