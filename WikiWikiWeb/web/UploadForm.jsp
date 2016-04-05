@@ -18,9 +18,14 @@
    ArrayList<TopicVO> topics = dao.getTopics();
    TopicVO topic = topics.get( 0 );   
    
-   //Populate topic collection bean (req'd for file upload servlet)
+   dbc.close();
+   
+  //Populate topic collection bean (req'd for file upload servlet)
    topicCollection.setTopics( topics );
    topicCollection.setCurrentTopic( topic );
+   
+   
+   
 %>
 <!DOCTYPE html>
 
