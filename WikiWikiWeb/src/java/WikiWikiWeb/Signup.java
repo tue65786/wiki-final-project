@@ -6,6 +6,7 @@ package WikiWikiWeb;
  * and open the template in the editor.
  */
 
+import edu.temple.cis3238.security.*;
 import edu.temple.cis3238.wiki.dao.GeneralDAO;
 import edu.temple.cis3238.wiki.dao.IGeneralDAO;
 import edu.temple.cis3238.wiki.sql.DbConnection;
@@ -41,7 +42,42 @@ public class Signup extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            //my code
+            
+            
+            String userName = request.getParameter("user");
+            String password = request.getParameter("pass");
+            boolean newUser = true;
+            
+            DbConnection dbc = new DbConnection();
+            IGeneralDAO g = new GeneralDAO(dbc);
+            
+            ArrayList<UsersVO> users = g.getUsers();
+            Iterator<UsersVO> iter = users.iterator();
+            
+            while(iter.hasNext()){
+                if(iter.next().getUserName().equals(userName)){
+                    newUser = false;
+                    request.getRequestDispatcher("/signup.jsp?errorMessageUserName=true").forward(request, response);
+                }
+            }
+
+//            
+//            if(!Password.isValidPassword(password)){
+//                request.getRequestDispatcher("/signup.jsp?invalidPassword=yes").forward(request, response);
+//                
+//            }
+
+            if(newUser)
+                g.addUser(new UsersVO(userName, password));
+            
+            
+            dbc.close();
+            
+
+            
+           request.getRequestDispatcher("/index.jsp?newUser=true").forward(request, response);
+            
+            /* my old code below
             
             String userName = request.getParameter("user");
             String password = request.getParameter("password");
@@ -66,7 +102,8 @@ public class Signup extends HttpServlet {
                     
             g.addUser(new UsersVO(userName, password));
             
-           request.getRequestDispatcher("/decison.jsp").forward(request, response);
+           request.getRequestDispatcher("/decison.jsp").forward(request, response); 
+            */
         }
     }
 

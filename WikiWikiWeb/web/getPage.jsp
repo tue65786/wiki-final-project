@@ -4,6 +4,7 @@
     Author     : CAP
 --%>
 
+<%@page import="edu.temple.cis3238.wiki.vo.TagsVO"%>
 <%@page import="edu.temple.cis3238.wiki.vo.TopicVO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="edu.temple.cis3238.wiki.dao.GeneralDAO"%>
@@ -22,7 +23,8 @@
         
         
         <%
-            IGeneralDAO  g = new GeneralDAO(new DbConnection());
+            DbConnection dbc = new DbConnection();
+            IGeneralDAO  g = new GeneralDAO(dbc);
             ArrayList<TopicVO> allTopics = g.getTopics();
             
             String test ="8";
@@ -35,32 +37,38 @@
             testTopics.add("Topic5");
             %>
         
-        <!-- TEST LINK
-        <a href ="wiki.jsp?id=<%= test %>"><%= test %></a>
-        -->
+     <form action='/WikiWikiWeb/Logout' method='get'>
+            <button>Logout</button>
+        </form>
+                
+            <h2> TOPICS </h2>
         
-        
-        <%-- UNCOMMENT THIS WHEN YOU GET STUFF IN DATABASE
+            <%String current = null;%>
         
         <% for(int i = 0; i < allTopics.size(); i+=1) { %>
         
-            <% String current = allTopics.get(i).getTopicName();%>
-            <a href = "wiki.jsp?id=<%= current %>"> <%= current %> </a>
+            <% current = allTopics.get(i).getTopicName();%>
+            <br>
+            <a href = "wiki.jsp?topic=<%= current %>"> <%= current %> </a>
+            </br>
             
             <% } %>  
 
-        UNCOMMENT THIS WHEN YOU GET STUFF IN DATABASE--%>
+       
             
         <!-- testing 1,2,3.. -->
-        <% for(int i = 0; i < testTopics.size(); i+=1) { %>
+       
+        <%-- for(int i = 0; i < testTopics.size(); i+=1) { %>
         
             <% String current = testTopics.get(i);%>
             <br>
             <a href = "wiki.jsp?id=<%= current %>"> <%= current %> </a>
             </br>
-            <% } %>  
+            <% } --%>  
             
-        <!-- SUCCESS! -->
+        <!-- SUCCESS! -->   
+        
+        <% dbc.close(); %>
  
     </body>
 </html>

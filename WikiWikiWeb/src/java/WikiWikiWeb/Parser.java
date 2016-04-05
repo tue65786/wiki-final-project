@@ -93,6 +93,10 @@ String wikiText = "osdufyg [[bfhewlekr]] jhgfjdksdfhbvj {{dksla}} djfhgfj {{dsas
             out.println("<h1>Servlet NewServlet at " + request.getParameter("id") + "</h1>");
             out.println("<p>" + edu.temple.cis3238.parser.Parser.parseAndAnnotate(wikiText) + "</p>");
 out.println("<h1>WIKI</h1><p/>"+edu.temple.cis3238.parser.Parser.parseAndAnnotate(wikiText));
+
+out.println("<form action='/WikiWikiWeb/Logout' method='get'>" +     
+           " <button>Logout</button>" + 
+        "</form>");
             out.println("</body>");
             out.println("</html>");
 
