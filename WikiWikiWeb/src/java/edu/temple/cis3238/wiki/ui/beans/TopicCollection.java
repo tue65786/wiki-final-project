@@ -66,7 +66,7 @@ public void setTopics(ArrayList<TopicVO> topics) {
 }
 
 public TopicCollection() {
-   topics = new ArrayList<TopicVO>();
+   topics = new ArrayList<>();
    currentTopic = new TopicVO( "", "" );
    listType = "TABLE";
 

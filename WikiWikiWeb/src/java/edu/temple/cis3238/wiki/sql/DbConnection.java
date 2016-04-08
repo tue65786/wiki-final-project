@@ -44,7 +44,7 @@ public void close() {
 	  } catch (Exception e) {
 		 error = "Error closing connection in DbConn: "
 				 + e.getMessage();
-		 LOG.warning( "error closing connection: " + error );
+		 LOG.warning( "Error closing connection: " + error );
 		 LOG.log( Level.SEVERE, null, e );
 		 e.printStackTrace();
 	  } // catch

@@ -22,9 +22,9 @@ private static final long serialVersionUID = -6547517199465130892L;
 private int parentTagId;
 private int tagID;
 private String tagName;
-
+private int topicCount;
 public static TagsVO newInstance(TagsVO vo) {
-   return new TagsVO( vo.getTagID(), vo.getTagName(), vo.getParentTagId() );
+   return new TagsVO( vo.getTagID(), vo.getTagName(), vo.getParentTagId(), vo.getTopicCount());
 }
 
 @Override
@@ -33,8 +33,8 @@ public int compareTo(TagsVO _that) {
 	  return 1;
    }
    return new CompareToBuilder()
+		   .append( this.getTagName().toLowerCase(), _that.getTagName().toLowerCase() )
 		   .append( this.getTagID(), _that.getTagID() )
-		   .append( this.getTagName(), _that.getTagName() )
 		   .build();
 }
 
@@ -101,6 +101,20 @@ public void setTagName(String tagName) {
    this.tagName = tagName;
 }
 
+   /**
+    * @return the topicCount
+    */
+   public int getTopicCount() {
+	  return topicCount;
+   }
+
+   /**
+    * @param topicCount the topicCount to set
+    */
+   public void setTopicCount(int topicCount) {
+	  this.topicCount = topicCount;
+   }
+
 @Override
 public int hashCode() {
    int hash = 7;
@@ -111,11 +125,12 @@ public int hashCode() {
 
 @Override
 public String toString() {
-   return "TagsVO{" + "tagID=" + tagID + ", tagName=" + getTagName() + ", parentTagId=" + parentTagId + '}';
+   return "TagsVO{" + "tagID=" + tagID + ", tagName=" + getTagName() + " , topicCount="+getTopicCount()+ ", parentTagId=" + parentTagId + '}';
 }
 
+@Override
 public String toTableRow() {
-   return "<tr><td>" + tagID + "</td><td>" + getTagName() + "</td><td>" + parentTagId + "</td></tr>";
+   return "<tr><td>" + tagID + "</td><td>" + getTagName() + "</td><td>" + getTopicCount()+ "</td><td>" + parentTagId + "</td></tr>";
 }
 
 public TagsVO() {
@@ -127,5 +142,13 @@ public TagsVO(int _tagID, String _tagName, int _parentTagId) {
    this.tagID = _tagID;
    this.tagName = _tagName;
    this.parentTagId = _parentTagId;
+}
+
+public TagsVO(int _tagID, String _tagName, int _parentTagId,int _topicCount) {
+   super();
+   this.tagID = _tagID;
+   this.tagName = _tagName;
+   this.parentTagId = _parentTagId;
+   this.topicCount = _topicCount;
 }
 }

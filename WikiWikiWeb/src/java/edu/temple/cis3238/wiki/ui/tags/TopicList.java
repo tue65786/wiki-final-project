@@ -9,6 +9,7 @@ import edu.temple.cis3238.wiki.ui.beans.*;
 import edu.temple.cis3238.wiki.utils.*;
 import edu.temple.cis3238.wiki.vo.*;
 import java.util.*;
+import java.util.logging.*;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.JspFragment;
@@ -170,6 +171,7 @@ private String makeTopicRow(TopicVO vo, int row) {
 		   .replace( "[[[STATS]]]", getTopicStats( vo ) )
 		   .replace( "[[[TAGS]]]", makeTagsCSV( vo ) );
 }
+   private static final Logger LOG = Logger.getLogger( TopicList.class.getName() );
 
 
 }

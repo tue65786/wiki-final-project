@@ -19,12 +19,7 @@
    ServletHelpers web;
    String requestMessages = "";
    ArrayList<TopicVO> topics;
-
-   dbc = new DbConnection();
-   dao = new GeneralDAO( dbc );
-   web = new ServletHelpers( request, response );
-   topics = dao.getTopics();
-   topicCollection.setTopics( topics );
+web = new ServletHelpers( request, response );
 
    //Safely get request params
    String requestTopic = web.getStrParameter( "pTopicID", "" );
@@ -32,6 +27,16 @@
    String requestTag = web.getStrParameter( "pTagID", "" );
    int requestTagId = web.getIntParameter( "tagPK", 0 );
    String type = web.getStrParameter( "type", "LIST" );
+   
+   dbc = new DbConnection();
+   dao = new GeneralDAO( dbc );
+   if (requestTagId > 0){
+	topics = dao.getTopicsByTagID( requestTagId);
+   }else{
+   topics = dao.getTopics();
+   }
+   topicCollection.setTopics( topics );
+
    topicCollection.setListType( type );
    if ( requestTagId > 0 ) {
 	  requestMessages = "<h3>SELECTED TAG " + requestTag + "</h3>";

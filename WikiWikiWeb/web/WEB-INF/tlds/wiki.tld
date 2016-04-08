@@ -105,4 +105,15 @@
       <type>java.lang.String</type>
     </attribute>
   </tag>
+  <tag>
+    <name>TagsList</name>
+    <tag-class>edu.temple.cis3238.wiki.ui.tags.TagsList</tag-class>
+    <body-content>scriptless</body-content>
+    <attribute>
+      <name>tagsCollectionBeans</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>edu.temple.cis3238.wiki.ui.beans.TagsCollection</type>
+    </attribute>
+  </tag>
 </taglib>

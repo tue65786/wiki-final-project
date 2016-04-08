@@ -384,7 +384,7 @@ private TagsVO getTag(int _id, String _name) {
 	  }
 	  rs = cs.executeQuery();
 	  if ( rs.next() ) {
-		 vo = TagsVO.newInstance( new TagsVO( rs.getInt( 1 ), rs.getString( 2 ), rs.getInt( 3 ) ) );
+		 vo = TagsVO.newInstance( new TagsVO( rs.getInt( 1 ), rs.getString( 2 ), rs.getInt( 3 ),rs.getInt( 4) ) );
 		 try {
 			if ( !rs.isClosed() ) {
 			   rs.close();
@@ -428,7 +428,7 @@ public ArrayList<TagsVO> getTags() {
 	  rs = cs.executeQuery();
 
 	  while ( rs.next() ) {
-		 vo = new TagsVO( rs.getInt( 1 ), rs.getString( 2 ), rs.getInt( 3 ) );
+		 vo = new TagsVO( rs.getInt( 1 ), rs.getString( 2 ), rs.getInt( 3 ),rs.getInt( 4) );
 		 voList.add( TagsVO.newInstance( vo ) );
 	  }
 	  try {
@@ -466,7 +466,7 @@ public ArrayList<TagsVO> getTagsByTopicID(int _topicid) {
 	  rs = cs.executeQuery();
 
 	  while ( rs.next() ) {
-		 vo = new TagsVO( rs.getInt( 1 ), rs.getString( 2 ), rs.getInt( 3 ) );
+		 vo = new TagsVO( rs.getInt( 1 ), rs.getString( 2 ), rs.getInt( 3 ),rs.getInt( 4) );
 		 voList.add( TagsVO.newInstance( vo ) );
 	  }
 	  try {
@@ -725,6 +725,7 @@ public ArrayList<TopicVO> getTopicsByTagID(int _id) {
    CallableStatement cs = null;
    ResultSet rs = null;
    TopicVO vo = null;
+   ArrayList<TagsVO> topicTagsVOList;
    ArrayList<TopicVO> voList = new ArrayList<TopicVO>();
    if ( _id <= 0 ) {
 	  LOG.logp( Level.INFO, this.getClass().getName(), "getTopicsByTagID(int)", "Invalid params. TagID must be positive int." );
@@ -744,6 +745,14 @@ public ArrayList<TopicVO> getTopicsByTagID(int _id) {
 				 .setTopicModified( rs.getString( 5 ) )
 				 .setRevisions( rs.getInt( 6 ) );
 		 vo = builder.build();
+		  try {
+			topicTagsVOList = getTagsByTopicID( vo.getTopicID() );
+			if (topicTagsVOList != null){
+			   vo.setTagsCollection( topicTagsVOList );
+			}
+		 } catch (Exception e) {
+			   LOG.log(Level.WARNING,"Tag Get Error",e);
+		 }
 		 voList.add( TopicVO.newInstance( vo ) );
 	  }
 	  try {
@@ -881,10 +890,16 @@ public boolean revertTopicFromHistory(TopicHistoryVO _vo) {
 }
 
 @Override
-public ArrayList<TopicVO> searchTopic(String _query) {
+public ArrayList<TopicVO> searchTopic(String _query){
+   return searchTopic(_query,true);
+}
+
+@Override
+public ArrayList<TopicVO> searchTopic(String _query, boolean loadCollections) {
    CallableStatement cs = null;
    ResultSet rs = null;
    TopicVO vo = null;
+   ArrayList<TagsVO> topicTagsVOList = null;
    ArrayList<TopicVO> voList = new ArrayList<TopicVO>();
    if ( StringUtils.toS( _query ).isEmpty() ) {
 	  LOG.logp( Level.WARNING, this.getClass().getName(), "searchTopic(String)", "Invalid params. Query can not be null." );
@@ -904,6 +919,16 @@ public ArrayList<TopicVO> searchTopic(String _query) {
 				 .setTopicModified( rs.getString( 5 ) )
 				 .setRevisions( rs.getInt( 6 ) );
 		 vo = builder.build();
+		 if (loadCollections && vo.getTopicID()>0){
+		   try {
+			topicTagsVOList = getTagsByTopicID( vo.getTopicID() );
+			if (topicTagsVOList != null){
+			   vo.setTagsCollection( topicTagsVOList );
+			}
+		 } catch (Exception e) {
+			   LOG.log(Level.WARNING,"Tag Get Error",e);
+		 }
+		}
 		 voList.add( TopicVO.newInstance( vo ) );
 	  }
 	  try {
