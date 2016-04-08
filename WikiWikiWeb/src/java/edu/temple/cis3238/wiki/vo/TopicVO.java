@@ -98,6 +98,7 @@ public CopyOnWriteArrayList<TagsVO> getTagsCollection() {
 public void setTagsCollection(ArrayList<TagsVO> tagsCollection) {
    if ( tagsCollection != null && !tagsCollection.isEmpty() ) {
 	  this.tagsCollection = new CopyOnWriteArrayList<TagsVO>(  );
+	 Collections.sort(tagsCollection);
 	  this.tagsCollection.addAll( tagsCollection);
    }
 }
@@ -105,6 +106,7 @@ public void setTagsCollection(ArrayList<TagsVO> tagsCollection) {
 public void setTagsCollection(CopyOnWriteArrayList<TagsVO> tagsCollection) {
    if ( tagsCollection != null && !tagsCollection.isEmpty() ) {
 	  this.tagsCollection = new CopyOnWriteArrayList<TagsVO>(  );
+	  tagsCollection.sort( new TagsVO());
 	  this.tagsCollection.addAll( tagsCollection);
     //tagsArray = tagsCollection.toArray( new TagsVO[tagsCollection.size()]); 
    }

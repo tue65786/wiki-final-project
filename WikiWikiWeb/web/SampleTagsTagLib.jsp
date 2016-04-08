@@ -17,14 +17,12 @@
 <%
    DbConnection dbc;
    GeneralDAO dao;
-   ServletHelpers web;
-   String requestMessages = "";
    ArrayList<TagsVO> tags;
    TagsTagSettings settings;
 
    dbc = new DbConnection();
    dao = new GeneralDAO( dbc );
-   web = new ServletHelpers( request, response );
+   
    tags = dao.getTags();
    Collections.sort(tags);
    settings = TagsTagSettings.builder()
@@ -40,7 +38,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Tag Cloud</title>
     </head>
     <body>
         <wiki:TagsList tagsCollectionBeans="${tagsCollection}"></wiki:TagsList>

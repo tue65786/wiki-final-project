@@ -15,7 +15,7 @@ import org.apache.commons.lang3.builder.*;
  *
  * @author (c)2016 Doreen, Dan, Christian
  */
-public class TagsVO implements Serializable, Comparable<TagsVO>,IValueObject<TagsVO> {
+public class TagsVO implements Serializable, Comparable<TagsVO>,IValueObject<TagsVO>,Comparator<TagsVO> {
 private static final Logger LOG = Logger.getLogger( TagsVO.class.getName() );
 
 private static final long serialVersionUID = -6547517199465130892L;
@@ -26,6 +26,17 @@ private int topicCount;
 public static TagsVO newInstance(TagsVO vo) {
    return new TagsVO( vo.getTagID(), vo.getTagName(), vo.getParentTagId(), vo.getTopicCount());
 }
+
+   @Override
+   public int compare(TagsVO _left, TagsVO _right) {
+	    if ( _left == null && _right == null ) {
+	  return 1;
+   }
+   return new CompareToBuilder()
+		   .append( _left.getTagName().toLowerCase(), _right.getTagName().toLowerCase() )
+		   .build();
+}
+   
 
 @Override
 public int compareTo(TagsVO _that) {

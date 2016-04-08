@@ -57,6 +57,7 @@ public TopicVOBuilder setRevisions(int _revisions) {
 public TopicVOBuilder setTagsCollection(CopyOnWriteArrayList<TagsVO> _tagsCollection) {
    if ( _tagsCollection != null && !_tagsCollection.isEmpty() ) {
 	  try {
+		 
 		 this._tagsCollection = new CopyOnWriteArrayList<TagsVO>();
 		 this._tagsCollection.addAll( _tagsCollection );
 	  } catch (Exception e) {
@@ -69,6 +70,7 @@ public TopicVOBuilder setTagsCollection(CopyOnWriteArrayList<TagsVO> _tagsCollec
 public TopicVOBuilder setTagsCollection(ArrayList<TagsVO> _tagsCollection) {
    if ( _tagsCollection != null && !_tagsCollection.isEmpty() ) {
 	  try {
+		 Collections.sort( _tagsCollection );
 		 this._tagsCollection = new CopyOnWriteArrayList<TagsVO>();
 		 this._tagsCollection.addAll( _tagsCollection );
 	  } catch (Exception e) {

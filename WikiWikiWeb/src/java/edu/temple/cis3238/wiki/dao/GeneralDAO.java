@@ -778,6 +778,7 @@ public ArrayList<TopicVO> getTopicsByTagName(String _name) {
    CallableStatement cs = null;
    ResultSet rs = null;
    TopicVO vo = null;
+   ArrayList<TagsVO> topicTagsVOList;
    ArrayList<TopicVO> voList = new ArrayList<TopicVO>();
    TagsVO tag = getTagByName( _name );
    if ( tag == null || tag.getTagID() <= 0 ) {
@@ -797,6 +798,14 @@ public ArrayList<TopicVO> getTopicsByTagName(String _name) {
 				 .setTopicModified( rs.getString( 5 ) )
 				 .setRevisions( rs.getInt( 6 ) );
 		 vo = builder.build();
+		 try {
+			topicTagsVOList = getTagsByTopicID( vo.getTopicID() );
+			if (topicTagsVOList != null){
+			   vo.setTagsCollection( topicTagsVOList );
+			}
+		 } catch (Exception e) {
+			   LOG.log(Level.WARNING,"Tag Get Error",e);
+		 }
 		 voList.add( TopicVO.newInstance( vo ) );
 	  }
 	  try {
