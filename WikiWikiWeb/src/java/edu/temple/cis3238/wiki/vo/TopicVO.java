@@ -19,9 +19,9 @@ import org.apache.commons.lang3.builder.*;
 public class TopicVO implements Serializable, Comparable<TopicVO>, IValueObject<TopicVO> {
 
 private static final Logger LOG = Logger.getLogger( TopicVO.class.getName() );
-
 private static final long serialVersionUID = -4450521690544636648L;
 private int revisions;
+private TagsVO[] tagsArray;
 private CopyOnWriteArrayList<TagsVO> tagsCollection;
 private String topicContent;
 private String topicCreated;
@@ -29,10 +29,18 @@ private ArrayList<TopicHistoryVO> topicHistoryCollection;
 private int topicID;
 private String topicModified;
 private String topicName;
-private TagsVO[] tagsArray;
 
 public static TopicVO newInstance(TopicVO vo) {
-   return new TopicVOBuilder().setTopicID( vo.getTopicID() ).setTopicName( vo.getTopicName() ).setTopicContent( vo.getTopicContent() ).setTopicCreated( vo.getTopicCreated() ).setTopicModified( vo.getTopicModified() ).setRevisions( vo.getRevisions() ).setTagsCollection( vo.getTagsCollection() ).set_topicHistoryCollection( vo.getTopicHistoryCollection() ).build();
+   return new TopicVOBuilder()
+		   .setTopicID( vo.getTopicID() )
+		   .setTopicName( vo.getTopicName() )
+		   .setTopicContent( vo.getTopicContent() )
+		   .setTopicCreated( vo.getTopicCreated() )
+		   .setTopicModified( vo.getTopicModified() )
+		   .setRevisions( vo.getRevisions() )
+		   .setTagsCollection( vo.getTagsCollection() )
+		   .set_topicHistoryCollection( vo.getTopicHistoryCollection() )
+		   .build();
 }
 
 @Override
@@ -92,23 +100,22 @@ public CopyOnWriteArrayList<TagsVO> getTagsCollection() {
    return tagsCollection;
 }
 
+
+public void setTagsCollection(CopyOnWriteArrayList<TagsVO> tagsCollection) {
+   if ( tagsCollection != null && !tagsCollection.isEmpty() ) {
+	  this.tagsCollection = new CopyOnWriteArrayList<TagsVO>();
+	  tagsCollection.sort( new TagsVO() );
+	  this.tagsCollection.addAll( tagsCollection );
+   }
+}
 /**
  * @param tagsCollection the tagsCollection to set
  */
 public void setTagsCollection(ArrayList<TagsVO> tagsCollection) {
    if ( tagsCollection != null && !tagsCollection.isEmpty() ) {
-	  this.tagsCollection = new CopyOnWriteArrayList<TagsVO>(  );
-	 Collections.sort(tagsCollection);
-	  this.tagsCollection.addAll( tagsCollection);
-   }
-}
-
-public void setTagsCollection(CopyOnWriteArrayList<TagsVO> tagsCollection) {
-   if ( tagsCollection != null && !tagsCollection.isEmpty() ) {
-	  this.tagsCollection = new CopyOnWriteArrayList<TagsVO>(  );
-	  tagsCollection.sort( new TagsVO());
-	  this.tagsCollection.addAll( tagsCollection);
-    //tagsArray = tagsCollection.toArray( new TagsVO[tagsCollection.size()]); 
+	  this.tagsCollection = new CopyOnWriteArrayList<TagsVO>();
+	  Collections.sort( tagsCollection );
+	  this.tagsCollection.addAll( tagsCollection );
    }
 }
 
@@ -186,16 +193,20 @@ public void setTopicModified(String topicModified) {
  * @return the topicName
  */
 public String getTopicName() {
-   return StringUtils.stripInvalidChars(topicName);
+   return StringUtils.stripInvalidChars( topicName );
 }
 
 /**
  * @param topicName the topicName to set
  */
 public void setTopicName(String topicName) {
-   this.topicName =  StringUtils.stripInvalidChars(topicName);
+   this.topicName = StringUtils.stripInvalidChars( topicName );
 }
 
+
+public boolean hasTagsCollection() {
+   return ( tagsCollection != null && !tagsCollection.isEmpty() );
+}
 @Override
 public int hashCode() {
    int hash = 5;
@@ -205,9 +216,7 @@ public int hashCode() {
    hash = 59 * hash + Objects.hashCode( this.getTopicName() );
    return hash;
 }
-public boolean hasTagsCollection(){
-   return (tagsCollection != null && !tagsCollection.isEmpty());
-}
+
 @Override
 public String toString() {
    return "TopicVO{" + "revisions=" + revisions + ", topicContent=" + getTopicContent() + ", topicCreated=" + getTopicCreated() + ", topicID=" + topicID + ", topicModified=" + getTopicModified() + ", topicName=" + getTopicName() + '}';
@@ -235,15 +244,14 @@ public TopicVO(int _topicID, String _topicName, String _topicContent, String _to
    this.topicModified = _topicModified;
    this.revisions = _revisions;
    if ( _tagsCollection != null && !_tagsCollection.isEmpty() ) {
-	  try{
-	  this.tagsCollection = new CopyOnWriteArrayList<TagsVO>(_tagsCollection);
-	  }catch(Exception e){
-		 
+	  try {
+		 this.tagsCollection = new CopyOnWriteArrayList<TagsVO>( _tagsCollection );
+	  } catch (Exception e) {
+
 	  }
    }
    this.topicHistoryCollection = _topicHistoryCollection;
 }
-
 
 public TopicVO(int _topicID, String _topicName, String _topicContent, String _topicCreated, String _topicModified, int _revisions, CopyOnWriteArrayList<TagsVO> _tagsCollection, ArrayList<TopicHistoryVO> _topicHistoryCollection) {
    this.topicID = _topicID;
