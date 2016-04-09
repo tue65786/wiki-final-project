@@ -1,11 +1,17 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
+<!DOCTYPE html><script>
+window.location.hash="no-back-button";
+window.location.hash="Again-No-back-button";//again because google chrome don't insert first hash into history
+window.onhashchange=function(){window.location.hash="no-back-button";};
+</script>
 <html>
     <head>
         <title>Log In | WikiWikiWeb</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
+        
+        
         <%
             if (request.getParameter("newUser") != null) {
                 out.println("<h1>Congratulations! You have successfully signed up, please login with your newly created credentials</h1>");

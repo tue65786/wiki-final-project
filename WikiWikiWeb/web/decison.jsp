@@ -37,7 +37,7 @@
         <button> createWiki </button>
         </form>     </body>
     
-   <form action='/WikiWikiWeb/Logout' method='get'>
+   <form action="${pageContext.request.contextPath}/Logout" method='get'>
             <button>Logout</button>
         </form>
 
