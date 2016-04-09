@@ -44,12 +44,11 @@ public class ParserTest {
     @Test
     public void testParseAndAnnotate() {
         System.out.println("parseAndAnnotate");
-        String inputWikiText = "";
-        String expResult = "";
+        String inputWikiText = "The {{dog}} ate the [[cat]]";
+        String expResult = "The <a href=\"wiki.jsp?id=dog\">dog</a> ate the <a style=\"font-weight:bold\" href=\"wiki.jsp?id=cat\">cat</a> ";
         String result = Parser.parseAndAnnotate(inputWikiText);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+       
     }
 
     /**
@@ -58,12 +57,15 @@ public class ParserTest {
     @Test
     public void testParseAndCategorize() {
         System.out.println("parseAndCategorize");
-        String inputWikiText = "";
-        ArrayList[] expResult = null;
+        String inputWikiText = "The {{dog}} ate the [[cat]]";
+        ArrayList<String> topics = new ArrayList<>();
+        ArrayList<String> tags = new ArrayList<>();
+        topics.add("cat");
+        tags.add("dog");
+        ArrayList[] expResult = {topics, tags};
         ArrayList[] result = Parser.parseAndCategorize(inputWikiText);
         assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+      
     }
     
 }
