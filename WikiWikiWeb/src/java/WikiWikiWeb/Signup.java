@@ -47,6 +47,8 @@ public class Signup extends HttpServlet {
             String userName = request.getParameter("user");
             String password = request.getParameter("pass");
             boolean newUser = true;
+            boolean validPassword = true;
+            boolean validUsername = true;
             
             DbConnection dbc = new DbConnection();
             IGeneralDAO g = new GeneralDAO(dbc);
@@ -60,16 +62,20 @@ public class Signup extends HttpServlet {
                     request.getRequestDispatcher("/signup.jsp?errorMessageUserName=true").forward(request, response);
                 }
             }
-
-//            
-//            if(!Password.isValidPassword(password)){
-//                request.getRequestDispatcher("/signup.jsp?invalidPassword=yes").forward(request, response);
-//                
-//            }
-
-            if(newUser)
-                g.addUser(new UsersVO(userName, password));
             
+            if(!Password.isValidUsername(userName)){
+                validUsername = false;
+                request.getRequestDispatcher("/signup.jsp?invalidUsername=yes").forward(request, response);
+            }
+            
+            if(!Password.isValidPassword(password)){
+                validUsername = false;
+                request.getRequestDispatcher("/signup.jsp?invalidPassword=yes").forward(request, response);
+            }
+
+            if(newUser && validPassword && validUsername){
+                g.addUser(new UsersVO(userName, password));
+            }
             
             dbc.close();
             
@@ -77,33 +83,6 @@ public class Signup extends HttpServlet {
             
            request.getRequestDispatcher("/index.jsp?newUser=true").forward(request, response);
             
-            /* my old code below
-            
-            String userName = request.getParameter("user");
-            String password = request.getParameter("password");
-            
-            IGeneralDAO g = new GeneralDAO(new DbConnection());
-            
-            //check if this username is already taken
-//            ArrayList<UsersVO> users = g.getUsers();
-//            Iterator<UsersVO> iter = users.iterator();
-//            while(iter.hasNext()){
-//                if (iter.next().getUserName().equals(userName)){                    
-//                    request.getRequestDispatcher("/signup.jsp");
-//                }
-//            }
-            
-            //checkPasswordCriteria (i.e. does it have upper case letter, number, special symbol)
-        
-     
-            
-           //if username not already taken && valid pasword
-                    
-                    
-            g.addUser(new UsersVO(userName, password));
-            
-           request.getRequestDispatcher("/decison.jsp").forward(request, response); 
-            */
         }
     }
 

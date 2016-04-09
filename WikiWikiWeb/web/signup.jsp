@@ -18,7 +18,11 @@
                 <h1> User name already taken! try something else. </h1>
               <%  } %>
         <% if(request.getParameter("invalidPassword") != null) { %>
-        <h2> Invalid password.  Must contain 8 characters, 2 digits, and 1 special character </h2>
+        <h2> Invalid password.  Must contain at least 8 characters, 2 digits, and 1 special character </h2>
+        <% } %>
+        
+         <% if(request.getParameter("invalidUsername") != null) { %>
+        <h3> Invalid username. Must contain at least 4 characters, no special characters </h3>
         <% } %>
         
         <p> Please enter a username and password </p>
