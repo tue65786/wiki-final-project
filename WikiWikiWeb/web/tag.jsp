@@ -31,15 +31,16 @@
                
         %>
         
+        <table>
         <% for(int i = 0; i < allTopics.size(); i+=1) { %>
         
             <% current = allTopics.get(i).getTopicName();%>
-            <br>
-            <a href = "wiki.jsp?topic=<%= current %>"> <%= current %> </a>
-            </br>
+            <tr>
+                <td><a href = "wiki.jsp?topic=<%= current %>"> <%= current %> </a></td>
+            </tr>
             
             <% } %>
-            
+        </table>
             
             
            <%-- <% //this is just a test // %>
@@ -58,7 +59,7 @@
             <% //ending this test // %> --%>
            
             <% dbc.close();%> 
-            
+            <br></br>
         <form action='/WikiWikiWeb/Logout' method='get'>
             <button>Logout</button>
         </form>
