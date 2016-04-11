@@ -8,14 +8,12 @@
         <script type="text/javascript" src="index.js"></script>
     </head>
     <body>
-        <form action="${pageContext.request.contextPath}/Example" method="post">
+        <form action="${pageContext.request.contextPath}/Logger?username=<%=request.getParameter("username")%>" method="post">
             <%
-                if (request.getParameter("user") != null) {
-                    out.println("<h1>Username: " + request.getParameter("user") + "<br />Password: " + request.getParameter("pass") + "</h1>");
-                } else {
-                    out.println("You were redirected");
+                if (request.getParameter("username") != null) {
+                    out.println("<h1>Username: " + request.getParameter("username") + "</h1>");
+                    out.println("<hr>");
                 }
-                out.println("<hr>");
             %>
             <input type="button" value="Topic" onmousedown="markUp('boldlink');" title="Bold HyperLink (Ctrl+Shift+L)" />
             <input type="button" value="Tag" onmousedown="markUp('link');" title="HyperLink (Ctrl+L)" /><br />
@@ -26,10 +24,8 @@
 
         <!-- -->
         <hr>
-        <form action="${pageContext.request.contextPath}/Logger" method="get">
-            Username: <input name="user" /><br />
-            <button>Log</button>
-        </form>
+        Username: <input name="user" /><br />
+        <button>Log</button>
         <!-- -->
 
         <form action='/WikiWikiWeb/Logout' method='get'>

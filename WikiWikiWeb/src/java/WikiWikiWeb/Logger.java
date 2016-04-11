@@ -1,7 +1,10 @@
 package WikiWikiWeb;
 
+import edu.temple.cis3238.parser.WikiMarkup;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,10 +18,40 @@ public class Logger extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
-            String userName = request.getParameter("user");
-            
-            
+
+            String userName = request.getParameter("username");
+            out.println(userName);
+
+            /*
+             * Gets the topic name and tag name(s)
+             */
+            String topicContent = request.getParameter("editor");
+
+            Scanner scanner = new Scanner(topicContent);
+            String s = null;
+            String topicName = null;
+            ArrayList<String> tagNames = new ArrayList<>();
+            int end = 0;
+
+            while (scanner.hasNext()) {
+                s = scanner.next();
+                System.out.println(s);
+                if (s.substring(0, 2).equals(WikiMarkup.FRONT_TOPIC.toString())) {
+                    //we know we are in a topic expression 
+                    end = s.indexOf(WikiMarkup.BACK_TOPIC.toString());
+                    topicName = s.substring(2, end);
+
+                } else if (s.substring(0, 2).equals(WikiMarkup.FRONT_TAG.toString())) {
+                    //we know we are in a topic expression
+                    end = s.indexOf(WikiMarkup.BACK_TAG.toString());
+                    tagNames.add(s.substring(2, end));
+
+                } //add more else if for more regexes
+                else {
+                }
+            }
+//            out.println(topicName + "<br />" + tagNames.toString());
+
         }
     }
 

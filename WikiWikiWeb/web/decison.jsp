@@ -37,51 +37,52 @@
         <br></br>
         <form action="getPage.jsp">
             <button> getWiki </button>
-        </form>       
+        </form>
 
-        <form action="editor.jsp?username=<%=username%>">
+        <form action="editor.jsp">
+            <input type="hidden" name="username" value="<%=username%>" />
             <button> createWiki </button>
         </form>
 
-        <form action="${pageContext.request.contextPath}/Logout" method='get'>
-            <button>Logout</button>
-        </form>
+    <form action="${pageContext.request.contextPath}/Logout" method='get'>
+        <button>Logout</button>
+    </form>
 
-        <h3> search by TAGS </h3>
+    <h3> search by TAGS </h3>
 
-        <script>
-            var source = [];
-        </script>
+    <script>
+        var source = [];
+    </script>
 
-        <label> Quick Search :  <input id="autocomplete" /> </label>
+    <label> Quick Search :  <input id="autocomplete" /> </label>
 
-        <% for (int i = 0; i < allTags.size(); i += 1) {
-            current = allTags.get(i).getTagName();%>
-        <script> source.push({value: 'tag.jsp?tag=<%= current%>', label: '<%= current%>'});</script>
-        <% } %>
+    <% for (int i = 0; i < allTags.size(); i += 1) {
+                    current = allTags.get(i).getTagName();%>
+    <script> source.push({value: 'tag.jsp?tag=<%= current%>', label: '<%= current%>'});</script>
+    <% } %>
 
-        <script>
-            $(document).ready(function () {
-                $("input#autocomplete").autocomplete({
-                    source: source,
-                    select: function (event, ui) {
-                        window.location.href = ui.item.value;
-                    }
-                });
+    <script>
+        $(document).ready(function () {
+            $("input#autocomplete").autocomplete({
+                source: source,
+                select: function (event, ui) {
+                    window.location.href = ui.item.value;
+                }
             });
-        </script>
+        });
+    </script>
 
-        <table>
-            <% for (int i = 0; i < allTags.size(); i += 1) { %>
+    <table>
+        <% for (int i = 0; i < allTags.size(); i += 1) { %>
 
-            <% current = allTags.get(i).getTagName();%>
-            <tr> 
-                <td><a href = "tag.jsp?tag=<%= current%>"> <%= current%> </a></td>
-            </tr>
+        <% current = allTags.get(i).getTagName();%>
+        <tr> 
+            <td><a href = "tag.jsp?tag=<%= current%>"> <%= current%> </a></td>
+        </tr>
 
-            <% } %>
-        </table>
+        <% } %>
+    </table>
 
 
-        <% dbc.close();%>
+    <% dbc.close();%>
 </html>
