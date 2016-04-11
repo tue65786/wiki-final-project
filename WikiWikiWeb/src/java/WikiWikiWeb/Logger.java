@@ -19,14 +19,16 @@ public class Logger extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
+            /*
+             * Prints the username; for testing
+            */
             String userName = request.getParameter("username");
-            out.println(userName);
+            out.println(userName + "<br />");
 
             /*
-             * Gets the topic name and tag name(s)
+             * Gets the topic name and tag name(s) and prints them out
              */
             String topicContent = request.getParameter("editor");
-
             Scanner scanner = new Scanner(topicContent);
             String s = null;
             String topicName = null;
@@ -37,7 +39,8 @@ public class Logger extends HttpServlet {
                 s = scanner.next();
                 System.out.println(s);
                 if (s.substring(0, 2).equals(WikiMarkup.FRONT_TOPIC.toString())) {
-                    //we know we are in a topic expression 
+                    //we know we are in a topic expression
+                    // should only have ONE topic name
                     end = s.indexOf(WikiMarkup.BACK_TOPIC.toString());
                     topicName = s.substring(2, end);
 
@@ -50,8 +53,7 @@ public class Logger extends HttpServlet {
                 else {
                 }
             }
-//            out.println(topicName + "<br />" + tagNames.toString());
-
+            out.println(topicName + "<br />" + tagNames.toString());
         }
     }
 
