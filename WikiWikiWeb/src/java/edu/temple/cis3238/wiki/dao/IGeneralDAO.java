@@ -161,8 +161,24 @@ public ArrayList<TagsVO> getTagsByTopicID(int _topicid);
  * @param tagsVOList List of tags
  * @return success
  */
-public boolean assignTopicTags(TopicVO topicVO, ArrayList<TagsVO> tagsVOList);
 
+public boolean assignTopicTags(TopicVO topicVO, ArrayList<TagsVO> tagsVOList);
+/**
+ * 
+ * TOPIC_ASSIGN_ONLY_TAGS_CSV
+    * @param topicVO
+    * @param tagsVOList
+    * @return 
+ */
+public boolean assignOnlyTopicTags(TopicVO topicVO, ArrayList<TagsVO> tagsVOList);
+
+/***
+ *  Assign new tags from Tag name csv //spTopicAssignAllTagNamesByCSV
+ * @param topicVO
+    * @param tagNameCSV
+ * @return 
+ */
+public boolean assignOnlyTopicsTagNamesFromTagCSV(TopicVO topicVO,String tagNameCSV);
 /**
  * Assign tags to topic
  *

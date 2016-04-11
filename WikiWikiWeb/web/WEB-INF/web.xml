@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-<!--    <servlet>
+    <!--    <servlet>
         <servlet-name>Parser</servlet-name>
         <servlet-class>WikiWikiWeb.Parser</servlet-class>
     </servlet>-->
-<!--    <servlet-mapping>
+    <!--    <servlet-mapping>
         <servlet-name>Parser</servlet-name>
         <url-pattern>/Parser</url-pattern>
     </servlet-mapping>-->
+    <filter>
+        <filter-name>WikiApplicationFilter</filter-name>
+        <filter-class>edu.temple.cis3238.wiki.WikiApplicationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>WikiApplicationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <listener>
+        <description>ServletContextListener, ServletContextAttributeListener, HttpSessionListener, HttpSessionAttributeListener, RequestListener, RequestAttributeListener</description>
+        <listener-class>edu.temple.cis3238.wiki.WikiEventMonitor</listener-class>
+    </listener>
     <session-config>
         <session-timeout>
             30

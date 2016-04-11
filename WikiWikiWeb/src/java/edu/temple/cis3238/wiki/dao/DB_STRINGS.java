@@ -29,6 +29,9 @@ public static final String TOPICHISTORY_REVERT_TOPIC_BY_HISTORY_ID= "{call dbo.s
 //Topic
 public static final String TOPIC_ADD = "{call dbo.spTopicInsert(?,?,?)}";
 public static final String TOPIC_CHANGE_TAG_BINDING = "{call dbo.spTopicChangeTagBinding(?,?,?)}";
+public static final String TOPIC_ASSIGN_ONLY_TAGS_CSV = "{call [spTopicAssignAllTagBindingByCSV](?,?)}";
+public static final String TOPIC_ASSIGN_ONLY_TAG_TAG_NAME_CSV = "{call dbo.spTopicAssignAllTagNamesByCSV(?,?)}";
+
 public static final String TOPIC_SEARCH_BY_KEYWORD = "{call dbo.spTopicSearchByKeyword(?)}";
 /**
  * TopicID and TopicName are Nullable

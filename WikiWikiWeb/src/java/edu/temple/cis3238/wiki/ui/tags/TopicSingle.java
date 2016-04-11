@@ -13,16 +13,22 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 /**
  *
- * @author (c)2016 Guiding Technologies
  */
 public class TopicSingle extends SimpleTagSupport {
-
+   ////////////////////
+   //// Incomplete
+   //////////////////////
    private TopicVO TopicVO;
    private boolean showTags;
    private String tagURLPrefix;
    private String CSSClassTopicTitle;
    private String CSSClassTopicBody;
    private String CSSClassTagList;
+   private static final String LIST_TEMPLATE = "<li><h4>[[[HREF]]]</h4>"
+		+ "<p class='content'>[[[ABSTRACT]]]</p>"
+		+ "<p class='tags'>[[[TAGS]]]</p>"
+		+ "<p class='stats'>[[[STATS]]]</p>"
+		+ "</li>";
 
 /**
  * Called by the container to invoke this tag.
