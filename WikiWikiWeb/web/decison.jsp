@@ -11,6 +11,7 @@
 <%@page import="edu.temple.cis3238.wiki.dao.GeneralDAO"%>
 <%@page import="edu.temple.cis3238.wiki.dao.IGeneralDAO"%>
 <%@page import="edu.temple.cis3238.wiki.sql.*"%>
+<jsp:useBean id="currentUser" class="edu.temple.cis3238.wiki.ui.beans.CurrentUser" scope="session" />
 <!DOCTYPE html>
 <html>
     <head>
@@ -27,6 +28,7 @@
 
         <%
             String username = request.getParameter("username");
+            currentUser.setUsername(username);
             String current = null;
             DbConnection dbc = new DbConnection();
             IGeneralDAO g = new GeneralDAO(dbc);
@@ -39,8 +41,7 @@
             <button> getWiki </button>
         </form>
 
-        <form action="editor.jsp">
-            <input type="hidden" name="username" value="<%=username%>" />
+        <form action="editor.jsp?username=${currentUser}">
             <button> createWiki </button>
         </form>
 

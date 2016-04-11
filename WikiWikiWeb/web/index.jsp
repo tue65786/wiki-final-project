@@ -34,6 +34,5 @@
         </form>
 
         <a href="signup.jsp">New User</a>
-
     </body>
 </html>

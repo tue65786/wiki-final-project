@@ -1,4 +1,5 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:useBean id="currentUser" class="edu.temple.cis3238.wiki.ui.beans.CurrentUser" scope="session" />
 <!DOCTYPE html>
 <html>
     <head>
@@ -8,10 +9,10 @@
         <script type="text/javascript" src="index.js"></script>
     </head>
     <body>
-        <form action="${pageContext.request.contextPath}/Logger?username=<%=request.getParameter("username")%>" method="post">
+        <form action="${pageContext.request.contextPath}/Logger?username=${currentUser.getUsername()}" method="post">
             <%
-                if (request.getParameter("username") != null) {
-                    out.println("<h1>Username: " + request.getParameter("username") + "</h1>");
+                if (currentUser != null) {
+                    out.println("<h1>Username: " + currentUser.getUsername() + "</h1>");
                     out.println("<hr>");
                 }
             %>
