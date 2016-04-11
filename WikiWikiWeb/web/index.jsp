@@ -11,28 +11,31 @@
 
         <title>Log In | WikiWikiWeb</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link type="text/css" rel="stylesheet" href="index.css" />
     </head>
     <body>
 
+        <div id="msg-div">
+            <%
+                if (request.getParameter("newUser") != null) {
+                    out.println("<h1>Congratulations! You have successfully signed up, please login with your newly created credentials</h1>");
+                } else if (request.getParameter("logout") != null) {
+                    out.println("<h1>You have successfully logged out</h1>");
+                } else if (request.getParameter("invalidCreds") != null) {
+                    out.println("<h1>Invalid username or password</h1>");
+                }
+            %>
+        </div>
 
-        <%
-            if (request.getParameter("newUser") != null) {
-                out.println("<h1>Congratulations! You have successfully signed up, please login with your newly created credentials</h1>");
-            } else if (request.getParameter("logout") != null) {
-                out.println("<h1>You have successfully logged out</h1>");
-            } else if (request.getParameter("invalidCreds") != null) {
-                out.println("<h1>Invalid username or password</h1>");
-            }
-        %>
-
-
-
-        <form action="${pageContext.request.contextPath}/Login" method="post">
-            Username: <input name="user" /><br />
-            Password: <input type="password" name="pass" /><br />
-            <button>Submit</button>
-        </form>
-
-        <a href="signup.jsp">New User</a>
+        <div id="form-div">
+            <form action="${pageContext.request.contextPath}/Login" method="post">
+                <div>Username:</div>
+                <input name="user" /><br />
+                <div>Password:</div>
+                <input type="password" name="pass" /><br />
+                <button>Submit</button><br />
+                <a href="signup.jsp">New User</a>
+            </form>
+        </div>
     </body>
 </html>

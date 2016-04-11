@@ -1,6 +1,6 @@
 function markUp(type) {
     // get editor textarea object
-    var editor = $('.editor');
+    var editor = $('#editor');
     // get selected text, length of entire text, start and end index of selected text
     var text = window.getSelection();
     var len = editor.val().length;
@@ -24,7 +24,7 @@ function markUp(type) {
 }
 
 // allows for wiki markup shortcut keys
-$(document).on('keydown', '.editor', function (e) {
+$(document).on('keydown', '#editor', function (e) {
     if (e.ctrlKey && e.keyCode === 76) {
         if (e.shiftKey) {
             markUp('boldlink'); // bold hyperlink

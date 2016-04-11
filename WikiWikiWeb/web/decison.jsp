@@ -19,7 +19,7 @@
         <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-
+        <link type="text/css" rel="stylesheet" href="index.css" />
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>decision</title>
@@ -45,45 +45,45 @@
             <button> createWiki </button>
         </form>
 
-    <form action="${pageContext.request.contextPath}/Logout" method='get'>
-        <button>Logout</button>
-    </form>
+        <form action="${pageContext.request.contextPath}/Logout" method='get'>
+            <button>Logout</button>
+        </form>
 
-    <h3> search by TAGS </h3>
+        <h3> search by TAGS </h3>
 
-    <script>
-        var source = [];
-    </script>
+        <script>
+            var source = [];
+        </script>
 
-    <label> Quick Search :  <input id="autocomplete" /> </label>
+        <label> Quick Search :  <input id="autocomplete" /> </label>
 
-    <% for (int i = 0; i < allTags.size(); i += 1) {
-                    current = allTags.get(i).getTagName();%>
-    <script> source.push({value: 'tag.jsp?tag=<%= current%>', label: '<%= current%>'});</script>
-    <% } %>
-
-    <script>
-        $(document).ready(function () {
-            $("input#autocomplete").autocomplete({
-                source: source,
-                select: function (event, ui) {
-                    window.location.href = ui.item.value;
-                }
-            });
-        });
-    </script>
-
-    <table>
-        <% for (int i = 0; i < allTags.size(); i += 1) { %>
-
-        <% current = allTags.get(i).getTagName();%>
-        <tr> 
-            <td><a href = "tag.jsp?tag=<%= current%>"> <%= current%> </a></td>
-        </tr>
-
+        <% for (int i = 0; i < allTags.size(); i += 1) {
+            current = allTags.get(i).getTagName();%>
+        <script> source.push({value: 'tag.jsp?tag=<%= current%>', label: '<%= current%>'});</script>
         <% } %>
-    </table>
+
+        <script>
+            $(document).ready(function () {
+                $("input#autocomplete").autocomplete({
+                    source: source,
+                    select: function (event, ui) {
+                        window.location.href = ui.item.value;
+                    }
+                });
+            });
+        </script>
+
+        <table>
+            <% for (int i = 0; i < allTags.size(); i += 1) { %>
+
+            <% current = allTags.get(i).getTagName();%>
+            <tr> 
+                <td><a href = "tag.jsp?tag=<%= current%>"> <%= current%> </a></td>
+            </tr>
+
+            <% } %>
+        </table>
 
 
-    <% dbc.close();%>
+        <% dbc.close();%>
 </html>
