@@ -23,47 +23,44 @@ public class Signup extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
-            
+
             String userName = request.getParameter("user");
             String password = request.getParameter("pass");
             boolean newUser = true;
             boolean validPassword = true;
             boolean validUsername = true;
-            
+
             DbConnection dbc = new DbConnection();
             IGeneralDAO g = new GeneralDAO(dbc);
-            
+
             ArrayList<UsersVO> users = g.getUsers();
             Iterator<UsersVO> iter = users.iterator();
-            
-            while(iter.hasNext()){
-                if(iter.next().getUserName().equals(userName)){
+
+            while (iter.hasNext()) {
+                if (iter.next().getUserName().equals(userName)) {
                     newUser = false;
                     request.getRequestDispatcher("/signup.jsp?errorMessageUserName=true").forward(request, response);
                 }
             }
-            
-            if(!Password.isValidUsername(userName)){
+
+            if (!Password.isValidUsername(userName)) {
                 validUsername = false;
                 request.getRequestDispatcher("/signup.jsp?invalidUsername=yes").forward(request, response);
             }
-            
-            if(!Password.isValidPassword(password)){
+
+            if (!Password.isValidPassword(password)) {
                 validUsername = false;
                 request.getRequestDispatcher("/signup.jsp?invalidPassword=yes").forward(request, response);
             }
 
-            if(newUser && validPassword && validUsername){
+            if (newUser && validPassword && validUsername) {
                 g.addUser(new UsersVO(userName, password));
             }
-            
-            dbc.close();
-            
 
-            
-           request.getRequestDispatcher("/index.jsp?newUser=true").forward(request, response);
-            
+            dbc.close();
+
+            request.getRequestDispatcher("/index.jsp?newUser=true").forward(request, response);
+
         }
     }
 
