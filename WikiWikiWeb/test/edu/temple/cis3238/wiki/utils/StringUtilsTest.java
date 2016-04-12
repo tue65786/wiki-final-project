@@ -66,12 +66,22 @@ public class StringUtilsTest {
 	  String in = "HelloWorldHowAreYou";
 	  String expResult = "Hello World How Are You";
 	  String result = StringUtils.fromCamelCase(in);
-	  System.out.println("\nedu.temple.cis3238.wiki.utils.StringUtilsTest.testFromCamelCase()\n"
+	  System.out.println("\n(1 of 2) - edu.temple.cis3238.wiki.utils.StringUtilsTest.testFromCamelCase()\n"
 			  + "--------------------------------------------------------------\n"
 			  + "Output..: "
 			  + result + "\n"
 			  + "Expected: " + expResult
-			  + "\n------------------------- END ----------------------------------\n");
+			  + "\n-  - -  - -  -  - -  - -  -  - -  - -  -  - -  - -  -  - -  -\n");
+	  assertEquals(expResult, result);
+	  
+	  in = "Hello World How Are You";
+	   result = StringUtils.fromCamelCase(in);
+	  System.out.println("\n(2 of 2) - edu.temple.cis3238.wiki.utils.StringUtilsTest.testFromCamelCase()\n"
+			  + "--------------------------------------------------------------\n"
+			  + "Output..: "
+			  + result + "\n"
+			  + "Expected: " + expResult
+			  + "\n--------------------- END ------------------------------------\n");
 	  assertEquals(expResult, result);
 	  // TODO review the generated test code and remove the default call to fail.
 
@@ -82,29 +92,29 @@ public class StringUtilsTest {
     */
    @Test
    public void testFormatDate_String() {
-	  System.out.println("formatDate");
-	  String dateStr = "";
-	  String expResult = "";
+	  System.out.println("formatDate yyyy-MM-dd HH:mm:ss");
+	  String dateStr = "2016-04-01 16:04:02:01.9999";
+	  String expResult = "2016-04-01 16:04:02:02";
 	  String result = StringUtils.formatDate(dateStr);
 	  assertEquals(expResult, result);
 	  // TODO review the generated test code and remove the default call to fail.
 	  fail("The test case is a prototype.");
    }
 
-   /**
-    * Test of formatDate method, of class StringUtils.
-    */
-   @Test
-   public void testFormatDate_String_String() {
-	  System.out.println("formatDate");
-	  String dateStr = "";
-	  String formattedDateOut = "";
-	  String expResult = "";
-	  String result = StringUtils.formatDate(dateStr, formattedDateOut);
-	  assertEquals(expResult, result);
-	  // TODO review the generated test code and remove the default call to fail.
-	  fail("The test case is a prototype.");
-   }
+//   /**
+//    * Test of formatDate method, of class StringUtils.
+//    */
+//   @Test
+//   public void testFormatDate_String_String() {
+//	  System.out.println("formatDate");
+//	  String dateStr = "";
+//	  String formattedDateOut = "";
+//	  String expResult = "";
+//	  String result = StringUtils.formatDate(dateStr, formattedDateOut);
+//	  assertEquals(expResult, result);
+//	  // TODO review the generated test code and remove the default call to fail.
+//	 
+//   }
 
    /**
     * Test of coalesce method, of class StringUtils.
@@ -125,43 +135,54 @@ public class StringUtilsTest {
     */
    @Test
    public void testGetRandomString() {
-	  System.out.println("getRandomString");
-	  String prefix = "";
-	  int length = 0;
-	  String expResult = "";
+	  System.out.println("getRandomString: len 59");
+	  String prefix = "prefix";
+	  int length = 59;
 	  String result = StringUtils.getRandomString(prefix, length);
-	  assertEquals(expResult, result);
-	  // TODO review the generated test code and remove the default call to fail.
-	  fail("The test case is a prototype.");
+	  assertNotNull(result);
+	  System.out.println("1/3 edu.temple.cis3238.wiki.utils.StringUtilsTest.testGetRandomString()"
+			    + "--------------------------------------------------------------\n"
+			  + "Output..: "
+			  + result + "\n"
+			  + "Actual Length: \t"  
+			  + result.length()  
+			  +"\n" 
+			  + "Expected Length:\t" 
+			  + length 
+			  + "\n------------------- END -----------------\n");
+			  
+	  assertEquals(result.substring(0, 5),prefix);
+	  assertEquals(result.length(), 59);
+	  
    }
 
    /**
     * Test of throwableStackTraceToString method, of class StringUtils.
     */
-   @Test
-   public void testThrowableStackTraceToString() {
-	  System.out.println("throwableStackTraceToString");
-	  Throwable exception = null;
-	  String expResult = "";
-	  String result = StringUtils.throwableStackTraceToString(exception);
-	  assertEquals(expResult, result);
-	  // TODO review the generated test code and remove the default call to fail.
-	  fail("The test case is a prototype.");
-   }
-
-   /**
-    * Test of stackStraceAsStringDetails method, of class StringUtils.
-    */
-   @Test
-   public void testStackStraceAsStringDetails() {
-	  System.out.println("stackStraceAsStringDetails");
-	  Throwable e = null;
-	  String expResult = "";
-	  String result = StringUtils.stackStraceAsStringDetails(e);
-	  assertEquals(expResult, result);
-	  // TODO review the generated test code and remove the default call to fail.
-	  fail("The test case is a prototype.");
-   }
+//   @Test
+//   public void testThrowableStackTraceToString() {
+//	  System.out.println("throwableStackTraceToString");
+//	  Throwable exception = null;
+//	  String expResult = "";
+//	  String result = StringUtils.throwableStackTraceToString(exception);
+//	  assertEquals(expResult, result);
+//	  // TODO review the generated test code and remove the default call to fail.
+//	  fail("The test case is a prototype.");
+//   }
+//
+//   /**
+//    * Test of stackStraceAsStringDetails method, of class StringUtils.
+//    */
+//   @Test
+//   public void testStackStraceAsStringDetails() {
+//	  System.out.println("stackStraceAsStringDetails");
+//	  Throwable e = null;
+//	  String expResult = "";
+//	  String result = StringUtils.stackStraceAsStringDetails(e);
+//	  assertEquals(expResult, result);
+//	  // TODO review the generated test code and remove the default call to fail.
+//	  fail("The test case is a prototype.");
+//   }
 
    /**
     * Test of toS method, of class StringUtils.
@@ -173,8 +194,7 @@ public class StringUtilsTest {
 	  String expResult = "";
 	  String result = StringUtils.toS(source);
 	  assertEquals(expResult, result);
-	  // TODO review the generated test code and remove the default call to fail.
-	  fail("The test case is a prototype.");
+	  
    }
 
    /**
@@ -184,8 +204,8 @@ public class StringUtilsTest {
    public void testToS_Object_String() {
 	  System.out.println("toS");
 	  Object source = null;
-	  String defaultVal = "";
-	  String expResult = "";
+	  String defaultVal = "ok";
+	  String expResult = "ok";
 	  String result = StringUtils.toS(source, defaultVal);
 	  assertEquals(expResult, result);
 	  // TODO review the generated test code and remove the default call to fail.
@@ -199,96 +219,95 @@ public class StringUtilsTest {
    public void testToS_int() {
 	  System.out.println("toS");
 	  int source = 0;
-	  String expResult = "";
+	  String expResult = "0";
 	  String result = StringUtils.toS(source);
 	  assertEquals(expResult, result);
-	  // TODO review the generated test code and remove the default call to fail.
-	  fail("The test case is a prototype.");
+	  
    }
-
-   /**
-    * Test of getLoremParagraphs method, of class StringUtils.
-    */
-   @Test
-   public void testGetLoremParagraphs() {
-	  System.out.println("getLoremParagraphs");
-	  int paragraphs = 0;
-	  String expResult = "";
-	  String result = StringUtils.getLoremParagraphs(paragraphs);
-	  assertEquals(expResult, result);
-	  // TODO review the generated test code and remove the default call to fail.
-	  fail("The test case is a prototype.");
-   }
-
-   /**
-    * Test of getLoremWords method, of class StringUtils.
-    */
-   @Test
-   public void testGetLoremWords() {
-	  System.out.println("getLoremWords");
-	  int words = 0;
-	  String expResult = "";
-	  String result = StringUtils.getLoremWords(words);
-	  assertEquals(expResult, result);
-	  // TODO review the generated test code and remove the default call to fail.
-	  fail("The test case is a prototype.");
-   }
-
-   /**
-    * Test of truncateAtWord method, of class StringUtils.
-    */
-   @Test
-   public void testTruncateAtWord() {
-	  System.out.println("truncateAtWord");
-	  String input = "";
-	  int length = 0;
-	  String expResult = "";
-	  String result = StringUtils.truncateAtWord(input, length);
-	  assertEquals(expResult, result);
-	  // TODO review the generated test code and remove the default call to fail.
-	  fail("The test case is a prototype.");
-   }
-
-   /**
-    * Test of stripInvalidChars method, of class StringUtils.
-    */
-   @Test
-   public void testStripInvalidChars() {
-	  System.out.println("stripInvalidChars");
-	  String in = "";
-	  String expResult = "";
-	  String result = StringUtils.stripInvalidChars(in);
-	  assertEquals(expResult, result);
-	  // TODO review the generated test code and remove the default call to fail.
-	  fail("The test case is a prototype.");
-   }
-
-   /**
-    * Test of removeHtmlMarkups method, of class StringUtils.
-    */
-   @Test
-   public void testRemoveHtmlMarkups() {
-	  System.out.println("removeHtmlMarkups");
-	  String val = "";
-	  String expResult = "";
-	  String result = StringUtils.removeHtmlMarkups(val);
-	  assertEquals(expResult, result);
-	  // TODO review the generated test code and remove the default call to fail.
-	  fail("The test case is a prototype.");
-   }
-
-   /**
-    * Test of replaceEntities method, of class StringUtils.
-    */
-   @Test
-   public void testReplaceEntities() {
-	  System.out.println("replaceEntities");
-	  String src = "";
-	  String expResult = "";
-	  String result = StringUtils.replaceEntities(src);
-	  assertEquals(expResult, result);
-	  // TODO review the generated test code and remove the default call to fail.
-	  fail("The test case is a prototype.");
-   }
+//
+//   /**
+//    * Test of getLoremParagraphs method, of class StringUtils.
+//    */
+//   @Test
+//   public void testGetLoremParagraphs() {
+//	  System.out.println("getLoremParagraphs");
+//	  int paragraphs = 0;
+//	  String expResult = "";
+//	  String result = StringUtils.getLoremParagraphs(paragraphs);
+//	  assertEquals(expResult, result);
+//	  // TODO review the generated test code and remove the default call to fail.
+//	  fail("The test case is a prototype.");
+//   }
+//
+//   /**
+//    * Test of getLoremWords method, of class StringUtils.
+//    */
+//   @Test
+//   public void testGetLoremWords() {
+//	  System.out.println("getLoremWords");
+//	  int words = 0;
+//	  String expResult = "";
+//	  String result = StringUtils.getLoremWords(words);
+//	  assertEquals(expResult, result);
+//	  // TODO review the generated test code and remove the default call to fail.
+//	  fail("The test case is a prototype.");
+//   }
+//
+//   /**
+//    * Test of truncateAtWord method, of class StringUtils.
+//    */
+//   @Test
+//   public void testTruncateAtWord() {
+//	  System.out.println("truncateAtWord");
+//	  String input = "";
+//	  int length = 0;
+//	  String expResult = "";
+//	  String result = StringUtils.truncateAtWord(input, length);
+//	  assertEquals(expResult, result);
+//	  // TODO review the generated test code and remove the default call to fail.
+//	  fail("The test case is a prototype.");
+//   }
+//
+//   /**
+//    * Test of stripInvalidChars method, of class StringUtils.
+//    */
+//   @Test
+//   public void testStripInvalidChars() {
+//	  System.out.println("stripInvalidChars");
+//	  String in = "";
+//	  String expResult = "";
+//	  String result = StringUtils.stripInvalidChars(in);
+//	  assertEquals(expResult, result);
+//	  // TODO review the generated test code and remove the default call to fail.
+//	  fail("The test case is a prototype.");
+//   }
+//
+//   /**
+//    * Test of removeHtmlMarkups method, of class StringUtils.
+//    */
+//   @Test
+//   public void testRemoveHtmlMarkups() {
+//	  System.out.println("removeHtmlMarkups");
+//	  String val = "";
+//	  String expResult = "";
+//	  String result = StringUtils.removeHtmlMarkups(val);
+//	  assertEquals(expResult, result);
+//	  // TODO review the generated test code and remove the default call to fail.
+//	  fail("The test case is a prototype.");
+//   }
+//
+//   /**
+//    * Test of replaceEntities method, of class StringUtils.
+//    */
+//   @Test
+//   public void testReplaceEntities() {
+//	  System.out.println("replaceEntities");
+//	  String src = "";
+//	  String expResult = "";
+//	  String result = StringUtils.replaceEntities(src);
+//	  assertEquals(expResult, result);
+//	  // TODO review the generated test code and remove the default call to fail.
+//	  fail("The test case is a prototype.");
+//   }
 
 }
