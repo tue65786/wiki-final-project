@@ -42,7 +42,7 @@ body {
     width: 75%;
 }
 
-li {
+h1, h2, h3 {
     list-style: none;
     display: none;
 }

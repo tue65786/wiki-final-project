@@ -29,13 +29,11 @@
         </script>
 
         <div id="bg-image"></div>
-        
+
         <div id="form-div">
-            <ul id="msg-ul">
-                <li id="newUser">Congratulations! You have successfully signed up, please login with your newly created credentials</li>
-                <li id="logout">You have successfully logged out</li>
-                <li id="invalidCreds">Invalid username or password</li>
-            </ul>
+            <h3 id="newUser">Congratulations! You have successfully signed up, please login with your newly created credentials</h3>
+            <h3 id="logout">You have successfully logged out</h3>
+            <h3 id="invalidCreds">Invalid username or password</h3>
 
             <form action="${pageContext.request.contextPath}/Login" method="post">
                 <div>Username:</div>

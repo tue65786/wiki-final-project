@@ -39,18 +39,26 @@ public class Signup extends HttpServlet {
             while (iter.hasNext()) {
                 if (iter.next().getUserName().equals(userName)) {
                     newUser = false;
-                    request.getRequestDispatcher("/signup.jsp?errorMessageUserName=true").forward(request, response);
+//                    request.getRequestDispatcher("/signup.jsp?errorMessageUserName=true").forward(request, response);
+                    response.sendRedirect("/WikiWikiWeb/signup.jsp?errorMessageUserName");
+                    return;
                 }
             }
 
             if (!Password.isValidUsername(userName)) {
                 validUsername = false;
-                request.getRequestDispatcher("/signup.jsp?invalidUsername=yes").forward(request, response);
+//                request.getRequestDispatcher("/signup.jsp?invalidUsername=yes").forward(request, response);
+                response.sendRedirect("/WikiWikiWeb/signup.jsp?invalidUsername");
+                return;
+
             }
 
             if (!Password.isValidPassword(password)) {
                 validUsername = false;
-                request.getRequestDispatcher("/signup.jsp?invalidPassword=yes").forward(request, response);
+//                request.getRequestDispatcher("/signup.jsp?invalidPassword=yes").forward(request, response);
+                response.sendRedirect("/WikiWikiWeb/signup.jsp?invalidPassword");
+                return;
+
             }
 
             if (newUser && validPassword && validUsername) {
@@ -60,6 +68,7 @@ public class Signup extends HttpServlet {
             dbc.close();
 
             request.getRequestDispatcher("/index.jsp?newUser=true").forward(request, response);
+            return;
 
         }
     }
