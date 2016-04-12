@@ -30,35 +30,36 @@
             ArrayList<TopicVO> allTopics = g.getTopicsByTagName(tag);
                
         %>
-        
-        <% for(int i = 0; i < allTopics.size(); i+=1) { %>
-        
+
+        <table>
+            <% for(int i = 0; i < allTopics.size(); i+=1) { %>
+
             <% current = allTopics.get(i).getTopicName();%>
-            <br>
-            <a href = "wiki.jsp?topic=<%= current %>"> <%= current %> </a>
-            </br>
-            
+            <tr>
+                <td><a href = "wiki.jsp?topic=<%= current %>"> <%= current %> </a></td>
+            </tr>
+
             <% } %>
-            
-            
-            
-           <%-- <% //this is just a test // %>
-            
-            <% 
-                String name = null;
-                ArrayList <UsersVO> allNames = g.getUsers();
-                
-                for (int i = 0 ; i < allNames.size(); i++){
-                    name = allNames.get(i).getUserName(); %>
-                    <br>
-                     <%= name %>
-                     </br>
-               <% } %>
-            
-            <% //ending this test // %> --%>
-           
-            <% dbc.close();%> 
-            
+        </table>
+
+
+        <%-- <% //this is just a test // %>
+         
+         <% 
+             String name = null;
+             ArrayList <UsersVO> allNames = g.getUsers();
+             
+             for (int i = 0 ; i < allNames.size(); i++){
+                 name = allNames.get(i).getUserName(); %>
+                 <br>
+                  <%= name %>
+                  </br>
+            <% } %>
+         
+         <% //ending this test // %> --%>
+
+        <% dbc.close();%> 
+        <br></br>
         <form action='/WikiWikiWeb/Logout' method='get'>
             <button>Logout</button>
         </form>

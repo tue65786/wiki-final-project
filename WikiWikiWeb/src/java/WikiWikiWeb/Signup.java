@@ -1,11 +1,5 @@
 package WikiWikiWeb;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import edu.temple.cis3238.security.*;
 import edu.temple.cis3238.wiki.dao.GeneralDAO;
 import edu.temple.cis3238.wiki.dao.IGeneralDAO;
@@ -22,125 +16,75 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author CAP
- */
 @WebServlet(urlPatterns = {"/Signup"})
 public class Signup extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
-            
+
             String userName = request.getParameter("user");
             String password = request.getParameter("pass");
             boolean newUser = true;
-            
+            boolean validPassword = true;
+            boolean validUsername = true;
+
             DbConnection dbc = new DbConnection();
             IGeneralDAO g = new GeneralDAO(dbc);
-            
+
             ArrayList<UsersVO> users = g.getUsers();
             Iterator<UsersVO> iter = users.iterator();
-            
-            while(iter.hasNext()){
-                if(iter.next().getUserName().equals(userName)){
+
+            while (iter.hasNext()) {
+                if (iter.next().getUserName().equals(userName)) {
                     newUser = false;
-                    request.getRequestDispatcher("/signup.jsp?errorMessageUserName=true").forward(request, response);
+//                    request.getRequestDispatcher("/signup.jsp?errorMessageUserName=true").forward(request, response);
+                    response.sendRedirect("/WikiWikiWeb/signup.jsp?errorMessageUserName");
+                    return;
                 }
             }
 
-//            
-//            if(!Password.isValidPassword(password)){
+            if (!Password.isValidUsername(userName)) {
+                validUsername = false;
+//                request.getRequestDispatcher("/signup.jsp?invalidUsername=yes").forward(request, response);
+                response.sendRedirect("/WikiWikiWeb/signup.jsp?invalidUsername");
+                return;
+
+            }
+
+            if (!Password.isValidPassword(password)) {
+                validUsername = false;
 //                request.getRequestDispatcher("/signup.jsp?invalidPassword=yes").forward(request, response);
-//                
-//            }
+                response.sendRedirect("/WikiWikiWeb/signup.jsp?invalidPassword");
+                return;
 
-            if(newUser)
+            }
+
+            if (newUser && validPassword && validUsername) {
                 g.addUser(new UsersVO(userName, password));
-            
-            
-            dbc.close();
-            
+            }
 
-            
-           request.getRequestDispatcher("/index.jsp?newUser=true").forward(request, response);
-            
-            /* my old code below
-            
-            String userName = request.getParameter("user");
-            String password = request.getParameter("password");
-            
-            IGeneralDAO g = new GeneralDAO(new DbConnection());
-            
-            //check if this username is already taken
-//            ArrayList<UsersVO> users = g.getUsers();
-//            Iterator<UsersVO> iter = users.iterator();
-//            while(iter.hasNext()){
-//                if (iter.next().getUserName().equals(userName)){                    
-//                    request.getRequestDispatcher("/signup.jsp");
-//                }
-//            }
-            
-            //checkPasswordCriteria (i.e. does it have upper case letter, number, special symbol)
-        
-     
-            
-           //if username not already taken && valid pasword
-                    
-                    
-            g.addUser(new UsersVO(userName, password));
-            
-           request.getRequestDispatcher("/decison.jsp").forward(request, response); 
-            */
+            dbc.close();
+
+            request.getRequestDispatcher("/index.jsp?newUser=true").forward(request, response);
+            return;
+
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";

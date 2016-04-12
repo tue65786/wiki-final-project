@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "Logout", urlPatterns = {"/Logout"})
 public class Logout extends HttpServlet {
@@ -15,8 +16,30 @@ public class Logout extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            response.sendRedirect("/WikiWikiWeb/index.jsp?logout=true");
+            
+            HttpSession session  = request.getSession(false);
+            try
+            {      
+                session.removeAttribute("logonSessData");
+                session.invalidate();                               
+                response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+                response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+                response.setHeader("Expires", "0"); // Proxies.
+                response.sendRedirect("/WikiWikiWeb/index.jsp?logout=true");           
+            }
+            catch (Exception sqle)
+            {
+                System.out.println("error UserValidateServlet message : " + sqle.getMessage());
+                System.out.println("error UserValidateServlet exception : " + sqle);
+            }
         }
+//HttpSession session = request.getSession(false);
+//        if (session != null) {
+//            session.invalidate();
+//        }
+//        
+//        
+//        getServletContext().getRequestDispatcher("/index.jsp").forward(request  , response);
     }
 
     @Override
@@ -28,7 +51,7 @@ public class Logout extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // do nothing
+        processLogOut(request, response);
     }
 
     @Override

@@ -16,59 +16,69 @@
 <!DOCTYPE html>
 <html>
     <head>
+
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+
+
+
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>getPage</title>
     </head>
     <body>
-        
-        
+
+
         <%
             DbConnection dbc = new DbConnection();
-            IGeneralDAO  g = new GeneralDAO(dbc);
+            IGeneralDAO g = new GeneralDAO(dbc);
             ArrayList<TopicVO> allTopics = g.getTopics();
-            
-            String test ="8";
-            
-            ArrayList<String> testTopics = new ArrayList();
-            testTopics.add("Topic1");
-            testTopics.add("Topic2");
-            testTopics.add("Topic3");
-            testTopics.add("Topic4");
-            testTopics.add("Topic5");
-            %>
-        
-     <form action='/WikiWikiWeb/Logout' method='get'>
+            String current = null;
+        %>
+
+        <form action='/WikiWikiWeb/Logout' method='get'>
             <button>Logout</button>
         </form>
-                
-            <h2> TOPICS </h2>
-        
-            <%String current = null;%>
-        
-        <% for(int i = 0; i < allTopics.size(); i+=1) { %>
-        
+
+        <h2> TOPICS </h2>
+
+        <script>
+            var source = [];
+        </script>
+
+        <label> Quick Search :  <input id="autocomplete" /> </label>
+
+        <% for (int i = 0; i < allTopics.size(); i += 1) {
+                current = allTopics.get(i).getTopicName();%>
+        <script> source.push({value: 'wiki.jsp?topic=<%= current%>', label: '<%= current%>'});</script>
+        <% } %>
+
+        <script>
+            $(document).ready(function () {
+                $("input#autocomplete").autocomplete({
+                    source: source,
+                    select: function (event, ui) {
+                        window.location.href = ui.item.value;
+                    }
+                });
+            });
+        </script>
+
+
+        <table>
+            <% for (int i = 0; i < allTopics.size(); i += 1) { %>
+
             <% current = allTopics.get(i).getTopicName();%>
-            <br>
-            <a href = "wiki.jsp?topic=<%= current %>"> <%= current %> </a>
-            </br>
-            
+            <tr>
+                <td><a href = "wiki.jsp?topic=<%= current%>"> <%= current%> </a></td>
+            </tr>
+
             <% } %>  
 
-       
-            
-        <!-- testing 1,2,3.. -->
-       
-        <%-- for(int i = 0; i < testTopics.size(); i+=1) { %>
-        
-            <% String current = testTopics.get(i);%>
-            <br>
-            <a href = "wiki.jsp?id=<%= current %>"> <%= current %> </a>
-            </br>
-            <% } --%>  
-            
-        <!-- SUCCESS! -->   
-        
-        <% dbc.close(); %>
- 
+        </table>
+
+
+        <% dbc.close();%>
+
     </body>
 </html>

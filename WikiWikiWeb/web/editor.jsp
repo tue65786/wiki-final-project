@@ -1,37 +1,31 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:useBean id="currentUser" class="edu.temple.cis3238.wiki.ui.beans.CurrentUser" scope="session" />
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Create or Update a Wiki | WikiWikiWeb</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-        <script type="text/javascript" src="index.js"></script>
+        <script type="text/javascript" src="editor.js"></script>
+        <link type="text/css" rel="stylesheet" href="index.css" />
     </head>
     <body>
-        <form action="${pageContext.request.contextPath}/Example" method="post">
-            <%
-                if (request.getParameter("user") != null) {
-                    out.println("<h1>Username: " + request.getParameter("user") + "<br />Password: " + request.getParameter("pass") + "</h1>");
-                } else {
-                    out.println("You were redirected");
-                }
-                out.println("<hr>");
-            %>
-            <input type="button" value="Topic" onmousedown="markUp('boldlink');" title="Bold HyperLink (Ctrl+Shift+L)" />
-            <input type="button" value="Tag" onmousedown="markUp('link');" title="HyperLink (Ctrl+L)" /><br />
-            <textarea class="editor" name="editor"></textarea><br />
-            <button>Cancel</button>
-            <button>Submit</button>
-        </form>
-
-        <!-- -->
-        <hr>
-        <form action="${pageContext.request.contextPath}/Logger" method="get">
-            Username: <input name="user" /><br />
-            <button>Log</button>
-        </form>
-        <!-- -->
-
+        <div>
+            <form action="${pageContext.request.contextPath}/Logger?username=${currentUser.getUsername()}" method="post">
+                <%
+                    if (currentUser.getUsername() != null) {
+                        out.println("<h1>Username: " + currentUser.getUsername() + "</h1>");
+                        out.println("<hr>");
+                    }
+                %>
+                <input type="button" value="Topic" onmousedown="markUp('boldlink');" title="Bold HyperLink (Ctrl+Shift+L)" />
+                <input type="button" value="Tag" onmousedown="markUp('link');" title="HyperLink (Ctrl+L)" /><br />
+                <textarea id="editor" name="editor"></textarea><br />
+                <button>Cancel</button>
+                <button>Submit</button>
+            </form>
+        </div>
+                
         <form action='/WikiWikiWeb/Logout' method='get'>
             <button>Logout</button>
         </form>

@@ -17,7 +17,7 @@ public class Password {
         //2. consists of only letters and numbers
         //3. must contain at least 2 digits
         //4. must contain at least 1 special character
-        if(password.length() < 8 ){
+        if(password.length() < 8  || password.length() > 25){
             return false;
             
         } else {
@@ -26,7 +26,7 @@ public class Password {
             int countSpec = 0;
             for (int i = 0 ; i < password.length(); i++){
                 c = password.charAt(i);
-                if(!Character.isLetterOrDigit(c) || !isSpecialChar(c)){
+                if(!Character.isLetterOrDigit(c) && !isSpecialChar(c)){
                     return false;
                 } else if (Character.isDigit(c)){
                     countNum++;
@@ -42,14 +42,24 @@ public class Password {
         return true;
     }
     
-    private static boolean isSpecialChar(char c){
-        StringBuilder stb = new StringBuilder();
-        stb.append(c);
+    public static boolean isSpecialChar(char c){
         String specialChars = "/*!@#$%^&*()\"{}[]_|\\?/<>,.";
-        if(specialChars.contains(stb.toString())){
-            return true;
-        }
-        return false;
+        return specialChars.indexOf(c) >= 0;
     }
     
+    public static boolean isValidUsername(String username){
+        if(username.length() < 4 || username.length() > 25 ){
+            return false;
+        } 
+        for (int i = 0 ; i < username.length(); i++){
+            char c = username.charAt(i);
+            if(!Character.isLetterOrDigit(c)){
+                return false;
+            }
+            
+        }
+        
+        return true;
+        
+    }
 }
