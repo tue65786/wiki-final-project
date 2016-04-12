@@ -5,27 +5,39 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Create or Update a Wiki | WikiWikiWeb</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-        <script type="text/javascript" src="editor.js"></script>
+        <link rel="stylesheet" href="http://www.jqwidgets.com/jquery-widgets-documentation/jqwidgets/styles/jqx.base.css" type="text/css" />
         <link type="text/css" rel="stylesheet" href="index.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+        <script type="text/javascript" src="http://www.jqwidgets.com/jquery-widgets-documentation/jqwidgets/jqxcore.js"></script>
+        <script type="text/javascript" src="http://www.jqwidgets.com/jquery-widgets-documentation/jqwidgets/jqxbuttons.js"></script>
+        <script type="text/javascript" src="http://www.jqwidgets.com/jquery-widgets-documentation/jqwidgets/jqxscrollbar.js"></script>
+        <script type="text/javascript" src="http://www.jqwidgets.com/jquery-widgets-documentation/jqwidgets/jqxlistbox.js"></script>
+        <script type="text/javascript" src="http://www.jqwidgets.com/jquery-widgets-documentation/jqwidgets/jqxdropdownlist.js"></script>
+        <script type="text/javascript" src="http://www.jqwidgets.com/jquery-widgets-documentation/jqwidgets/jqxdropdownbutton.js"></script>
+        <script type="text/javascript" src="http://www.jqwidgets.com/jquery-widgets-documentation/jqwidgets/jqxcolorpicker.js"></script>
+        <script type="text/javascript" src="http://www.jqwidgets.com/jquery-widgets-documentation/jqwidgets/jqxwindow.js"></script>
+        <script type="text/javascript" src="http://www.jqwidgets.com/jquery-widgets-documentation/jqwidgets/jqxeditor.js"></script>
+        <script type="text/javascript" src="http://www.jqwidgets.com/jquery-widgets-documentation/jqwidgets/jqxtooltip.js"></script>
+        <script type="text/javascript" src="http://www.jqwidgets.com/jquery-widgets-documentation/jqwidgets/jqxcheckbox.js"></script>
+        <script type="text/javascript" src="editor.js"></script>
     </head>
     <body>
         <div>
             <form action="${pageContext.request.contextPath}/Logger?username=${currentUser.getUsername()}" method="post">
                 <%
-                    if (currentUser.getUsername() != null) {
-                        out.println("<h1>Username: " + currentUser.getUsername() + "</h1>");
-                        out.println("<hr>");
-                    }
+                                   if (currentUser.getUsername() != null) {
+                                          out.println("<h1>Username: " + currentUser.getUsername() + "</h1>");
+                                          out.println("<hr>");
+                                   }
                 %>
-                <input type="button" value="Topic" onmousedown="markUp('boldlink');" title="Bold HyperLink (Ctrl+Shift+L)" />
-                <input type="button" value="Tag" onmousedown="markUp('link');" title="HyperLink (Ctrl+L)" /><br />
+                <!--<input type="button" value="Topic" onmousedown="markUp('boldlink');" title="Bold HyperLink (Ctrl+Shift+L)" />-->
+                <!--<input type="button" value="Tag" onmousedown="markUp('link');" title="HyperLink (Ctrl+L)" /><br />-->
                 <textarea id="editor" name="editor"></textarea><br />
                 <button>Cancel</button>
                 <button>Submit</button>
             </form>
         </div>
-                
+
         <form action='/WikiWikiWeb/Logout' method='get'>
             <button>Logout</button>
         </form>

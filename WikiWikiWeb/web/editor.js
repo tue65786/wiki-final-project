@@ -1,3 +1,30 @@
+$(document).ready(function() {
+    $("#editor").jqxEditor({
+        width: "100%",
+        createCommand: function (name) {
+            switch (name) {
+                case 'topic link':
+                    return {
+                        type: 'button',
+                        tooltip: 'Topic Link',
+                        init: function (widget) {
+                            widget.jqxButton({height: 25, width: 40});
+                            widget.html("<span style='line-height: 23px;'>Topic Link</span>");
+                        },
+                        refresh: function (widget, style) {
+                            // go here when selection changes
+                        },
+                        action: function (widget, editor) {
+                            // action of command
+                            editor.jqxEditor('print');
+                        }
+                    };
+//                case 'tag link':
+            }
+        }
+    });
+});
+
 function markUp(type) {
     // get editor textarea object
     var editor = $('#editor');
