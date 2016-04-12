@@ -11,23 +11,32 @@
 
         <title>Log In | WikiWikiWeb</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
         <link type="text/css" rel="stylesheet" href="index.css" />
     </head>
     <body>
 
-        <div id="msg-div">
-            <%
-                if (request.getParameter("newUser") != null) {
-                    out.println("<h1>Congratulations! You have successfully signed up, please login with your newly created credentials</h1>");
-                } else if (request.getParameter("logout") != null) {
-                    out.println("<h1>You have successfully logged out</h1>");
-                } else if (request.getParameter("invalidCreds") != null) {
-                    out.println("<h1>Invalid username or password</h1>");
-                }
-            %>
-        </div>
+        <script>
+            $(document).ready(function () {
+            <% if (request.getParameter("newUser") != null) { %>
+                $("#newUser").slideDown("slow");
+            <% } else if (request.getParameter("logout") != null) { %>
+                $("#logout").slideDown("slow");
+            <% } else if (request.getParameter("invalidCreds") != null) { %>
+                $("#invalidCreds").slideDown("slow");
+            <% }%>
+            });
+        </script>
 
+        <div id="bg-image"></div>
+        
         <div id="form-div">
+            <ul id="msg-ul">
+                <li id="newUser">Congratulations! You have successfully signed up, please login with your newly created credentials</li>
+                <li id="logout">You have successfully logged out</li>
+                <li id="invalidCreds">Invalid username or password</li>
+            </ul>
+
             <form action="${pageContext.request.contextPath}/Login" method="post">
                 <div>Username:</div>
                 <input name="user" /><br />
@@ -37,5 +46,6 @@
                 <a href="signup.jsp">New User</a>
             </form>
         </div>
+
     </body>
 </html>
