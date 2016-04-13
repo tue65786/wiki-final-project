@@ -56,7 +56,7 @@ public class Logger extends HttpServlet {
 
 			   } else if (s.substring(0, 2).equals(WikiMarkup.FRONT_TAG.toString())) {
 				  //we know we are in a topic expression
-				  end = s.indexOf(WikiMarkup.BACK_TAG.toString());
+final 				  end = s.indexOf(WikiMarkup.BACK_TAG.toString());
 				  tagNames.add(s.substring(2, end));
 
 			   } //add more else if for more regexes
