@@ -1,6 +1,5 @@
 package WikiWikiWeb;
 
-import edu.temple.cis3238.parser.WikiMarkup;
 import edu.temple.cis3238.wiki.dao.GeneralDAO;
 import edu.temple.cis3238.wiki.sql.DbConnection;
 import edu.temple.cis3238.wiki.vo.TagsVO;
@@ -9,7 +8,6 @@ import edu.temple.cis3238.wiki.ui.beans.CurrentUser;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Scanner;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
