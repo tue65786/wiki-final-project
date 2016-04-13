@@ -20,14 +20,22 @@
     </head>
     <body> 
 
-        <%
+        <%if (request.getParameter("createSuccess") != null) { %>
+		<h1 id='createSuccess'>You have successfully created a wiki: <%=request.getParameter("createSuccess")%></h1>
+		<script>
+			$(document).ready(function() {
+				$('#createSuccess').slideDown('slow');
+			});
+		</script>
+		<% }%>
+		<%
 		   String username = request.getParameter("username");
 		   currentUser.setUsername(username);
 		   String current = null;
 		   DbConnection dbc = new DbConnection();
 		   IGeneralDAO g = new GeneralDAO(dbc);
 		   ArrayList<TagsVO> allTags = g.getTags();
-		   out.println("<h1>Welcome " + username + "</h1>");
+		   out.println("<p>Welcome " + username + "</p>");
         %>
 
         <br></br>

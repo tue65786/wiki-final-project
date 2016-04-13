@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 public class CurrentUser implements Serializable {
 
-    public String username;
+    public static String username;
     
     public CurrentUser() {
     }
     
-    public String getUsername() {
+    public static String getUsername() {
         return username;
     }
     

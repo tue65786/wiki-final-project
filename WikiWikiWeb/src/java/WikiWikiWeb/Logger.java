@@ -5,6 +5,7 @@ import edu.temple.cis3238.wiki.dao.GeneralDAO;
 import edu.temple.cis3238.wiki.sql.DbConnection;
 import edu.temple.cis3238.wiki.vo.TagsVO;
 import edu.temple.cis3238.parser.Parser;
+import edu.temple.cis3238.wiki.ui.beans.CurrentUser;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -55,6 +56,8 @@ public class Logger extends HttpServlet {
 //            }
 //            d.assignTopicTags(topic, tagVOs);
 		 dbc.close();
+		 
+		 response.sendRedirect("/WikiWikiWeb/decison.jsp?username=" + CurrentUser.getUsername() + "&createSuccess=" + topicName);
 	  }
    }
 
