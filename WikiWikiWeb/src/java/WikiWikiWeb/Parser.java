@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package WikiWikiWeb;
 
 import edu.temple.cis3238.parser.*;
@@ -19,55 +14,48 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author CAP
- */
 @WebServlet(name = "Parser", urlPatterns = {"/Parser"})
 public class Parser extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processParser(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            //my code
-            //get the id
-            String id = request.getParameter("id");
-           //ALWAYS TOPIC
+   /**
+    * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+    *
+    * @param request  servlet request
+    * @param response servlet response
+    * @throws ServletException if a servlet-specific error occurs
+    * @throws IOException      if an I/O error occurs
+    */
+   protected void processParser(HttpServletRequest request, HttpServletResponse response)
+		   throws ServletException, IOException {
+	  response.setContentType("text/html;charset=UTF-8");
+	  try (PrintWriter out = response.getWriter()) {
+		 //my code
+		 //get the id
+		 String id = request.getParameter("id");
+		 //ALWAYS TOPIC
 
 //String wikiText = "Hi this will be our sample wikiText.  The [[dog]] ate the {{cat}}";
-String wikiText = "osdufyg [[bfhewlekr]] jhgfjdksdfhbvj {{dksla}} djfhgfj {{dsasd}} jfghgfjdks";
+		 String wikiText = "osdufyg [[bfhewlekr]] jhgfjdksdfhbvj {{dksla}} djfhgfj {{dsasd}} jfghgfjdks";
 
-            //get the wiki text from dan's database
-            /*
+		 //get the wiki text from dan's database
+		 /*
                 1. find the topic or tag that matches the String id
                 2. Then get that topic or tag wikiText  
-             */
-            DbConnection dbc = new DbConnection();
-            IGeneralDAO d = new GeneralDAO(dbc);
-          
+		  */
+		 DbConnection dbc = new DbConnection();
+		 IGeneralDAO d = new GeneralDAO(dbc);
 
-            dbc.close();
-            TopicVO topic = null;
-            
-            
-            try {
-  topic = d.getTopicByID(1);
+		 dbc.close();
+		 TopicVO topic = null;
+
+		 try {
+			topic = d.getTopicByID(1);
 //            topic = d.getTopicByName(id);
-            wikiText = topic.getTopicContent();
-            } catch( Exception e){
-                response.sendRedirect("getPage.jsp?errorMsg=Page Does Not Exist");
-            }
-            
+			wikiText = topic.getTopicContent();
+		 } catch (Exception e) {
+			response.sendRedirect("getPage.jsp?errorMsg=Page Does Not Exist");
+		 }
+
 //            try{
 //             if((topic = d.getTopicByName(id)) == null){
 //                tag = d.getTagByName(id);
@@ -82,64 +70,64 @@ String wikiText = "osdufyg [[bfhewlekr]] jhgfjdksdfhbvj {{dksla}} djfhgfj {{dsas
 //                    //page not found
 //                    //we should return the user to getPage.jsp
 //            }
+		 //call the parser method
+		 out.println("<!DOCTYPE html>");
+		 out.println("<html>");
+		 out.println("<head>");
+		 out.println("<title>Servlet NewServlet</title>");
+		 out.println("</head>");
+		 out.println("<body>");
+		 out.println("<h1>Servlet NewServlet at " + request.getParameter("id") + "</h1>");
+		 out.println("<p>" + edu.temple.cis3238.parser.Parser.parseAndAnnotate(wikiText) + "</p>");
+		 out.println("<h1>WIKI</h1><p/>" + edu.temple.cis3238.parser.Parser.parseAndAnnotate(
+				 wikiText));
 
-            //call the parser method
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet NewServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet NewServlet at " + request.getParameter("id") + "</h1>");
-            out.println("<p>" + edu.temple.cis3238.parser.Parser.parseAndAnnotate(wikiText) + "</p>");
-out.println("<h1>WIKI</h1><p/>"+edu.temple.cis3238.parser.Parser.parseAndAnnotate(wikiText));
+		 out.println("<form action='/WikiWikiWeb/Logout' method='get'>"
+				 + " <button>Logout</button>"
+				 + "</form>");
+		 out.println("</body>");
+		 out.println("</html>");
 
-out.println("<form action='/WikiWikiWeb/Logout' method='get'>" +     
-           " <button>Logout</button>" + 
-        "</form>");
-            out.println("</body>");
-            out.println("</html>");
+	  }
+   }
 
-        }
-    }
+   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+   /**
+    * Handles the HTTP <code>GET</code> method.
+    *
+    * @param request  servlet request
+    * @param response servlet response
+    * @throws ServletException if a servlet-specific error occurs
+    * @throws IOException      if an I/O error occurs
+    */
+   @Override
+   protected void doGet(HttpServletRequest request, HttpServletResponse response)
+		   throws ServletException, IOException {
+	  processParser(request, response);
+   }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processParser(request, response);
-    }
+   /**
+    * Handles the HTTP <code>POST</code> method.
+    *
+    * @param request  servlet request
+    * @param response servlet response
+    * @throws ServletException if a servlet-specific error occurs
+    * @throws IOException      if an I/O error occurs
+    */
+   @Override
+   protected void doPost(HttpServletRequest request, HttpServletResponse response)
+		   throws ServletException, IOException {
+	  processParser(request, response);
+   }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processParser(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+   /**
+    * Returns a short description of the servlet.
+    *
+    * @return a String containing servlet description
+    */
+   @Override
+   public String getServletInfo() {
+	  return "Short description";
+   }// </editor-fold>
 
 }

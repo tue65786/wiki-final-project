@@ -24,16 +24,7 @@
     <body>
         <div>
             <form action="${pageContext.request.contextPath}/Logger?username=${currentUser.getUsername()}" method="post">
-                <%
-                                   if (currentUser.getUsername() != null) {
-                                          out.println("<h1>Username: " + currentUser.getUsername() + "</h1>");
-                                          out.println("<hr>");
-                                   }
-                %>
-                <!--<input type="button" value="Topic" onmousedown="markUp('boldlink');" title="Bold HyperLink (Ctrl+Shift+L)" />-->
-                <!--<input type="button" value="Tag" onmousedown="markUp('link');" title="HyperLink (Ctrl+L)" /><br />-->
                 <textarea id="editor" name="editor"></textarea><br />
-				<textarea id="test"></textarea>
                 <button>Cancel</button>
                 <button>Submit</button>
             </form>

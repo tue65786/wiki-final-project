@@ -1,9 +1,3 @@
-<%-- 
-    Document   : signup
-    Created on : Mar 22, 2016, 4:10:24 PM
-    Author     : CAP
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -16,20 +10,20 @@
     <body>
 
         <script>
-            $(document).ready(function () {
+			$(document).ready(function () {
             <% if (request.getParameter("errorMessageUserName") != null) { %>
-                $("#errorMessageUserName").slideDown("slow");
+				$("#errorMessageUserName").slideDown("slow");
             <% } else if (request.getParameter("invalidPassword") != null) { %>
-                $("#invalidPassword").slideDown("slow");
+				$("#invalidPassword").slideDown("slow");
             <% } else if (request.getParameter("invalidUsername") != null) { %>
-                $("#invalidUsername").slideDown("slow");
+				$("#invalidUsername").slideDown("slow");
             <% }%>
             <% if (!request.getParameterMap().isEmpty()) { %>
-                $("#initialMsg").css("display", "none");
+				$("#initialMsg").css("display", "none");
             <% }%>
-            });
+			});
         </script>
-        
+
         <div id='bg-image'></div>
         <div id="form-div">
             <h1 id='errorMessageUserName'> User name already taken! try something else. </h1>

@@ -18,7 +18,6 @@ $(document).ready(function () {
 							// go here when selection changes
 						},
 						action: function (widget, editor) {
-							// action of command
 							markUp('topic');
 						}
 					};
@@ -34,7 +33,6 @@ $(document).ready(function () {
 							// go here when selection changes
 						},
 						action: function (widget, editor) {
-							// action of command
 							markUp('tag');
 						}
 					};
@@ -62,7 +60,7 @@ function markUp(type) {
 		end = start + iframeDocument.selection.createRange().text.length;
 	}
 
-    // modify text depending on the type of markUp
+	// modify text depending on the type of markUp
 	switch (type) {
 		case 'topic':    // bold link
 			selectedText = ('[[').concat(selectedText).concat(']]');
@@ -74,18 +72,6 @@ function markUp(type) {
 			break;
 	}
 
-    // replace selected text with markup text
-    $('#editor').val($('#editor').val().substring(0, start) + selectedText + $('#editor').val().substring(end, len));
+	// replace selected text with markup text
+	$('#editor').val($('#editor').val().substring(0, start) + selectedText + $('#editor').val().substring(end, len));
 }
-
-// allows for wiki markup shortcut keys
-// DOES NOT WORK ANYMORE
-//$(document).on('keydown', $('#editor'), function (e) {
-//    if (e.ctrlKey && e.keyCode === 76) {
-//        if (e.shiftKey) {
-//            markUp('boldlink'); // bold hyperlink
-//        } else {
-//            markUp('link');     // regular hyperlink
-//        }
-//    }
-//});
