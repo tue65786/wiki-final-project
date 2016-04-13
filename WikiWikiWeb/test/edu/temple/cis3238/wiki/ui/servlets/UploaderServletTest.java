@@ -62,7 +62,7 @@ public void testUpload() throws Exception {
    response.setContentType( "text/html;charset=UTF-8" );
 
    expect( request.getContentType() ).andReturn( "multipart/form-data;UTF-8" );
-   request.setAttribute( (String) anyObject(), anyObject() );
+//   request.setAttribute( (String) anyObject(), anyObject() );
    //request.setAttribute( (String) anyObject(), anyObject( TopicVO.class ) );
    expect( request.getRequestDispatcher( "/" + UploaderServlet.REDIRECT_ON_COMPLETE_PAGE ) ).andReturn( requestDispatcher );
    expect( request.getSession() ).andReturn( new MockServletSession() );

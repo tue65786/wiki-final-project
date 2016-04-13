@@ -149,10 +149,6 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
 	  }
 
 	  String uploadPath = FileUtils.makeDir( getServletContext(), UPLOAD_DIRECTORY, getTopic() );
-	  //getServletContext().getRealPath( "" )
-	  ///			  + File.separator + UPLOAD_DIRECTORY;
-
-	  // creates the directory if it does not exist
 	  File uploadDir = new File( uploadPath );
 	  if ( !uploadDir.exists() ) {
 		 uploadDir.mkdirs();
