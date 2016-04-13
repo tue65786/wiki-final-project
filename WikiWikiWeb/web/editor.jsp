@@ -25,7 +25,7 @@
         <div>
             <form action="${pageContext.request.contextPath}/Logger?username=${currentUser.getUsername()}" method="post">
                 <textarea id="editor" name="editor"></textarea><br />
-                <button>Cancel</button>
+                <a href="decison.jsp">Cancel</a>
                 <button>Submit</button>
             </form>
         </div>

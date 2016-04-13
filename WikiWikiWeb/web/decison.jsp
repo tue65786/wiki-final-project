@@ -49,8 +49,9 @@
 			var source = [];
         </script>
 
-        <label> Quick Search :  <input id="autocomplete" /> </label>
+        <label> Quick Search by tags :  <input id="autocomplete" /> </label>
 
+		<h4>ALL TAGS</h4>
         <% for (int i = 0; i < allTags.size(); i += 1) {
 			  current = allTags.get(i).getTagName();%>
         <script> source.push({value: 'tag.jsp?tag=<%= current%>', label: '<%= current%>'});</script>
