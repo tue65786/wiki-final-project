@@ -6,8 +6,11 @@
 package edu.temple.cis3238.wiki.controller;
 
 import edu.temple.cis3238.constants.QUERY_PARAMS;
+import edu.temple.cis3238.wiki.parser.TagsFromContentParser;
+import edu.temple.cis3238.wiki.parser.TagsFromContentParser.TagsVOAdapter;
 import edu.temple.cis3238.wiki.utils.StringUtils;
 import edu.temple.cis3238.wiki.vo.*;
+import java.io.Serializable;
 import java.util.*;
 import java.util.regex.*;
 import javax.servlet.http.HttpServletRequest;
@@ -16,64 +19,117 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author DAn
  */
-public class GeneralController {
+public class GeneralController implements Serializable {
 
-   HttpServletRequest request;
-   private TopicVO topic;
- 
-   ////////////////////
-   //// Incomplete
-   //////////////////////
-   
+	private static final long serialVersionUID = -8974258319597869195L;
 
-   private void setTopic() {
-	  TopicVOBuilder builder = new TopicVOBuilder();
-	  builder.setTopicName(getStringParam(QUERY_PARAMS.TOPIC_NAME, ""));
-	  builder.setTopicContent(getStringParam(QUERY_PARAMS.TOPIC_CONTENT, ""));
-	  builder.setTopicID(getIntParam(QUERY_PARAMS.TOPIC_ID, 0));
-	  topic = builder.build();
-	  topic.setTagsCollection(extractTagsFromTopic());
+	HttpServletRequest request;
+	private String action;
 
-   }
+	private Class clazz;
 
-   private Map<String, String[]> getParamMap() {
-	  return request.getParameterMap();
-   }
+	////////////////////
+	//// Incomplete
+	//////////////////////
+	public boolean ProcessingStrategy() {
+		if (validateRequest()) {
+			String actionParam = getStringParam("action", "").toLowerCase();
+			switch (actionParam) {
+				case "insert":
+					break;
+				case "update":
+					break;
+				case "delete":
+					break;
+				default:
+					break;
+			}
+			return true;
+		}
 
-   private String getStringParam(String param, String defaultVal) {
-	  try {
-		 if (getParamMap().containsKey(param)) {
-			return request.getParameter(param);
-		 }
-	  } catch (Exception e) {
-		 e.printStackTrace();
-	  }
-	  return StringUtils.toS(defaultVal, "");
-   }
+		return false;
+	}
 
-   private int getIntParam(String param, int defaultVal) {
-	  try {
-		 if (getParamMap().containsKey(param)) {
-			return Integer.parseInt(request.getParameter(param));
-		 }
-	  } catch (Exception e) {
-		 e.printStackTrace();
-	  }
-	  return defaultVal;
-   }
+	private TopicVO getTopic() {
+		if (getStringParam(QUERY_PARAMS.TOPIC_NAME, "").isEmpty()) {
+			throw new NullPointerException(
+					"edu.temple.cis3238.wiki.controller.GeneralController.getTopic() -- Invalid TopicName");
 
-   private ArrayList<TagsVO> extractTagsFromTopic() {
-	  ArrayList<TagsVO> matchArrayList = new ArrayList<TagsVO>();
-	  try {
-		 Pattern regex = Pattern.compile("(\\{\\{)(.+?)(\\}\\})");
-		 Matcher regexMatcher = regex.matcher(topic.getTopicContent());
-		 while (regexMatcher.find()) {
-			matchArrayList.add(TagsVO.newInstance(new TagsVO((matchArrayList.size() + 1) * -1,
-					regexMatcher.group(2), 0)));
-		 }
-	  } catch (PatternSyntaxException ex) {
-		 // Syntax error in the regular expression
-	  }
-	  return matchArrayList;
-   }
+		}
+		TopicVO topic;
+		TopicVOBuilder builder = new TopicVOBuilder();
+		builder.setTopicName(getStringParam(QUERY_PARAMS.TOPIC_NAME,
+				""));
+		builder.setTopicContent(getStringParam(
+				QUERY_PARAMS.TOPIC_CONTENT, ""));
+		builder.setTopicID(getIntParam(QUERY_PARAMS.TOPIC_ID, 0));
+		topic = builder.build();
+		topic.setTagsCollection(extractTagsFromTopic(topic));
+		return topic;
+	}
+
+	private TagsVO getTag() {
+		if (getStringParam(QUERY_PARAMS.TAG_NAME, "").isEmpty()) {
+			throw new NullPointerException(
+					"edu.temple.cis3238.wiki.controller.GeneralController.getTag() -- Invalid TagName");
+		}
+		TagsVO tag = new TagsVO();
+		tag.setTagID(getIntParam(QUERY_PARAMS.TAG_ID, 0));
+		tag.setTagName(getStringParam(QUERY_PARAMS.TAG_NAME, ""));
+		return tag;
+	}
+
+	private boolean validateRequest() {
+		return !(request == null || getParamMap() == null || getParamMap().isEmpty() || !getStringParam(
+				"action", "").isEmpty());
+	}
+
+	private Map<String, String[]> getParamMap() {
+		return request.getParameterMap();
+	}
+
+	private boolean validateIntRequestParam(String param,
+											int minLength) {
+		return getStringParam(param, "").length() <= minLength;
+	}
+
+	private String getStringParam(String param, String defaultVal) {
+		try {
+			if (getParamMap().containsKey(param)) {
+				return request.getParameter(param);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return StringUtils.toS(defaultVal, "");
+	}
+
+	private boolean validateIntRequestParam(String param) {
+		return getIntParam(param, 0) > 0;
+	}
+
+	private int getIntParam(String param,
+							int defaultVal) {
+		try {
+			if (getParamMap().containsKey(param)) {
+				return Integer.parseInt(request.getParameter(param));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return defaultVal;
+	}
+
+	private Set<String> extractTagsNamesFromTopic(TopicVO topic) {
+		//  ArrayList<TagsVO> matchArrayList = new ArrayList<TagsVO>();
+
+		TagsFromContentParser tagsFromContentParser = TagsFromContentParser.create(
+				topic.getTopicContent());
+		return tagsFromContentParser.getTagNameSet();
+	}
+
+	private ArrayList<TagsVO> extractTagsFromTopic(TopicVO topic) {
+		Set<String> set = extractTagsNamesFromTopic(topic);
+		return TagsVOAdapter.generateFromNames(set);
+	}
 }

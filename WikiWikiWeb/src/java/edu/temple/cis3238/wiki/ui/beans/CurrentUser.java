@@ -9,6 +9,8 @@ public class CurrentUser implements Serializable {
     public CurrentUser() {
     }
     
+	
+   
     public String getUsername() {
         return username;
     }

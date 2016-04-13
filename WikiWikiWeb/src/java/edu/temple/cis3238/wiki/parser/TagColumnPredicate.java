@@ -5,7 +5,7 @@
  */
 package edu.temple.cis3238.wiki.parser;
 
-import static edu.temple.cis3238.wiki.parser.TagsFromContentParser.isStaticField;
+import static edu.temple.cis3238.wiki.parser.TagsFromContentParser.isStaticField; 
 import edu.temple.cis3238.wiki.vo.TagsVO;
 import java.lang.reflect.Field;
 import java.util.logging.*;
@@ -31,7 +31,7 @@ public class TagColumnPredicate implements //IPredicate<TagsVO>,
    //@Override
    public boolean apply(TagsVO _type) {
 	  for (Field f : vo.getClass().getDeclaredFields()) {
-		 if (((excludeStaticFields && !isStaticField(f))
+		 if (((excludeStaticFields && !isStaticField(f)) 
 				 || !excludeStaticFields)
 				 && f.getName().toLowerCase().equalsIgnoreCase(
 						 column)) {

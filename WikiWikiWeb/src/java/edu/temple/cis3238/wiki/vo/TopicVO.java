@@ -30,6 +30,7 @@ private int topicID;
 private String topicModified;
 private String topicName;
 
+
 public static TopicVO newInstance(TopicVO vo) {
    return new TopicVOBuilder()
 		   .setTopicID( vo.getTopicID() )

@@ -8,6 +8,7 @@ package edu.temple.cis3238.wiki.parser;
 import edu.temple.cis3238.constants.STRINGS;
 import static edu.temple.cis3238.wiki.utils.CollectionsUtilities.setToCSV;
 import edu.temple.cis3238.wiki.vo.*;
+import java.io.Serializable;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.logging.*;
@@ -18,17 +19,29 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author Dan
  */
-public class TagsFromContentParser {
+public class TagsFromContentParser implements Serializable {
 
    private static final Logger LOG = Logger.getLogger(TagsFromContentParser.class.getName());
+   private static final long serialVersionUID = -4996885055820431250L;
    private boolean extracted = false;
    private static Pattern regex;
 
+   /**
+    * Factory method for constructing and running Tags collector
+    *
+    * @param _topicVO Topic ref: TopicContent
+    * @return (this)
+    */
    public static TagsFromContentParser create(TopicVO _topicVO) {
 	  TagsFromContentParser wfwm = new TagsFromContentParser(_topicVO);
 	  return wfwm.extract();
    }
 
+   /**
+    *
+    * @param _topicContent
+    * @return
+    */
    public static TagsFromContentParser create(String _topicContent) {
 	  TagsFromContentParser wfwm = new TagsFromContentParser(_topicContent);
 	  return wfwm.extract();
@@ -46,8 +59,13 @@ public class TagsFromContentParser {
 	  extracted = false;
    }
 
+   /**
+    * Constructor
+    *
+    * @param _topicVO
+    */
    private TagsFromContentParser(TopicVO _topicVO) {
-	  if (_topicVO == null) {
+	  if (_topicVO == null || _topicVO.getTopicContent().isEmpty()) {
 		 throw new NullPointerException(
 				 "topicVO cannot be null [edu.temple.cis3238.wiki.parser.ExtractFromWikiMarkup.<init>(TopicVO)] ");
 	  }
@@ -58,7 +76,7 @@ public class TagsFromContentParser {
    }
 
    private TagsFromContentParser(String topicConent) {
-	  if (topicConent == null) {
+	  if (topicConent == null || topicConent.isEmpty()) {
 		 throw new NullPointerException(
 				 "topicContent cannot be null [edu.temple.cis3238.wiki.parser.ExtractFromWikiMarkup.<init>(String)] ");
 	  }
@@ -67,13 +85,15 @@ public class TagsFromContentParser {
 	  tagNameSet = new TreeSet<>();
    }
 
-   public TagsFromContentParser extract() {
+   private TagsFromContentParser extract() {
 	  extractTagNamesCSVFromTopicContent(topicContent);
 	  extracted = (tagNameCSV != null && !tagNameCSV.isEmpty());
 	  return this;
    }
 
    /**
+    * Tag Names CSV
+    *
     * @return the tagNameCSV
     */
    public String getTagNameCSV() {
@@ -89,8 +109,12 @@ public class TagsFromContentParser {
    public void setTagNameCSV(String tagNameCSV) {
 	  this.tagNameCSV = tagNameCSV;
    }
+   
+   
 
    /**
+    * Set of TagNames
+    *
     * @return the tagNameSet
     */
    public Set<String> getTagNameSet() {
@@ -121,6 +145,8 @@ public class TagsFromContentParser {
 					matcher.group(2), 0)));
 		 }
 	  } catch (NullPointerException | PatternSyntaxException | IndexOutOfBoundsException ex) {
+		 LOG.log(Level.SEVERE, null, ex);
+		 ex.printStackTrace();
 	  }
 
 	  return matchArrayList;
@@ -142,5 +168,13 @@ public class TagsFromContentParser {
 	  }
 
    }
-
+public static class TagsVOAdapter{
+  public static ArrayList<TagsVO> generateFromNames(Set<String> names){
+	 ArrayList<TagsVO> voList = new ArrayList<TagsVO>();
+	 for (String name :names){
+		voList.add(TagsVO.newInstance(new TagsVO(0,edu.temple.cis3238.wiki.utils.StringUtils.toS(name).trim(),0)));
+	 }
+	 return voList;
+  } 
+}
 }

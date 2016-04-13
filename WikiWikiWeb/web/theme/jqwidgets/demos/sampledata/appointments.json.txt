@@ -1,5 +1,6 @@
-﻿[
-  {
+﻿
+[
+	{
     "id": "55f99b757f48ae74f2932aba",
     "index": 0,
     "isActive": true,

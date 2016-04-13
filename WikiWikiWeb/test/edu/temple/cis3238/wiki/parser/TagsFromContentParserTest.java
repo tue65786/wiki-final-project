@@ -51,7 +51,6 @@ public class TagsFromContentParserTest {
 	  String tagCSVExpected = "there,you";
 	  TagsFromContentParser expResult = null;
 	  TagsFromContentParser extractActualResult = TagsFromContentParser.create(_topicContent);
-	  extractActualResult.extract();
 	  tagCSVActual = extractActualResult.getTagNameCSV();
 	  System.out.println(
 			  "edu.temple.cis3238.wiki.parser.ExtractFromWikiMarkupTest.testCreate_String()actual:\t" + tagCSVActual);
@@ -81,7 +80,7 @@ public class TagsFromContentParserTest {
 		 }
 	  }
 	  System.out.println();
-	  TagsFromContentParser extractActualResult = TagsFromContentParser.create(_topicContent).extract();
+	  TagsFromContentParser extractActualResult = TagsFromContentParser.create(_topicContent);
 	  System.out.println("Actual: "+ extractActualResult.getTagNameCSV()+"\n======================================\n");
 	  assertEquals(extractActualResult.getTagNameSet(), expectedSet);
 	  
