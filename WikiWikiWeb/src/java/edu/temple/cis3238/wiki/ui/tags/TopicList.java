@@ -5,6 +5,7 @@
  */
 package edu.temple.cis3238.wiki.ui.tags;
 
+import edu.temple.cis3238.constants.QUERY_PARAMS;
 import edu.temple.cis3238.wiki.ui.beans.*;
 import edu.temple.cis3238.wiki.ui.tags.helpers.TopicHTMLFactory;
 import edu.temple.cis3238.wiki.utils.*;
@@ -116,7 +117,7 @@ public void setTopicsList(TopicCollection _topicCollection) {
 private String makeTopicItem(TopicVO vo) {
    String ret = LIST_TEMPLATE + "";
    return ret.
-		   replace( "[[[ABSTRACT]]]", StringUtils.truncateAtWord( vo.getTopicContent(), 80 ) )
+		   replace( "[[[ABSTRACT]]]", edu.temple.cis3238.parser.Parser.parseAndAnnotate(StringUtils.truncateAtWord( vo.getTopicContent(), 80 ),"View.jsp",QUERY_PARAMS.TOPIC_ID,"View.jsp",QUERY_PARAMS.TAG_ID ) )
 		   .replace( "[[[HREF]]]", TopicHTMLFactory.makeA( vo,topicLinkRequestParam,topicLinkPage ) )
 		   .replace( "[[[STATS]]]", TopicHTMLFactory.getTopicStats( vo ) )
 		   .replace( "[[[TAGS]]]", TopicHTMLFactory.makeTagsCSV( vo ,tagLinkRequestParam,tagLinkPage) );

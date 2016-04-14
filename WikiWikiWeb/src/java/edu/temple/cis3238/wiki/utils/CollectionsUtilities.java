@@ -46,4 +46,20 @@ public class CollectionsUtilities {
 	  }
 	  return result;
    }
+   /**
+	* Apply Predicate to Collection
+	* @param <T>
+	* @param col
+	* @param predicate
+	* @return 
+	*/
+    public static <T> ArrayList<T> filterList( ArrayList<T> col, IPredicate<T> predicate ) {
+      ArrayList<T> result = new ArrayList<T>();
+      for ( T element : col ) {
+         if ( predicate.apply(element) ) {
+            result.add(element);
+         }
+      }
+      return result;
+   }
 }

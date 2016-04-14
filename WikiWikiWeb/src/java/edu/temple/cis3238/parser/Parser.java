@@ -15,8 +15,11 @@ import java.util.ArrayList;
 public class Parser{
     
   
+public static String parseAndAnnotate(String inputWikiText){
+	return parseAndAnnotate(inputWikiText, "wiki.jsp", "id", "tag.jsp","id");
+}
 
-  public static String parseAndAnnotate(String inputWikiText){
+  public static String parseAndAnnotate(String inputWikiText,String topicURL,String topicParam,String tagURL,String tagParam){
 
       //if we encounter [[,]],{{,}} then we need to remove and put html tags there
       
@@ -37,7 +40,7 @@ public class Parser{
           if (s.substring(0, 2).equals(WikiMarkup.FRONT_TOPIC.toString())){
               //we konw we are in a topic expression 
               end = s.indexOf(WikiMarkup.BACK_TOPIC.toString());
-              result.append("<a style=\"font-weight:bold\" href=\"wiki.jsp?id=");
+              result.append("<a style=\"font-weight:bold\" href=\""+topicURL+"?"+topicParam+"=");
               result.append(s.substring(2, end));
               result.append("\">");
               result.append(s.substring(2, end));
@@ -47,7 +50,7 @@ public class Parser{
           else if (s.substring(0, 2).equals(WikiMarkup.FRONT_TAG.toString())){
               //we konw we are in a topic expression
               end = s.indexOf(WikiMarkup.BACK_TAG.toString());
-              result.append("<a href=\"tag.jsp?id=");
+              result.append("<a href=\""+tagURL+"?"+tagParam+"=");
               result.append(s.substring(2, end));
               result.append("\">");
               result.append(s.substring(2, end));

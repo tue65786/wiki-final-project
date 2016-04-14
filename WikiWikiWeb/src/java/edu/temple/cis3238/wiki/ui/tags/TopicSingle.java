@@ -39,23 +39,20 @@ public class TopicSingle extends SimpleTagSupport {
 			"<p class='actions'>" +
 			"<input type=\"hidden\" name=\"" + "command" + "\" id=\"" + "command" + "\" value=\"view\"/>" +
 			"<input type=\"hidden\" name=\"" + QUERY_PARAMS.TOPIC_ID + "\" id=\"" + QUERY_PARAMS.TOPIC_ID + "\" value=\"[[[ID]]]\"/>" +
-			"<input type=\"button\" name=\"action\" id=\"btnEdit\" value=\"edit\">Edit</input>" +
-			"<input name=\"action\" type=\"button\" id=\"btnSave\" value=\"save\">Save</input>" +
-			"<input type=\"button\" name=\"action\" value=\"cancel\" id=\"btnCancel\">Cancel</input></p>" +
+			"<input type=\"button\" name=\"action\" id=\"btnEdit\" value=\"edit\"/>" +
+			"<input name=\"action\" type=\"button\" id=\"btnSave\" value=\"save\"/>" +
+			"<input type=\"button\" name=\"action\" value=\"cancel\" id=\"btnCancel\"/></p>" +
 			"</form>";
-	private static final String JAVASCRIPTS = " <link rel=\"stylesheet\" href=\"theme/jqwidgets/jqwidgets/styles/jqx.base.css\" type=\"text/css\" />" +//
-			"<script type=\"text/javascript\" src=\"theme/jqwidgets/jqwidgets/jqxcore.js\"></script>" +//
-			"<script type=\"text/javascript\" src=\"theme/jqwidgets/jqwidgets/jqxbuttons.js\"></script>" +
-			"<script type=\"text/javascript\">" +
-			"$(document).ready(function () {  " +
-			
-			" $(\"#btnSave\").jqxButton({width: 120, height: 40,template: \"primary\"});\n" +
-			" $(\"#btnEdit\").jqxButton({width: 120, height: 40,template: \"primary\"});\n" +
-			" $(\"#btnCancel\").jqxButton({width: 120, height: 40,template: \"info\"});" +
-			"  $(\"#btnSave,#btnEdit,#btnCancel\").on('click', function (e){\n" +
-			"\te.preventDefault();\n" +
-			"\t$(\"#command\").val($(this).val());\n      " +
-			"\t$(\"#topicForm\").submit();\n" +
+	private static final String JAVASCRIPTS = "" +//
+			"<script type=\"text/javascript\">\n" +
+			"$(document).ready(function () { \n" +
+			" $(\"#btnSave\").jqxButton({width: 100, height: 40,template: \"primary\"});\n" +
+			" $(\"#btnEdit\").jqxButton({width: 100, height: 40,template: \"primary\"});\n" +
+			" $(\"#btnCancel\").jqxButton({width: 100, height: 40,template: \"info\"});" +
+			"  $(\"#btnEdit\").click(function (e){\n" +
+			"	e.preventDefault();\n" +
+			"	$(\"#command\").val($(this).val());\n" +
+			"      	$(\"#topicForm\").submit();\n" +
 			" });" +
 			"});" +
 			"</script>";
@@ -135,12 +132,16 @@ public class TopicSingle extends SimpleTagSupport {
 	private String makeTopicItem(TopicVO vo) {
 		String ret = ITEM_TEMPLATE + "";
 		return ret.
-				replace("[[[CONTENT]]]", vo.getTopicContent())
+				replace("[[[CONTENT]]]", edu.temple.cis3238.parser.Parser.parseAndAnnotate(
+						vo.getTopicContent(), "View.jsp", QUERY_PARAMS.TOPIC_NAME, "View.jsp",
+						QUERY_PARAMS.TAG_NAME))
 				.replace("[[[PAGENAME]]]", StringUtils.fromCamelCase(vo.getTopicName()))
 				.replace("[[[STATS]]]", TopicHTMLFactory.getTopicStats(vo))
 				.replace("[[[TAGS]]]", TopicHTMLFactory.makeTagsCSV(vo, QUERY_PARAMS.TAG_ID,
 						tagURLPrefix))
+				.replace("[[[ID]]]",vo.getTopicID()+"")
 				.replace("[[[CSSTAGS]]]", getCssTagListClass())
-				.replace("[[[CSSBODY]]]", getCssTopicBodyClass());
+				.replace("[[[CSSBODY]]]", getCssTopicBodyClass()).replace("[[[URL]]]",
+				topicViewRequestParam);
 	}
 }
