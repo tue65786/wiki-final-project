@@ -31,9 +31,11 @@
 	String requestTag = web.getStrParameter("pTagID", "");
 	int requestTagId = web.getIntParameter("tagPK", 0);
 	String type = web.getStrParameter("type", "LIST");
+	String editorMode = web.getStrParameter("editorMode", "");
 	boolean viewSingle = false;
 	boolean viewList = false;
 	boolean editSingle = false;
+	boolean insertSingle = false;
 	boolean validView = false;
 	String title = "";
 	dbc = new DbConnection();
@@ -44,14 +46,22 @@
 		if (voTemp != null) {
 			requestTopicID = voTemp.getTopicID();
 		} else {
-			requestMessages = "<div style='color:red;font-weight:bold;'>Unable to load that topic.</div>";
+			insertSingle = true;
+			//requestMessages = "<div style='color:red;font-weight:bold;'>Unable to load that topic.</div>";
 		}
-	} else if (!requestTag.isEmpty()) {
-		requestTagId = dao.getTagByName(requestTag).getTagID();
+	} else if (requestTagId == 0 && !requestTag.isEmpty()) {
+		TagsVO voTemp = dao.getTagByName(requestTag);
+		if (voTemp != null) {
+			requestTagId = voTemp.getTagID();
+		} else {
+			insertSingle = true;
+			requestMessages = "<div style='color:red;font-weight:bold;'>Unable to load topics for <u>"+requestTag+"</u>.</div>";
+		}
 	}
 	if (requestTopicID > 0) {
 		if (requestAction.equals("edit")) {
 			//editing --> editmode
+			editSingle = true; 
 		} //save changes  --> back to viewmode
 		else if (requestAction.equals("save")) {
 			viewSingle = true;
@@ -133,13 +143,18 @@
 									tagURLPrefix = "View.jsp" 
 									topicViewRequestParam = "View.jsp">
 						</wiki:topic>
-						<%} else if (editSingle) {%>
+						<%} else if (editSingle || insertSingle) {%>
+
+						<!-- EDITOR -- insert/update -->
 						<form action="${pageContext.request.contextPath}" method="get">
+							<input type="hidden" name="editorMode" id="editorMode" value="<%= insertSingle ? "insert" : "update"%>" /> 
+							<intput type="hidden" name="topicPK" id="topicPK" value="<%=requestTopicID + ""%>"/> 
 							Topic Name:<input id="topicName" name="topicName" />
 							<textarea id="editor" name="editor"></textarea><br />
-							<a href="decison.jsp">Cancel</a>
+							<a href="View.jsp">Cancel</a>
 							<button>Submit</button>
 						</form>
+							
 						<%} else if (viewList) {%>
 						<wiki:TopicList topicsList="${topicCollection}" 
 										listStyle="LIST"  

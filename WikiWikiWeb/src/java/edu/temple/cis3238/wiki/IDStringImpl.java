@@ -9,6 +9,6 @@
 package edu.temple.cis3238.wiki;
 
 
-public class IDStringImpl extends IDString {
+public class IDStringImpl  {
 
 }
