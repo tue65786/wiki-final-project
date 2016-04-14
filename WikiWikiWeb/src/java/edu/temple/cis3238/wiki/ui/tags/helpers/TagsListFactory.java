@@ -10,7 +10,8 @@ import java.util.*;
 
 /**
  *
- * @author (c)2016
+ * Purpose: Generates HTML for TagsList
+ * @see edu.temple.cis3238.wiki.ui.tags.TagsList
  */
 public class TagsListFactory {
 
@@ -38,7 +39,14 @@ private double cloudMinRange;
 private double couldRange;
 private TagsTagSettings settings;
 private String tagsMarkup;
-
+/**
+ * Factory method for markup generator
+ * @param _settings
+ * @return Instance
+ * @see edu.temple.cis3238.wiki.ui.tags.TagsList
+ * @see TagsTagSettings
+ * @see TagsVO
+ */
 public static TagsListFactory create(TagsTagSettings _settings) {
    TagsListFactory factory = new TagsListFactory( _settings );
    if ( !factory.settings.validateParams() ) {
@@ -53,7 +61,7 @@ public static TagsListFactory create(TagsTagSettings _settings) {
 }
 
 /**
- * @return the tagsMarkup
+ * @return the tags HTML Markup 
  */
 public String getTagsMarkup() {
    return tagsMarkup;
@@ -65,7 +73,10 @@ public String getTagsMarkup() {
 public void setTagsMarkup(String tagsMarkup) {
    this.tagsMarkup = tagsMarkup;
 }
-
+/**
+ * Tag cloud markup strategy.
+ * @return HTML
+ */
 private String createCloud() {
    StringBuilder sb = new StringBuilder( "<div style=\"border:1px solid black;width:" );
    sb.append( getSettings().getWidthpx() )
@@ -81,7 +92,10 @@ private String createCloud() {
    return sb.toString();
 
 }
-
+/**
+ * Tag table markup strategy.
+ * @return HTML
+ */
 private String createTable() {
    StringBuilder sb = new StringBuilder( "<table>" );
    for ( TagsVO aVO : getSettings().getTagsVOList() ) {
@@ -105,6 +119,14 @@ protected void setSettings(TagsTagSettings settings) {
    this.settings = settings;
 }
 
+/**
+ * Determine font size based on number of referenced Topics
+ * @param vo
+ * @return 
+ * @see TopicVO
+ * @see TagsVO
+ * 
+ */
 private String makeCloudMarkup(TagsVO vo) {
    String href = makeHRef( vo );
    int scaleVal = (int) ( Math.round( ( ( vo.getTopicCount() > 1 ? vo.getTopicCount() - cloudMinRange : 1 ) ) / couldRange ) );

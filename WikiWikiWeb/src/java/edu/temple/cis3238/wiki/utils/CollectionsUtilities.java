@@ -6,6 +6,7 @@
 package edu.temple.cis3238.wiki.utils;
 
 import edu.temple.cis3238.wiki.parser.*;
+import edu.temple.cis3238.wiki.ui.tags.helpers.TopicByTopicIDPredicate;
 import edu.temple.cis3238.wiki.vo.TagsVO;
 import java.util.*;
 
@@ -50,8 +51,10 @@ public class CollectionsUtilities {
 	* Apply Predicate to Collection
 	* @param <T>
 	* @param col
-	* @param predicate
-	* @return 
+	* @param predicate Class implementing predicate, has apply with criteria
+	* @see TagColumnPredicate
+	* @see TopicByTopicIDPredicate
+	* @return Sublist of items that meet criteria specified by {@linkplain IPredicate}
 	*/
     public static <T> ArrayList<T> filterList( ArrayList<T> col, IPredicate<T> predicate ) {
       ArrayList<T> result = new ArrayList<T>();

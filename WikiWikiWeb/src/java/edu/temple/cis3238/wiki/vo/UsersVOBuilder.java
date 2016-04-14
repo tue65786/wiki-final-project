@@ -7,7 +7,10 @@
 
 package edu.temple.cis3238.wiki.vo;
 
-
+/**
+ * Purpose: Build UsersVO
+ * 
+ */
 public class UsersVOBuilder {
 
    private int _userID;
@@ -43,7 +46,10 @@ public class UsersVOBuilder {
 	  this._emailAddress = _emailAddress;
 	  return this;
    }
-
+/**
+ * 
+ * @return  {@linkplain UsersVO} Object
+ */
    public UsersVO build() {
 	  return new UsersVO( _userID, _userName, _password, _userRole, _emailAddress );
 	  

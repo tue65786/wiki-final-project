@@ -10,5 +10,10 @@ package edu.temple.cis3238.wiki.parser;
  * @author (c)2016 C D D
  */
 public interface IPredicate<T> {
-   boolean apply(T type);
+   /**
+	* 
+	* @param type
+	* @return true if item meets criteria of predicate
+	*/
+	boolean apply(T type);
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="uml">
+  <ClassDiagramComponents>
+    <Class name="GeneralDAO" package="" visibility="public" xPosition="293.0" yPosition="33.0">
+      <Fields/>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Interface name="IGeneralDAO" package="" visibility="public" xPosition="53.0" yPosition="33.0">
+      <Methods>
+        <Method name="untitledMethod" returnType="void" visibility="public"/>
+      </Methods>
+    </Interface>
+    <Class name="TopicVO" package="" visibility="public" xPosition="17.0" yPosition="207.0">
+      <Fields>
+        <Field name="tagsCollection" type="TagsVO" visibility="private"/>
+        <Field name="topicID" type="int" visibility="private"/>
+        <Field name="topicName" type="String" visibility="private"/>
+        <Field name="topicConent" type="String" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="untitledMethod" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="TagsVO" package="" visibility="public" xPosition="303.0" yPosition="241.0">
+      <Fields/>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="UsersVO" package="" visibility="public" xPosition="474.0" yPosition="241.0">
+      <Fields/>
+      <Constructors/>
+      <Methods/>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="GeneralDAO" target="IGeneralDAO"/>
+    <UseRelation name="TagsCollection" source="TagsVO" target="TopicVO" sourceCardinality="1..1" targetCardinality="0..*"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

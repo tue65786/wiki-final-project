@@ -9,9 +9,10 @@ import edu.temple.cis3238.wiki.ui.tags.helpers.*;
 import edu.temple.cis3238.wiki.vo.*;
 import java.io.*;
 import java.util.*;
+import javax.servlet.http.HttpSession;
 
 /**
- *
+ * In-memory {@linkplain HttpSession} store for Tags 
  * @author Christian Dan Doreen
  */
 public class TagsCollection implements Serializable {

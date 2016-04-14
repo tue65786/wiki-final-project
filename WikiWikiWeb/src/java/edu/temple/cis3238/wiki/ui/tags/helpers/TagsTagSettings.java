@@ -12,7 +12,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- *
+ * @see edu.temple.cis3238.wiki.ui.tags.TagsList
  */
 public class TagsTagSettings implements Serializable {
 
@@ -79,7 +79,11 @@ public class TagsTagSettings implements Serializable {
 	  this.tagsVOList = _tagsVOList;
 	  this.widthpx = _widthpx;
    }
-
+/**
+ * Settings Builder
+ * Builds settings for {@linkplain edu.temple.cis3238.wiki.ui.tags.TagsList}
+ * @see edu.temple.cis3238.wiki.ui.tags.TagsList
+ */
    public static class Builder {
 
    private String navigateURL;

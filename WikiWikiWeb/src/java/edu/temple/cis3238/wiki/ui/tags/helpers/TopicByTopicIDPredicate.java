@@ -13,7 +13,7 @@ import java.util.logging.*;
 
 /**
  *
- * @author (c)2016 
+ * Filters topics to single {@linkplain TopicVO} matching specified {@linkplain TopicVO#topicID }
  */
 
 public class TopicByTopicIDPredicate implements IPredicate<TopicVO> {

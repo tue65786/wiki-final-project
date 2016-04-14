@@ -11,8 +11,11 @@ import java.util.*;
 import java.util.logging.*;
 
 /**
- *
+ *  In-memory {@linkplain HttpSession} store for Topics
  * @author Christian, Doreen, Dan
+ * @see TopicVO
+ * @see HttpSession
+ * @see HttpServletRequest
  */
 public class TopicCollection implements Serializable {
 
