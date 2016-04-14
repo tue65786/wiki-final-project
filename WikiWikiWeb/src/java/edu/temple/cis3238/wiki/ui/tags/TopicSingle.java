@@ -39,16 +39,17 @@ public class TopicSingle extends SimpleTagSupport {
 			"<p class='actions'>" +
 			"<input type=\"hidden\" name=\"" + "command" + "\" id=\"" + "command" + "\" value=\"view\"/>" +
 			"<input type=\"hidden\" name=\"" + QUERY_PARAMS.TOPIC_ID + "\" id=\"" + QUERY_PARAMS.TOPIC_ID + "\" value=\"[[[ID]]]\"/>" +
-			"<input type=\"button\" name=\"action\" id=\"btnEdit\" value=\"edit\"/>" +
-			"<input name=\"action\" type=\"button\" id=\"btnSave\" value=\"save\"/>" +
-			"<input type=\"button\" name=\"action\" value=\"cancel\" id=\"btnCancel\"/></p>" +
+			"<input type=\"button\" name=\"action\" style='cursor:pointer;font-variant:all-caps;' id=\"btnEdit\" value=\"edit\"/>" +
+//			"<input name=\"action\" type=\"button\" id=\"btnSave\" value=\"save\"/>" +
+//			"<input type=\"button\" name=\"action\"  value=\"cancel\" id=\"btnCancel\"/>" +
+			"</p>" +
 			"</form>";
 	private static final String JAVASCRIPTS = "" +//
 			"<script type=\"text/javascript\">\n" +
 			"$(document).ready(function () { \n" +
-			" $(\"#btnSave\").jqxButton({width: 100, height: 40,template: \"primary\"});\n" +
-			" $(\"#btnEdit\").jqxButton({width: 100, height: 40,template: \"primary\"});\n" +
-			" $(\"#btnCancel\").jqxButton({width: 100, height: 40,template: \"info\"});" +
+//			" $(\"#btnSave\").jqxButton({width: 100, height: 40,template: \"primary\"});\n" +
+			" $(\"#btnEdit\").jqxButton({width: 90, height: 30,template: \"info\"});\n" +
+//			" $(\"#btnCancel\").jqxButton({width: 80, height: 40,template: \"info\"});" +
 			"  $(\"#btnEdit\").click(function (e){\n" +
 			"	e.preventDefault();\n" +
 			"	$(\"#command\").val($(this).val());\n" +
