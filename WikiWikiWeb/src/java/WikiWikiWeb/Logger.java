@@ -22,13 +22,16 @@ public class Logger extends HttpServlet {
    protected void createNewWiki(HttpServletRequest request, HttpServletResponse response)
 		   throws ServletException, IOException {
 	  response.setContentType("text/html;charset=UTF-8");
+
 	  CurrentUser currentUser = new CurrentUser("NaU");
+
 	  try (PrintWriter out = response.getWriter()) {
 
 		 /*
           * Prints the username; for testing
           * Logs the changes made by user
 		  */
+
 		 
 		 
 		 try{
@@ -48,6 +51,7 @@ public class Logger extends HttpServlet {
 			 e.printStackTrace();
 			 
 		 }
+
 		 String userName = request.getParameter("username");
 		 out.println(userName + "<br />");
 		 logToHistory(userName);
@@ -77,7 +81,10 @@ public class Logger extends HttpServlet {
 //            d.assignTopicTags(topic, tagVOs);
 		 dbc.close();
 		 
+
 		 response.sendRedirect("/WikiWikiWeb/decison.jsp?username=" + currentUser.getUsername() + "&createSuccess=" + topicName); 
+
+		 
 	  }
    }
 

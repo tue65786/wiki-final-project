@@ -25,3 +25,4 @@ public class CurrentUser implements Serializable {
 		username = user;
 	}
 }
+
