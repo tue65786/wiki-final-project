@@ -52,6 +52,8 @@ public class WikiApplicationFilter implements Filter {
 	  if (debug) {
 		 log("WikiApplicationFilter:DoBeforeProcessing");
 	  }
+	  // if (sesssion.user is null or user.acceslvl < level[thispage] then
+	  // response.redirect("NO AACCESS"); 
 
 	  session = request.getSession(true);
 	  if (session == null || session.getAttribute("WikiEngine") == null) {

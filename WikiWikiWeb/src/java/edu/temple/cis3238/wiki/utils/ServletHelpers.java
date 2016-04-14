@@ -6,6 +6,7 @@
 package edu.temple.cis3238.wiki.utils;
 
 import java.io.*;
+import java.util.logging.Level;
 import javax.servlet.http.*;
 
 /**
@@ -88,6 +89,42 @@ public  <T> T getAttribute(String sessionAttrib,T defaultValue ) {
 		return (paramString);
 	 }
 	 
+	 public Cookie getCookie(
+       String cookieName ) {
+      Cookie[] cookies = request.getCookies();
+      if ( cookies != null ) {
+         for ( Cookie cookie : cookies ) {
+            if ( cookieName.equals(cookie.getName()) ) {
+               return (cookie);
+            }
+         }
+      }
+      return (null);
+   }
+	 public boolean setCookie( String name, String val, int days ) {
+      //   int days = 60;
+      try {
+         Cookie cookie = new Cookie(StringUtils.toS(name), StringUtils.toS(val));
+         //cookie.setComment("Created: " + Global.getNow()); 
+         cookie.setMaxAge(24 * 60 * days);
+         cookie.setPath("wikiwikiweb/");
+         response.addCookie(cookie);
+         Cookie cookie2 = (Cookie) cookie.clone();
+         cookie2.setPath("/");
+         response.addCookie(cookie2);
+         return true;
+
+      }
+      catch ( IllegalStateException e ) {
+         e.printStackTrace();
+         return false;
+      }
+      catch ( Exception e ) {
+         e.printStackTrace();
+         return false;
+      }
+   }
+
 	 /**
 	  * Constructs Servlet helper 
 	  * Request and Response are not nullable

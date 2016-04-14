@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,75 +18,75 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = {"/Signup"})
 public class Signup extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+		   throws ServletException, IOException {
+	  response.setContentType("text/html;charset=UTF-8");
+	  try (PrintWriter out = response.getWriter()) {
 
-            String userName = request.getParameter("user");
-            String password = request.getParameter("pass");
-            boolean newUser = true;
-            boolean validPassword = true;
-            boolean validUsername = true;
+		 String userName = request.getParameter("user");
+		 String password = request.getParameter("pass");
+		 boolean newUser = true;
+		 boolean validPassword = true;
+		 boolean validUsername = true;
 
-            DbConnection dbc = new DbConnection();
-            IGeneralDAO g = new GeneralDAO(dbc);
+		 DbConnection dbc = new DbConnection();
+		 IGeneralDAO g = new GeneralDAO(dbc);
 
-            ArrayList<UsersVO> users = g.getUsers();
-            Iterator<UsersVO> iter = users.iterator();
+		 ArrayList<UsersVO> users = g.getUsers();
+		 Iterator<UsersVO> iter = users.iterator();
 
-            while (iter.hasNext()) {
-                if (iter.next().getUserName().equals(userName)) {
-                    newUser = false;
+		 while (iter.hasNext()) {
+			if (iter.next().getUserName().equals(userName)) {
+			   newUser = false;
 //                    request.getRequestDispatcher("/signup.jsp?errorMessageUserName=true").forward(request, response);
-                    response.sendRedirect("/WikiWikiWeb/signup.jsp?errorMessageUserName");
-                    return;
-                }
-            }
+			   response.sendRedirect("/WikiWikiWeb/signup.jsp?errorMessageUserName");
+			   return;
+			}
+		 }
 
-            if (!Password.isValidUsername(userName)) {
-                validUsername = false;
+		 if (!Password.isValidUsername(userName)) {
+			validUsername = false;
 //                request.getRequestDispatcher("/signup.jsp?invalidUsername=yes").forward(request, response);
-                response.sendRedirect("/WikiWikiWeb/signup.jsp?invalidUsername");
-                return;
+			response.sendRedirect("/WikiWikiWeb/signup.jsp?invalidUsername");
+			return;
 
-            }
+		 }
 
-            if (!Password.isValidPassword(password)) {
-                validUsername = false;
+		 if (!Password.isValidPassword(password)) {
+			validUsername = false;
 //                request.getRequestDispatcher("/signup.jsp?invalidPassword=yes").forward(request, response);
-                response.sendRedirect("/WikiWikiWeb/signup.jsp?invalidPassword");
-                return;
+			response.sendRedirect("/WikiWikiWeb/signup.jsp?invalidPassword");
+			return;
 
-            }
+		 }
 
-            if (newUser && validPassword && validUsername) {
-                g.addUser(new UsersVO(userName, password));
-            }
+		 if (newUser && validPassword && validUsername) {
+			g.addUser(new UsersVO(userName, password));
+		 }
 
-            dbc.close();
+		 dbc.close();
 
-            request.getRequestDispatcher("/index.jsp?newUser=true").forward(request, response);
-            return;
+		 request.getRequestDispatcher("/index.jsp?newUser=true").forward(request, response);
+		 return;
 
-        }
-    }
+	  }
+   }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
+   @Override
+   protected void doGet(HttpServletRequest request, HttpServletResponse response)
+		   throws ServletException, IOException {
+	  processRequest(request, response);
+   }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
+   @Override
+   protected void doPost(HttpServletRequest request, HttpServletResponse response)
+		   throws ServletException, IOException {
+	  processRequest(request, response);
+   }
 
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+   @Override
+   public String getServletInfo() {
+	  return "Short description";
+   }// </editor-fold>
 
 }

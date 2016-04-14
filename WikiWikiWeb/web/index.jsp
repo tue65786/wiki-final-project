@@ -2,11 +2,11 @@
 <!DOCTYPE html><html>
     <head>
         <script>
-            window.location.hash = "no-back-button";
-            window.location.hash = "Again-No-back-button";//again because google chrome don't insert first hash into history
-            window.onhashchange = function () {
-                window.location.hash = "no-back-button";
-            };
+			window.location.hash = "no-back-button";
+			window.location.hash = "Again-No-back-button";//again because google chrome don't insert first hash into history
+			window.onhashchange = function () {
+				window.location.hash = "no-back-button";
+			};
         </script>
 
         <title>Log In | WikiWikiWeb</title>
@@ -17,15 +17,15 @@
     <body>
 
         <script>
-            $(document).ready(function () {
+			$(document).ready(function () {
             <% if (request.getParameter("newUser") != null) { %>
-                $("#newUser").slideDown("slow");
+				$("#newUser").slideDown("slow");
             <% } else if (request.getParameter("logout") != null) { %>
-                $("#logout").slideDown("slow");
+				$("#logout").slideDown("slow");
             <% } else if (request.getParameter("invalidCreds") != null) { %>
-                $("#invalidCreds").slideDown("slow");
+				$("#invalidCreds").slideDown("slow");
             <% }%>
-            });
+			});
         </script>
 
         <div id="bg-image"></div>

@@ -33,7 +33,7 @@ public class Parser{
       while(scanner.hasNext()){
           
           s = scanner.next();
-
+		  if(s.length()> 1){
           if (s.substring(0, 2).equals(WikiMarkup.FRONT_TOPIC.toString())){
               //we konw we are in a topic expression 
               end = s.indexOf(WikiMarkup.BACK_TOPIC.toString());
@@ -47,7 +47,7 @@ public class Parser{
           else if (s.substring(0, 2).equals(WikiMarkup.FRONT_TAG.toString())){
               //we konw we are in a topic expression
               end = s.indexOf(WikiMarkup.BACK_TAG.toString());
-              result.append("<a href=\"wiki.jsp?id=");
+              result.append("<a href=\"tag.jsp?id=");
               result.append(s.substring(2, end));
               result.append("\">");
               result.append(s.substring(2, end));
@@ -58,7 +58,7 @@ public class Parser{
           else
             result.append(s + " ");
           
-          
+		  }
       }
 //                  
 //                  
@@ -95,7 +95,7 @@ public class Parser{
       while(scanner.hasNext()){
           
           s = scanner.next();
-
+     if (s.length() > 1){
           if (s.substring(0, 2).equals(WikiMarkup.FRONT_TOPIC.toString())){
               
               end = s.indexOf(WikiMarkup.BACK_TOPIC.toString());
@@ -112,7 +112,7 @@ public class Parser{
           else{
               //do nothing ..this only use for annotate method...but keep for logic's sake
           }
-     
+	 }
       }  
       
       return topicsNtags;

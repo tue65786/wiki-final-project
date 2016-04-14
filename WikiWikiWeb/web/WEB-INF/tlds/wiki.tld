@@ -24,17 +24,18 @@
     <name>topic</name>
     <tag-class>edu.temple.cis3238.wiki.ui.tags.TopicSingle</tag-class>
     <body-content>scriptless</body-content>
-    <attribute>
-      <name>TopicVO</name>
+	<attribute>
+      <name>topicCollection</name>
       <required>true</required>
       <rtexprvalue>true</rtexprvalue>
-      <type>edu.temple.cis3238.wiki.vo.TopicVO</type>
+      <type>edu.temple.cis3238.wiki.ui.beans.TopicCollection</type>
     </attribute>
-    <attribute>
-      <name>showTags</name>
+   
+	 <attribute>
+      <name>topicViewRequestParam</name>
       <required>true</required>
       <rtexprvalue>true</rtexprvalue>
-      <type>boolean</type>
+      <type>java.lang.String</type>
     </attribute>
     <attribute>
       <name>tagURLPrefix</name>
@@ -43,17 +44,17 @@
       <type>java.lang.String</type>
     </attribute>
     <attribute>
-      <name>CSSClassTopicTitle</name>
+      <name>cssTopicTitleClass</name>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
     </attribute>
     <attribute>
-      <name>CSSClassTopicBody</name>
+      <name>cssTopicBodyClass</name>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
     </attribute>
     <attribute>
-      <name>CSSClassTagList</name>
+      <name>cssTagListClass</name>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
     </attribute>

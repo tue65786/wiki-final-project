@@ -968,9 +968,12 @@ public class GeneralDAO implements IGeneralDAO {
    public ArrayList<TopicVO> searchTopic(String _query) {
 	  return searchTopic(_query, true);
    }
-
-   @Override
+@Override
    public ArrayList<TopicVO> searchTopic(String _query, boolean loadCollections) {
+	   return searchTopic(_query, loadCollections, "name", 1000);
+   }
+   
+   public ArrayList<TopicVO> searchTopic(String _query, boolean loadCollections,String sortColumn, int maxResults) {
 	  CallableStatement cs = null;
 	  ResultSet rs = null;
 	  TopicVO vo = null;
@@ -982,8 +985,17 @@ public class GeneralDAO implements IGeneralDAO {
 		 return null;
 	  }
 	  try {
-		 cs = dbc.getConn().prepareCall(DB_STRINGS.TOPIC_SEARCH_BY_KEYWORD);
+		  sortColumn = StringUtils.toS(sortColumn, "name").toLowerCase().trim();
+		  if (!sortColumn.equalsIgnoreCase(sortColumn)){
+			  sortColumn = "name";
+		  }
+		  if (maxResults < 1){
+			  maxResults = 1000;
+		  }
+		 cs = dbc.getConn().prepareCall(DB_STRINGS.TOPIC_SEARCH_BY_KEYWORD_SORTED_PAGED);
 		 cs.setString(1, _query);
+		 cs.setString(2, sortColumn);
+		 cs.setInt(3, maxResults);
 		 rs = cs.executeQuery();
 
 		 while (rs.next()) {

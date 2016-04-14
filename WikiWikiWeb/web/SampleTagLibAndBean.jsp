@@ -54,7 +54,7 @@ web = new ServletHelpers( request, response );
 			table.topicTable th{background-color:black;color:white;}
 			ul.topiclist {list-style-type: none;width:75%;}
 			ul.topiclist li h4{display: block;font-size: 14px;line-height: 22px;margin: 0;padding: 0 0 0 24px;}
-			li p.content{margin: 3px 0 0 25px;padding: 0;line-height: 15px;font-size: 12px;}
+			li p.wikicontent{margin: 3px 0 0 25px;padding: 0;line-height: 15px;font-size: 12px;}
 			li p.tags {font-size:11px;font-style: italic;margin: 3px 0 0 25px;padding:2px 0;}
 			li p.stats{font-size: 11px;color: #666; line-height: normal;margin: 3px 0 1.5em 25px;padding: 0;border-bottom: 1px dotted lightgrey;}
 		</style>

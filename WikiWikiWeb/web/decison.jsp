@@ -1,9 +1,3 @@
-<%-- 
-    Document   : decison
-    Created on : Mar 22, 2016, 5:24:11 PM
-    Author     : CAP
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="edu.temple.cis3238.wiki.vo.TagsVO"%>
 <%@page import="edu.temple.cis3238.wiki.vo.TopicVO"%>
@@ -26,14 +20,22 @@
     </head>
     <body> 
 
-        <%
-            String username = request.getParameter("username");
-            currentUser.setUsername(username);
-            String current = null;
-            DbConnection dbc = new DbConnection();
-            IGeneralDAO g = new GeneralDAO(dbc);
-            ArrayList<TagsVO> allTags = g.getTags();
-            out.println("<h1>Welcome " + username + "</h1>");
+        <%if (request.getParameter("createSuccess") != null) { %>
+		<h1 id='createSuccess'>You have successfully created a wiki: <%=request.getParameter("createSuccess")%></h1>
+		<script>
+			$(document).ready(function() {
+				$('#createSuccess').slideDown('slow');
+			});
+		</script>
+		<% }%>
+		<%
+		   String username = request.getParameter("username");
+		   currentUser.setUsername(username);
+		   String current = null;
+		   DbConnection dbc = new DbConnection();
+		   IGeneralDAO g = new GeneralDAO(dbc);
+		   ArrayList<TagsVO> allTags = g.getTags();
+		   out.println("<p>Welcome " + username + "</p>");
         %>
 
         <br></br>
@@ -52,25 +54,26 @@
         <h3> search by TAGS </h3>
 
         <script>
-            var source = [];
+			var source = [];
         </script>
 
-        <label> Quick Search :  <input id="autocomplete" /> </label>
+        <label> Quick Search by tags :  <input id="autocomplete" /> </label>
 
+		<h4>ALL TAGS</h4>
         <% for (int i = 0; i < allTags.size(); i += 1) {
-            current = allTags.get(i).getTagName();%>
+			  current = allTags.get(i).getTagName();%>
         <script> source.push({value: 'tag.jsp?tag=<%= current%>', label: '<%= current%>'});</script>
         <% } %>
 
         <script>
-            $(document).ready(function () {
-                $("input#autocomplete").autocomplete({
-                    source: source,
-                    select: function (event, ui) {
-                        window.location.href = ui.item.value;
-                    }
-                });
-            });
+			$(document).ready(function () {
+				$("input#autocomplete").autocomplete({
+					source: source,
+					select: function (event, ui) {
+						window.location.href = ui.item.value;
+					}
+				});
+			});
         </script>
 
         <table>
@@ -83,7 +86,6 @@
 
             <% } %>
         </table>
-
 
         <% dbc.close();%>
 </html>

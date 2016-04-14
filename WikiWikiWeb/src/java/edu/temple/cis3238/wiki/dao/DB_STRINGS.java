@@ -33,6 +33,19 @@ public static final String TOPIC_ASSIGN_ONLY_TAGS_CSV = "{call [spTopicAssignAll
 public static final String TOPIC_ASSIGN_ONLY_TAG_TAG_NAME_CSV = "{call dbo.spTopicAssignAllTagNamesByCSV(?,?)}";
 
 public static final String TOPIC_SEARCH_BY_KEYWORD = "{call dbo.spTopicSearchByKeyword(?)}";
+
+/**
+ * <ol><li>p1 - keyword 
+ * <ol><li>Multiple keywords sent to full text search as 'OR'</li>
+ * <li>Single keyword (or first word when multiple) checks INFLECTIONS (Party=Parties=Partied=Partying)</li>
+ * <li>Checks topic's assigned tags tag names.</li>
+ * </ol>
+ * <li>p2 - sort column (accepts name or date)</li>
+ * <li>p3 - max results</li>
+ * </ol>
+ * 
+ */
+public static final String TOPIC_SEARCH_BY_KEYWORD_SORTED_PAGED = "{call dbo.[spTopicSearchByKeywordSorted](?,?,?)}";
 /**
  * TopicID and TopicName are Nullable
  */

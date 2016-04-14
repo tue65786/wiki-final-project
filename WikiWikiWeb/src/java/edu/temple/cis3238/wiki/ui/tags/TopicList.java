@@ -6,6 +6,7 @@
 package edu.temple.cis3238.wiki.ui.tags;
 
 import edu.temple.cis3238.wiki.ui.beans.*;
+import edu.temple.cis3238.wiki.ui.tags.helpers.TopicHTMLFactory;
 import edu.temple.cis3238.wiki.utils.*;
 import edu.temple.cis3238.wiki.vo.*;
 import java.util.*;
@@ -25,7 +26,7 @@ public static final String LIST_STYLES[] = { "TABLE", "LIST" };
 public static final int LIST_STYLE_LIST = 1;
 public static final int LIST_STYLE_TABLE = 0;
 private static final String LIST_TEMPLATE = "<li><h4>[[[HREF]]]</h4>"
-		+ "<p class='content'>[[[ABSTRACT]]]</p>"
+		+ "<p class='wikicontent'>[[[ABSTRACT]]]</p>"
 		+ "<p class='tags'>[[[TAGS]]]</p>"
 		+ "<p class='stats'>[[[STATS]]]</p>"
 		+ "</li>";
@@ -106,43 +107,7 @@ public void setTopicLinkRequestParam(String topicLinkRequestParam) {
 public void setTopicsList(TopicCollection _topicCollection) {
    this.topicsList = _topicCollection.getTopics();
 }
-private String getTopicStats(TopicVO vo) {
-   StringBuilder sb = new StringBuilder( "" );
-   if ( !vo.getTopicModified().isEmpty() ) {
-	  sb.append( " " ).append( vo.getTopicModified() );
-   }
-   sb.append( " [Rev." ).append( vo.getRevisions() + "]" );
-   return sb.toString();
-}
 
-private String makeA(TagsVO vo) {
-   return "<a href=\"" + makeHref( vo ) + "\">" + vo.getTagName().toLowerCase() + "</a>";
-}
-
-private String makeA(TopicVO vo) {
-
-   return "<a href=\"" + makeHref( vo ) + "\">" + org.apache.commons.lang3.StringUtils.capitalize( vo.getTopicName().toLowerCase() ) + "</a>";
-}
-private String makeHref(TopicVO vo) {
-   return StringUtils.toS( this.topicLinkPage ) + "?" + StringUtils.toS( this.topicLinkRequestParam ) + "=" + vo.getTopicName() + "&topicPK=" + vo.getTopicID();
-}
-private String makeHref(TagsVO vo) {
-   return StringUtils.toS( this.tagLinkPage ) + "?" + StringUtils.toS( this.tagLinkRequestParam ) + "=" + vo.getTagName() + "&tagPK=" + vo.getTagID();
-}
-
-
-private String makeTagsCSV(TopicVO vo) {
-   StringBuilder sb = new StringBuilder( "" );
-   if ( vo == null || vo.getTagsCollection() == null || vo.getTagsCollection().isEmpty() ) {
-	  return "No Tags";
-   }
-   for ( TagsVO tag : vo.getTagsCollection() ) {
-	  sb.append( "&nbsp;" );
-	  sb.append( makeA( tag ) );
-	  sb.append( "&nbsp;|" );
-   }
-   return org.apache.commons.lang3.StringUtils.removeEnd( StringUtils.toS( sb.toString() ), "|" );
-}
 /**
  * Output form view.
  * @param vo
@@ -152,9 +117,9 @@ private String makeTopicItem(TopicVO vo) {
    String ret = LIST_TEMPLATE + "";
    return ret.
 		   replace( "[[[ABSTRACT]]]", StringUtils.truncateAtWord( vo.getTopicContent(), 80 ) )
-		   .replace( "[[[HREF]]]", makeA( vo ) )
-		   .replace( "[[[STATS]]]", getTopicStats( vo ) )
-		   .replace( "[[[TAGS]]]", makeTagsCSV( vo ) );
+		   .replace( "[[[HREF]]]", TopicHTMLFactory.makeA( vo,topicLinkRequestParam,topicLinkPage ) )
+		   .replace( "[[[STATS]]]", TopicHTMLFactory.getTopicStats( vo ) )
+		   .replace( "[[[TAGS]]]", TopicHTMLFactory.makeTagsCSV( vo ,tagLinkRequestParam,tagLinkPage) );
 }
 /**
  * Output table row
@@ -167,9 +132,9 @@ private String makeTopicRow(TopicVO vo, int row) {
    String ret = TABLE_ROW_TEMPLATE + "";
    return ret.replace( "[[[CLASS]]]", ( oddrow ? "oddrow" : "evenrow" ) )
 		   .replace( "[[[ROW]]]", row + "" )
-		   .replace( "[[[HREF]]]", makeA( vo ) )
-		   .replace( "[[[STATS]]]", getTopicStats( vo ) )
-		   .replace( "[[[TAGS]]]", makeTagsCSV( vo ) );
+		   .replace( "[[[HREF]]]", TopicHTMLFactory.makeA( vo,topicLinkRequestParam,topicLinkPage ) )
+		   .replace( "[[[STATS]]]", TopicHTMLFactory.getTopicStats( vo ) )
+		   .replace( "[[[TAGS]]]", TopicHTMLFactory.makeTagsCSV( vo ,tagLinkRequestParam,tagLinkPage) );
 }
    private static final Logger LOG = Logger.getLogger( TopicList.class.getName() );
 

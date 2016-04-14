@@ -35,13 +35,6 @@ body {
     transform: translate3d(-50%, -50%, 0);
 }
 
-#editor {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 75%;
-}
-
 h1, h2, h3 {
     list-style: none;
     display: none;

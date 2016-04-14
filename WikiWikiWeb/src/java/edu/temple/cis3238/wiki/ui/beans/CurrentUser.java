@@ -4,18 +4,24 @@ import java.io.Serializable;
 
 public class CurrentUser implements Serializable {
 
-    public String username;
-    
-    public CurrentUser() {
-    }
-    
-	
-   
-    public String getUsername() {
-        return username;
-    }
-    
-    public void setUsername(String user) {
-        username = user;
-    }
+	private static final long serialVersionUID = -212259253899375852L;
+
+	public String username;
+
+	public CurrentUser() {
+	}
+
+	public CurrentUser(String un) {
+		if (un != null && un.length() > 1) {
+			this.username = un;
+		}
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String user) {
+		username = user;
+	}
 }
