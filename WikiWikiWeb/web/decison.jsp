@@ -20,22 +20,24 @@
     </head>
     <body> 
 
-        <%if (request.getParameter("createSuccess") != null) { %>
+        <%if (request.getParameter("createSuccess") != null) {%>
 		<h1 id='createSuccess'>You have successfully created a wiki: <%=request.getParameter("createSuccess")%></h1>
 		<script>
-			$(document).ready(function() {
+			$(document).ready(function () {
 				$('#createSuccess').slideDown('slow');
 			});
 		</script>
 		<% }%>
 		<%
-		   String username = request.getParameter("username");
-		   currentUser.setUsername(username);
-		   String current = null;
-		   DbConnection dbc = new DbConnection();
-		   IGeneralDAO g = new GeneralDAO(dbc);
-		   ArrayList<TagsVO> allTags = g.getTags();
-		   out.println("<p>Welcome " + username + "</p>");
+			if (request.getParameter("login") != null) {
+				String username = request.getParameter("username");
+				currentUser.setUsername(username);
+			}
+			String current = null;
+			DbConnection dbc = new DbConnection();
+			IGeneralDAO g = new GeneralDAO(dbc);
+			ArrayList<TagsVO> allTags = g.getTags();
+			out.println("<p>Welcome " + currentUser.getUsername() + "</p>");
         %>
 
         <br></br>
@@ -61,7 +63,7 @@
 
 		<h4>ALL TAGS</h4>
         <% for (int i = 0; i < allTags.size(); i += 1) {
-			  current = allTags.get(i).getTagName();%>
+				current = allTags.get(i).getTagName();%>
         <script> source.push({value: 'tag.jsp?tag=<%= current%>', label: '<%= current%>'});</script>
         <% } %>
 
