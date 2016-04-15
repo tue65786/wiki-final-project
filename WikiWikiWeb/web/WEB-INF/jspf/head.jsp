@@ -25,6 +25,8 @@
 <script type="text/javascript" src="http://www.jqwidgets.com/jquery-widgets-documentation/jqwidgets/jqxtooltip.js"></script>
 <script type="text/javascript" src="http://www.jqwidgets.com/jquery-widgets-documentation/jqwidgets/jqxcheckbox.js"></script>
 <script type="text/javascript" src="editor.js"></script>
+<script type="text/javascript" src="http://guidemecoach.com/gains-mcc/js/json2.js"></script>
+<script type="text/javascript" src="http://underscorejs.org/underscore-min.js"></script>
 
 <%
 	TopicCollection collection = (TopicCollection) session.getAttribute("topicCollection");

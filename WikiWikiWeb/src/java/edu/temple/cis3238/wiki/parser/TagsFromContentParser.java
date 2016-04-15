@@ -87,7 +87,7 @@ public class TagsFromContentParser implements Serializable {
 
    private TagsFromContentParser extract() {
 	  extractTagNamesCSVFromTopicContent(topicContent);
-	  extracted = (tagNameCSV != null && !tagNameCSV.isEmpty());
+	  extracted = topicContent != null; 
 	  return this;
    }
 
@@ -97,9 +97,9 @@ public class TagsFromContentParser implements Serializable {
     * @return the tagNameCSV
     */
    public String getTagNameCSV() {
-	  if (!extracted) {
-		 throw new NullPointerException("Must run extract before extracting tags. ");
-	  }
+//	  if (!extracted) {
+//		 throw new NullPointerException("Must run extract before extracting tags. ");
+//	  }
 	  return tagNameCSV;
    }
 
@@ -118,9 +118,9 @@ public class TagsFromContentParser implements Serializable {
     * @return the tagNameSet
     */
    public Set<String> getTagNameSet() {
-	  if (!extracted) {
-		 throw new NullPointerException("Must run extract before extracting tags. ");
-	  }
+//	  if (!extracted) {
+//		 throw new NullPointerException("Must run extract before extracting tags. ");
+//	  }
 	  return tagNameSet;
    }
 
@@ -161,8 +161,10 @@ public class TagsFromContentParser implements Serializable {
 			setTagNameCSV(setToCSV(getTagNameSet()));
 			extracted = true;
 		 } catch (IllegalArgumentException ex) {
+			 ex.printStackTrace();
 			LOG.log(Level.SEVERE, null, ex);
 		 } catch (Exception ex) {
+			 ex.printStackTrace();
 			LOG.log(Level.SEVERE, null, ex);
 		 }
 	  }

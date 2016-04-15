@@ -162,7 +162,7 @@
 						<%} else if (editSingle || insertSingle) {%>
 
 						<!-- EDITOR -- insert/update -->
-						<form action="${pageContext.request.contextPath}/Logger" method="post">
+						<form action="${pageContext.request.contextPath}/Logger" id="frmEditForm" name="frmEditForm" method="get">
 							<input type="hidden" name="editorMode" id="editorMode" value="<%= insertSingle ? "insert" : "update"%>" /> 
 							<input type="hidden" name="topicPK" id="topicPK" value="<%=requestTopicID + ""%>" />
 							<input type="hidden" name="pTopicID" id="pTopicID" value="<%=editorTopicName%>" />
@@ -170,10 +170,21 @@
 							<textarea id="editor" name="editor">
 								<%=editorTopicContent%>
 							</textarea><br />
+							<input type="hidden" name="editorClean" id="editorClean" value=""/>
 							<a href="View.jsp?command=view&pTopicID=<%=editorTopicName%>&topicPK=<%=requestTopicID%>">Cancel</a>	
-							<button>Submit</button>
+							<button type="button" id="formSubmitButton" >Submit</button>
 						</form>
-
+						<script type="text/javascript">
+							$('#formSubmitButton').click(function (e) {
+								e.preventDefault();
+								var formJson = JSON.stringify($("#frmEditForm").serializeArray());
+								var formJSON = eval(formJson);
+								var editorObject = _.findWhere(formJSON, {name: "editor"});
+								var result = editorObject.value.replace(/\p{C}|\p{Cc}|[\x00-\x1F\x7F]/g, "");
+								$("#editorClean").val(result);
+									$("#frmEditForm").submit();
+							});
+						</script>
 						<%} else if (viewList) {%>
 						<wiki:TopicList topicsList="${topicCollection}" 
 										listStyle="LIST"  

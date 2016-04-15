@@ -55,10 +55,10 @@ public class WikiApplicationFilter implements Filter {
 	  // if (sesssion.user is null or user.acceslvl < level[thispage] then
 	  // response.redirect("NO AACCESS"); 
 
-	  session = request.getSession(true);
-	  if (session == null || session.getAttribute("WikiEngine") == null) {
-		 
-	  }
+//	  session = request.getSession(true);
+//	  if (session == null || session.getAttribute("WikiEngine") == null) {
+//		 
+//	  }
 
 // Write code here to process the request and/or response before
 	  // the rest of the filter chain is invoked.
@@ -163,7 +163,7 @@ public class WikiApplicationFilter implements Filter {
 	  RequestWrapper wrappedRequest = new RequestWrapper((HttpServletRequest) request);
 	  ResponseWrapper wrappedResponse = new ResponseWrapper((HttpServletResponse) response);
 
-	  doBeforeProcessing(wrappedRequest, wrappedResponse);
+//	  doBeforeProcessing(wrappedRequest, wrappedResponse);
 
 	  Throwable problem = null;
 
@@ -177,7 +177,7 @@ public class WikiApplicationFilter implements Filter {
 		 t.printStackTrace();
 	  }
 
-	  doAfterProcessing(wrappedRequest, wrappedResponse);
+//	  doAfterProcessing(wrappedRequest, wrappedResponse);
 
 	  // If there was a problem, we want to rethrow it if it is
 	  // a known type, otherwise log it.

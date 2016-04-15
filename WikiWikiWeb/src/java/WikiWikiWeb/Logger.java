@@ -4,8 +4,9 @@ import edu.temple.cis3238.wiki.dao.GeneralDAO;
 import edu.temple.cis3238.wiki.sql.DbConnection;
 import edu.temple.cis3238.wiki.vo.TagsVO;
 import edu.temple.cis3238.parser.Parser;
+import edu.temple.cis3238.wiki.parser.TagsFromContentParser;
 import edu.temple.cis3238.wiki.ui.beans.CurrentUser;
-import edu.temple.cis3238.wiki.utils.ServletHelpers;
+import edu.temple.cis3238.wiki.utils.*;
 import static edu.temple.cis3238.wiki.utils.StringUtils.toS;
 import edu.temple.cis3238.wiki.vo.*;
 import java.io.IOException;
@@ -54,14 +55,12 @@ public class Logger extends HttpServlet {
              * Gets the username, topic name, and tag name(s) and prints them out
 			 * Only for testing
 			 */
-//			String userName = request.getParameter("username");
-//			out.println(userName + "<br />");
-			String topicContent = request.getParameter("editor");
-			topicContent = topicContent.substring("<div>".length(), topicContent.length() - "</div>".length());
+			String topicContent = request.getParameter("editorClean");
+			topicContent = cleanTopicContent(topicContent);
 			String topicTitle = request.getParameter("pTopicID");
-			ArrayList<String>[] topicsAndTags = Parser.parseAndCategorize(topicContent);
-			out.println(topicContent + "<br />");
-			out.println(topicTitle + " " + topicsAndTags[0] + " " + topicsAndTags[1]);
+			TagsFromContentParser tagsFromContentParser = TagsFromContentParser.create(topicContent);
+			System.out.println("WikiWikiWeb.Logger.createNewWiki() - Found tags:\n" +
+					tagsFromContentParser.getTagNameCSV() + "\n----------------\n");
 
 			/*
              * Adds or Updates topic and tags to database;
@@ -70,32 +69,39 @@ public class Logger extends HttpServlet {
 			GeneralDAO d = new GeneralDAO(dbc);
 
 			if (request.getParameter("editorMode").equals("update")) {
+				System.out.println("WikiWikiWeb.Logger.createNewWiki() - mode = update");
 				int topicID = new Integer(request.getParameter("topicPK"));
-				boolean updated = d.updateTopic(new TopicVO(topicID, topicTitle, topicContent, "",
-						"", 0));
-//				out.println(updated);
+				TopicVO topicVO = new TopicVO(topicID, topicTitle, topicContent, "",
+						"", 0);
+				boolean updated = d.updateTopic(topicVO);
+				if (!tagsFromContentParser.getTagNameCSV().isEmpty()) {
+					d.assignOnlyTopicsTagNamesFromTagCSV(topicVO,
+							tagsFromContentParser.getTagNameCSV());
+				}
 			} else if (request.getParameter("editorMode").equals("insert")) {
-				ArrayList<TagsVO> tagVOs = new ArrayList<>();
-				TagsVO tag;
-
+				System.out.println("WikiWikiWeb.Logger.createNewWiki() - mode = Insert");
 				TopicVO newTopic = new TopicVO(topicTitle, topicContent);
 				int topicId = d.addTopic(newTopic);
 				newTopic.setTopicID(topicId);
-
-				for (String tagName : topicsAndTags[1]) {
-					tag = new TagsVO(0, tagName, 0);
-					int tagId = d.addTag(tag);
-					tag.setTagID(tagId);
-					tagVOs.add(tag);
+				if (!tagsFromContentParser.getTagNameCSV().isEmpty()) {
+					d.assignOnlyTopicsTagNamesFromTagCSV(newTopic,
+							tagsFromContentParser.getTagNameCSV());
 				}
-				boolean inserted = d.assignTopicTags(newTopic, tagVOs);
-//				out.println(inserted);
 			}
 
 			dbc.close();
-				response.sendRedirect(
-						"/WikiWikiWeb/View.jsp");
+			response.sendRedirect(
+					"/WikiWikiWeb/View.jsp");
 		}
+	}
+
+	private String cleanTopicContent(String topicContent) {
+		topicContent = StringUtils.toS(topicContent);
+		topicContent = org.apache.commons.lang3.StringUtils.removeStart(topicContent, "<div>");
+		topicContent = org.apache.commons.lang3.StringUtils.removeEnd(topicContent, "</div>");
+		topicContent = topicContent.replaceAll("\\p{C}|\\p{Cc}|\\p{Cntrl}", "");
+		topicContent = org.apache.commons.lang3.StringUtils.stripAccents(topicContent);
+		return topicContent;
 	}
 
 	@Override
