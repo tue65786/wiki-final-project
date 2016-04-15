@@ -37,9 +37,9 @@ public class TopicSingle extends SimpleTagSupport {
 			"<p class='[[[CSSTAGS]]]'>[[[TAGS]]]</p>" +
 			"<p class='stats'>[[[STATS]]]</p>" +
 			"<p class='actions'>" +
-			"<input type=\"hidden\" name=\"" + "command" + "\" id=\"" + "command" + "\" value=\"view\"/>" +
+			"<input type=\"hidden\" name=\"" + "command" + "\" id=\"" + "command" + "\" value=\"edit\"/>" +
 			"<input type=\"hidden\" name=\"" + QUERY_PARAMS.TOPIC_ID + "\" id=\"" + QUERY_PARAMS.TOPIC_ID + "\" value=\"[[[ID]]]\"/>" +
-			"<input type=\"button\" name=\"action\" style='cursor:pointer;font-variant:all-caps;' id=\"btnEdit\" value=\"edit\"/>" +
+			"<button name=\"action\" style='cursor:pointer;font-variant:all-caps;' id=\"btnEdit\" value=\"edit\">Edit</button>" +
 //			"<input name=\"action\" type=\"button\" id=\"btnSave\" value=\"save\"/>" +
 //			"<input type=\"button\" name=\"action\"  value=\"cancel\" id=\"btnCancel\"/>" +
 			"</p>" +
@@ -69,7 +69,8 @@ public class TopicSingle extends SimpleTagSupport {
 		try {
 			if (topicVO == null) {
 				out.println(
-						"<p>Topic not found. <a href='#' id='addTopic'>Click </a> to add it!</p>");
+						"<p>Topic not found. <a href='View.jsp?command=edit&pTopicID=" 
+								+ topicVO.getTopicName() + "id='addTopic'>Click </a> to add it!</p>");
 			} else {
 				out.println(JAVASCRIPTS);
 				out.print(makeTopicItem(topicVO));

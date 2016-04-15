@@ -10,11 +10,15 @@
 <%@page import="edu.temple.cis3238.wiki.ui.tags.helpers.TagsTagSettings"%>
 <jsp:useBean id="tagsCollection" class="edu.temple.cis3238.wiki.ui.beans.TagsCollection" scope="session"/>
 <jsp:useBean id="topicCollection" class="edu.temple.cis3238.wiki.ui.beans.TopicCollection" scope="session"/>
+<jsp:useBean id="currentUser" class="edu.temple.cis3238.wiki.ui.beans.CurrentUser" scope="session" />
 <jsp:setProperty name="topicCollection" property="*"/>
 <jsp:setProperty name="tagsCollection" property="*"/>
 <%@taglib prefix="wiki" uri="/WEB-INF/tlds/wiki.tld"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+	if (request.getParameter("login") != null) {
+		currentUser.setUsername(request.getParameter("username"));
+	}
 	ServletHelpers web;
 	String requestMessages = "";
 	ArrayList<TopicVO> topics;
@@ -32,6 +36,7 @@
 	int requestTagId = web.getIntParameter("tagPK", 0);
 	String type = web.getStrParameter("type", "LIST");
 	String editorMode = web.getStrParameter("editorMode", "");
+	String requestTopicContent = "";
 	boolean viewSingle = false;
 	boolean viewList = false;
 	boolean editSingle = false;
@@ -55,13 +60,13 @@
 			requestTagId = voTemp.getTagID();
 		} else {
 			insertSingle = true;
-			requestMessages = "<div style='color:red;font-weight:bold;'>Unable to load topics for <u>"+requestTag+"</u>.</div>";
+			requestMessages = "<div style='color:red;font-weight:bold;'>Unable to load topics for <u>" + requestTag + "</u>.</div>";
 		}
 	}
 	if (requestTopicID > 0) {
 		if (requestAction.equals("edit")) {
 			//editing --> editmode
-			editSingle = true; 
+			editSingle = true;
 		} //save changes  --> back to viewmode
 		else if (requestAction.equals("save")) {
 			viewSingle = true;
@@ -86,7 +91,7 @@
 	Collections.sort(tags);
 	settings = TagsTagSettings.builder()
 			.queryStringParam("tagPK")
-			.navigateURL("SampleTagLibAndBean.jsp")
+			.navigateURL("View.jsp")
 			.style("cloud")
 			.widthPx("90%")
 			.tagsVOList(tags).build();
@@ -127,8 +132,8 @@
 			<h1>WikiWikiWeb</h1>
 			<h2 class="centered"><%=title%></h2>
 			<ul>
-				<li><a href='#'>Home</a></li>
-				<li><a href='#'>Index</a></li>
+				<li><a href='View.jsp'>Home</a></li>
+				<li><a href='View.jsp'>Index</a></li>
 				<li><a href='#'>Logout</a></li>
 			</ul>
 		</div>
@@ -148,13 +153,23 @@
 						<!-- EDITOR -- insert/update -->
 						<form action="${pageContext.request.contextPath}" method="get">
 							<input type="hidden" name="editorMode" id="editorMode" value="<%= insertSingle ? "insert" : "update"%>" /> 
-							<intput type="hidden" name="topicPK" id="topicPK" value="<%=requestTopicID + ""%>"/> 
-							Topic Name:<input id="topicName" name="topicName" />
-							<textarea id="editor" name="editor"></textarea><br />
-							<a href="View.jsp">Cancel</a>
+							<intput type="hidden" name="topicPK" id="topicPK" value="<%=requestTopicID + ""%>" />
+							<%
+								for (TopicVO topic : topics) {
+									if (topic.getTopicID() == requestTopicID) {
+										requestTopic = topic.getTopicName();
+										requestTopicContent = topic.getTopicContent();
+									} else {
+										out.println(requestTopicID);
+									}
+								}
+							%>
+							Topic Name:<input id="topicName" name="topicName" value="<%=requestTopic%>"/>
+							<textarea id="editor" name="editor" value="<%=requestTopicContent%>"></textarea><br />
+							<a href="View.jsp?command=view&pTopicID=&topicPK=">Cancel</a>	
 							<button>Submit</button>
 						</form>
-							
+
 						<%} else if (viewList) {%>
 						<wiki:TopicList topicsList="${topicCollection}" 
 										listStyle="LIST"  

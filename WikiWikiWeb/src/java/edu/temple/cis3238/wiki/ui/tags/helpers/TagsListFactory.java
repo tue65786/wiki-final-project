@@ -18,12 +18,12 @@ public class TagsListFactory {
 private static final String CLOUD_ITEM_HREF_MARKUP = "<a title=\"Click to view [[[COUNTTOPIC]]] topic(s).\" href=\"[[[URL]]]?[[[QSP]]]=[[[TAGID]]]&pTagID=[[[TAGNAME]]]\">[[[TAGNAME]]]</a>";
 private static final String CLOUD_ITEM_STYLE_PREFIX = "<span style=\"font-size:";
 private static final String CLOUD_ITEM_STYLE_SUFFIX = "pt;\"> ";
-private static final int LARGE = 20;
-private static final int LARGE_X = 22;
-private static final int LARGE_XX = 26;
-private static final int MEDIUM = 16;
-private static final int SMALL = 14;
-private static final int SMALL_X = 12;
+private static final int LARGE = 18;
+private static final int LARGE_X = 20;
+private static final int LARGE_XX = 24;
+private static final int MEDIUM = 14;
+private static final int SMALL = 12;
+private static final int SMALL_X = 11;
 private static final int SMALL_XX = 10;
 private static final String[] FONT_SCALE = {
    CLOUD_ITEM_STYLE_PREFIX + SMALL_XX + CLOUD_ITEM_STYLE_SUFFIX,

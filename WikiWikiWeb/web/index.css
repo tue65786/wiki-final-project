@@ -1,6 +1,7 @@
 body {
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     overflow: hidden;
+	font-size: 12px;
 }
 
 #bg-image {
@@ -35,7 +36,7 @@ body {
     transform: translate3d(-50%, -50%, 0);
 }
 
-h1, h2, h3 {
+#invalidCreds, #invalidPassword, #invalidUsername, #errorMessageUserName, #logout, #newUser {
     list-style: none;
     display: none;
 }
