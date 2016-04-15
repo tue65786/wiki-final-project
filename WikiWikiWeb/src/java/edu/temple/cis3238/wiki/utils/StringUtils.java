@@ -20,7 +20,7 @@ import java.util.regex.*;
 public class StringUtils {
 
    public static final String DEFAULT_SQL_DATETIME_FMT = "yyyy-MM-dd HH:mm:ss.SSS";
-   public static final String DEFAULT_DISPLAY_DATETIME_FMT = "yyyy-MM-dd HH:mm:ss";
+   public static final String DEFAULT_DISPLAY_DATETIME_FMT = "yyyy-MM-dd ( HH:mm )";
    private static final Logger LOG = Logger.getLogger(StringUtils.class.getName());
    private static final String PH_LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 

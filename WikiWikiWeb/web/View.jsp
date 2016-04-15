@@ -162,7 +162,7 @@
 		</div>
 		<div class="colmask rightmenu">
 			<div class="colleft">
-				<div class="col1">
+				<div class="col1" >
 					<!-- Main div -->
 					<div id="content">
 						<%=requestMessages%>
