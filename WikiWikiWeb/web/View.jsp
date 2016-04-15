@@ -36,7 +36,8 @@
 	int requestTagId = web.getIntParameter("tagPK", 0);
 	String type = web.getStrParameter("type", "LIST");
 	String editorMode = web.getStrParameter("editorMode", "");
-	String requestTopicContent = "";
+	String editorTopicContent = "";
+	String editorTopicName = "";
 	boolean viewSingle = false;
 	boolean viewList = false;
 	boolean editSingle = false;
@@ -115,6 +116,10 @@
 		TopicByTopicIDPredicate currentTopicPredicate;
 		currentTopicPredicate = TopicByTopicIDPredicate.create(topics, requestTopicID);
 		topicCollection.setCurrentTopic(currentTopicPredicate.apply());
+		if (topicCollection.getCurrentTopic() != null){
+			editorTopicContent = topicCollection.getCurrentTopic().getTopicContent();
+			editorTopicName = topicCollection.getCurrentTopic().getTopicName();
+		}
 	}
 
 	dbc.close();
@@ -154,18 +159,10 @@
 						<form action="${pageContext.request.contextPath}" method="get">
 							<input type="hidden" name="editorMode" id="editorMode" value="<%= insertSingle ? "insert" : "update"%>" /> 
 							<intput type="hidden" name="topicPK" id="topicPK" value="<%=requestTopicID + ""%>" />
-							<%
-								for (TopicVO topic : topics) {
-									if (topic.getTopicID() == requestTopicID) {
-										requestTopic = topic.getTopicName();
-										requestTopicContent = topic.getTopicContent();
-									} else {
-										out.println(requestTopicID);
-									}
-								}
-							%>
-							Topic Name:<input id="topicName" name="topicName" value="<%=requestTopic%>"/>
-							<textarea id="editor" name="editor" value="<%=requestTopicContent%>"></textarea><br />
+							Topic Name:<input id="topicName" name="topicName" value="<%=editorTopicName%>"/>
+							<textarea id="editor" name="editor">
+								<%=editorTopicContent%>
+							</textarea><br />
 							<a href="View.jsp?command=view&pTopicID=&topicPK=">Cancel</a>	
 							<button>Submit</button>
 						</form>
