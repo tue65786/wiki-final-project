@@ -14,12 +14,16 @@
 <jsp:useBean id="tagsCollection" class="edu.temple.cis3238.wiki.ui.beans.TagsCollection" scope="session"/>
 <jsp:useBean id="topicCollection" class="edu.temple.cis3238.wiki.ui.beans.TopicCollection" scope="session"/>
 <jsp:useBean id="currentUser" class="edu.temple.cis3238.wiki.ui.beans.CurrentUser" scope="session" />
+<jsp:setProperty name="currentUser" property="*"/>
 <jsp:setProperty name="topicCollection" property="*"/>
 <jsp:setProperty name="tagsCollection" property="*"/>
 <%@taglib prefix="wiki" uri="/WEB-INF/tlds/wiki.tld"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
 	if (request.getParameter("login") != null) {
+		currentUser.setUsername(request.getParameter("username"));
+	}
+	if (request.getParameter("logout") != null) {
 		currentUser.setUsername(request.getParameter("username"));
 	}
 	ServletHelpers web;
@@ -32,7 +36,7 @@
 
 	web = new ServletHelpers(request, response);
 	String requestAction = web.getStrParameter("command", "list");
-	String keywordSearch = web.getStrAttribute("query", "all");
+	String keywordSearch = web.getStrParameter("query", "all");
 	String requestTopic = web.getStrParameter("pTopicID", "");
 	int requestTopicID = web.getIntParameter("topicPK", 0);
 	String requestTag = web.getStrParameter("pTagID", "");
@@ -67,6 +71,7 @@
 			requestMessages = "<div style='color:red;font-weight:bold;'>Unable to load topics for <u>" + requestTag + "</u>.</div>";
 		}
 	}
+
 	if (requestTopicID > 0) {
 		if (requestAction.equals("edit")) {
 			//editing --> editmode
@@ -108,6 +113,7 @@
 	} else if (viewList && !keywordSearch.equals("all")) {
 		//keyword search
 		topics = dao.searchTopic(keywordSearch);
+		requestMessages = "Displaying "+ topics.size() + "  result(s) for: <b>" + keywordSearch +"</b>";
 	} else {
 		//show all
 		topics = dao.getTopics();
@@ -141,11 +147,18 @@
     <body>
         <div id="header">
 			<h1>WikiWikiWeb</h1>
+			<% if (currentUser.isLoggedIn()){%>
+			<h4>Welcome back, <%=currentUser.getUsername()%></h4>
+			<%}%>
 			<h2 class="centered"><%=title%></h2>
 			<ul>
 				<li><a href='View.jsp'>Home</a></li>
 				<li><a href='View.jsp'>Index</a></li>
-				<li><a href='#'>Logout</a></li>
+				<% if (currentUser.isLoggedIn()){%>
+				<li><a href='View.jsp?logout=true'>Logout</a></li>
+				<%} else{%>
+				<li><a href='index.jsp'>Login</a></li>
+				<%}%>
 			</ul>
 		</div>
 		<div class="colmask rightmenu">
@@ -156,6 +169,7 @@
 						<%=requestMessages%>
 						<% if (viewSingle && !editSingle) {%>
 						<wiki:topic topicCollection="${topicCollection}" 
+									currentUser="${currentUser}" 
 									tagURLPrefix = "View.jsp" 
 									topicViewRequestParam = "View.jsp">
 						</wiki:topic>
@@ -182,10 +196,20 @@
 								var editorObject = _.findWhere(formJSON, {name: "editor"});
 								var result = editorObject.value.replace(/\p{C}|\p{Cc}|[\x00-\x1F\x7F]/g, "");
 								$("#editorClean").val(result);
-									$("#frmEditForm").submit();
+								$("#frmEditForm").submit();
 							});
 						</script>
 						<%} else if (viewList) {%>
+<!--						<table><tr><td style="width:75%;">&nbsp;</td>
+								<td>						
+									<select id="pageSize" name="pageSize">
+										<option>All</option>
+										<option>5</option>
+										<option>25</option>
+									</select>
+
+								</td></tr></table>-->
+
 						<wiki:TopicList topicsList="${topicCollection}" 
 										listStyle="LIST"  
 										sortField="" 
@@ -201,10 +225,17 @@
 				<div class="col2">
 					<!-- Sidebar div -->
 					<div style="display:flex;float:left;margin-left:20%;">
-						<input style="width:50%" name="query" id="query" type="text">
-						<button>search</button>
+						<form id="frmSearch" action="View.jsp" method="get" name="frmSearch">	
+							<input style="width:50%" name="query" id="query" type="text">
+							<button id="btnSearch" name="search" value="search">search</button>
+						</form>
+						<script type="text/javascript">
+							$('#btnSearch').click(function (e) {
+								$("#frmSearch").submit();
+							});
+						</script>
 					</div>
-					<br/>
+					<div style="margin: 5px 0px;padding-top:3px;">&nbsp;</div>
 					<wiki:TagsList tagsCollectionBeans="${tagsCollection}" />
 					<!--end sidebar-->
 				</div>

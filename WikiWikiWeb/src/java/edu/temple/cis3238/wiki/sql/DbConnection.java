@@ -11,7 +11,8 @@ import java.util.*;
 import java.util.logging.*;
 
 /**
- *
+ * Retrieves SQL Connection.
+ * <br/><b>NOTE </b>:  Connections <u>must call</u> {@linkplain #close()} to prevent memory leaks. Call to  {@linkplain #close()} should immediately  <u>follow completion of  database work.</u> <i>(eg. ResultSet has no more results)</i>
  * @author (c)2016 Doreen, Dan, Christian
  */
 public class DbConnection implements IDbConnection {
@@ -72,7 +73,11 @@ public String getConnectionMessages() {
 public void setConnectionMessages(String connectionMessages) {
    this.connectionMessages = connectionMessages;
 }
-
+/**
+ * Retrieves server connection properties from database.properties file
+ * @return  Connection string.
+ * @see database.properties
+ */
 public final String getConnectionStringFromProps() {
    StringBuilder sb = new StringBuilder( "" );
    try {

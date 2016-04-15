@@ -6,7 +6,7 @@
 package edu.temple.cis3238.wiki.ui.tags;
 
 import edu.temple.cis3238.constants.QUERY_PARAMS;
-import edu.temple.cis3238.wiki.ui.beans.TopicCollection;
+import edu.temple.cis3238.wiki.ui.beans.*;
 import edu.temple.cis3238.wiki.ui.tags.helpers.TopicHTMLFactory;
 import edu.temple.cis3238.wiki.utils.StringUtils;
 import edu.temple.cis3238.wiki.vo.*;
@@ -24,6 +24,7 @@ public class TopicSingle extends SimpleTagSupport {
 	//////////////////////
 
 	private TopicVO topicVO;
+	private CurrentUser currentUser;
 	private boolean showTags;
 	private String tagURLPrefix;
 	private String cssTopicTitleClass;
@@ -39,7 +40,7 @@ public class TopicSingle extends SimpleTagSupport {
 			"<p class='actions'>" +
 			"<input type=\"hidden\" name=\"" + "command" + "\" id=\"" + "command" + "\" value=\"edit\"/>" +
 			"<input type=\"hidden\" name=\"" + QUERY_PARAMS.TOPIC_ID + "\" id=\"" + QUERY_PARAMS.TOPIC_ID + "\" value=\"[[[ID]]]\"/>" +
-			"<button name=\"action\" style='cursor:pointer;font-variant:all-caps;' id=\"btnEdit\" value=\"edit\">Edit</button>" +
+			"[[[EDIT]]]" +
 //			"<input name=\"action\" type=\"button\" id=\"btnSave\" value=\"save\"/>" +
 //			"<input type=\"button\" name=\"action\"  value=\"cancel\" id=\"btnCancel\"/>" +
 			"</p>" +
@@ -72,7 +73,9 @@ public class TopicSingle extends SimpleTagSupport {
 						"<p>Topic not found. <a href='View.jsp?command=edit&pTopicID=" 
 								+ topicVO.getTopicName() + "id='addTopic'>Click </a> to add it!</p>");
 			} else {
+				if (currentUser != null &&currentUser.isLoggedIn()){
 				out.println(JAVASCRIPTS);
+				}
 				out.print(makeTopicItem(topicVO));
 			}
 			JspFragment f = getJspBody();
@@ -82,6 +85,13 @@ public class TopicSingle extends SimpleTagSupport {
 		} catch (java.io.IOException ex) {
 			throw new JspException("Error in topic tag", ex);
 		}
+	}
+
+	/**
+	 * @param currentUser the currentUser to set
+	 */
+	public void setCurrentUser(CurrentUser currentUser) {
+		this.currentUser = currentUser;
 	}
 
 	/**
@@ -133,6 +143,7 @@ public class TopicSingle extends SimpleTagSupport {
 
 	private String makeTopicItem(TopicVO vo) {
 		String ret = ITEM_TEMPLATE + "";
+		String loggedIn = "<button name=\"action\" style='cursor:pointer;font-variant:all-caps;' id=\"btnEdit\" value=\"edit\">Edit</button>";
 		return ret.
 				replace("[[[CONTENT]]]", edu.temple.cis3238.parser.Parser.parseAndAnnotate(
 						vo.getTopicContent(), "View.jsp", QUERY_PARAMS.TOPIC_NAME, "View.jsp",
@@ -143,7 +154,8 @@ public class TopicSingle extends SimpleTagSupport {
 						tagURLPrefix))
 				.replace("[[[ID]]]",vo.getTopicID()+"")
 				.replace("[[[CSSTAGS]]]", getCssTagListClass())
-				.replace("[[[CSSBODY]]]", getCssTopicBodyClass()).replace("[[[URL]]]",
-				topicViewRequestParam);
+				.replace("[[[CSSBODY]]]", getCssTopicBodyClass())
+				.replace("[[[URL]]]",topicViewRequestParam)
+				.replace("[[[EDIT]]]", currentUser != null && currentUser.isLoggedIn() ? loggedIn : "<br/><a href='index.jsp'>Login</a> to edit topic.");
 	}
 }

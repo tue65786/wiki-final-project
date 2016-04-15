@@ -6,12 +6,16 @@
 package edu.temple.cis3238.wiki.utils;
 
 import java.io.*;
-import java.util.logging.Level;
+import java.util.logging.*;
 import javax.servlet.http.*;
 
 /**
  *
- *
+ * Purpose: Static methods to simplify storage of HttpCookies and retrieving values from Request and Session
+ * @see HttpServlet
+ * @see HttpServletRequest
+ * @see HttpSession
+ * @see Cookie
  */
 public class ServletHelpers implements Serializable {
 
@@ -35,7 +39,12 @@ public  <T> T getAttribute(String sessionAttrib,T defaultValue ) {
       }
       return (paramValue);
    }
-   
+   /**
+	* Retrieve integer attribute from {@linkplain HttpSession}, or default value when null.
+	* @param attribute
+	* @param defaultVal value to return if attribute is not found.
+	* @return 
+	*/
     public int getIntAttribute(String attribute,int defaultVal ) {
       Object paramString = session.getAttribute(attribute);
       int paramValue;
@@ -47,6 +56,12 @@ public  <T> T getAttribute(String sessionAttrib,T defaultValue ) {
       }
       return (paramValue);
    }
+	/**
+	* Retrieve integer parameter from {@linkplain HttpServletRequest}, or default value when null.
+	* @param attribute
+	* @param defaultVal value to return if attribute is not found.
+	* @return 
+	*/
 	 public int getIntParameter( String qsParam, int defaultVal ) {
       String paramString = request.getParameter(qsParam);
       int paramValue;
@@ -58,6 +73,12 @@ public  <T> T getAttribute(String sessionAttrib,T defaultValue ) {
       }
       return (paramValue);
    }
+	 /**
+	* Retrieve String attribute from {@linkplain HttpSession}, or default value when null.
+	* @param attrib Session attribute
+	* @param defaultVal value to return if attribute is not found.
+	* @return 
+	*/
 	 public String getStrAttribute(String attrib,String defaultVal ) {
 		Object param = session.getAttribute(attrib);
 		String paramString;
@@ -72,7 +93,12 @@ public  <T> T getAttribute(String sessionAttrib,T defaultValue ) {
 		}
 		return (paramString);
 	 }
-	 
+	 /**
+	  * Retrieve String parameter from {@linkplain HttpServletRequest}, or default value when null.
+	  * @param qsParam param name
+	  * @param defaultVal value if param not found
+	  * @return 
+	  */
 	 public String getStrParameter( String qsParam, String defaultVal ) {
 		Object param = request.getParameter(qsParam);
 		String paramString;
@@ -101,11 +127,16 @@ public  <T> T getAttribute(String sessionAttrib,T defaultValue ) {
       }
       return (null);
    }
+	 /**
+	  * Adds HTTP Cookie
+	  * @param name cookie name
+	  * @param val value
+	  * @param days days until removed.
+	  * @return success
+	  */
 	 public boolean setCookie( String name, String val, int days ) {
-      //   int days = 60;
       try {
          Cookie cookie = new Cookie(StringUtils.toS(name), StringUtils.toS(val));
-         //cookie.setComment("Created: " + Global.getNow()); 
          cookie.setMaxAge(24 * 60 * days);
          cookie.setPath("wikiwikiweb/");
          response.addCookie(cookie);
@@ -143,4 +174,5 @@ public  <T> T getAttribute(String sessionAttrib,T defaultValue ) {
 		}
 		
 	 }
+	private static final Logger LOG = Logger.getLogger(ServletHelpers.class.getName());
 }

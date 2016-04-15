@@ -9,10 +9,11 @@ import edu.temple.cis3238.wiki.ui.tags.helpers.*;
 import edu.temple.cis3238.wiki.vo.*;
 import java.io.*;
 import java.util.*;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 
 /**
- * In-memory {@linkplain HttpSession} store for Tags 
+ * In-memory {@linkplain HttpSession} JavaBean for Tags 
  * @author Christian Dan Doreen
  */
 public class TagsCollection implements Serializable {
@@ -30,5 +31,6 @@ public class TagsCollection implements Serializable {
 	public void setSettings(TagsTagSettings settings) {
 		this.settings = settings;
 	}
+	private static final Logger LOG = Logger.getLogger(TagsCollection.class.getName());
 
 }

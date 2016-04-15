@@ -31,6 +31,12 @@
       <type>edu.temple.cis3238.wiki.ui.beans.TopicCollection</type>
     </attribute>
     <attribute>
+      <name>currentUser</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>edu.temple.cis3238.wiki.ui.beans.CurrentUser</type>
+    </attribute>
+	<attribute>
       <name>topicViewRequestParam</name>
       <required>true</required>
       <rtexprvalue>true</rtexprvalue>

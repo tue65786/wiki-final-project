@@ -10,7 +10,13 @@ public class CurrentUser implements Serializable {
 
 	public CurrentUser() {
 	}
-
+	
+	public boolean isLoggedIn(){
+		return username != null && username.length() > 1;
+	}
+	public void logout(){
+		username = "";
+	}
 	public CurrentUser(String un) {
 		if (un != null && un.length() > 1) {
 			this.username = un;

@@ -52,20 +52,22 @@ public class StringUtils {
 	  return "";
    }
 
-   public static void main(String[] args) {
-	  System.out.println(org.apache.commons.lang3.text.WordUtils.capitalizeFully("hello world").replace(" ",""));
-	  System.out.println(org.apache.commons.lang3.StringUtils.join(org.apache.commons.lang3.StringUtils.splitByCharacterTypeCamelCase(
-			  "ExampleTestOK")," "));
-
-//   for ( int i = 0; i < 1000; i++ ) {
-//	  System.out.println( "IDX= " + i + " RAND= " + getRandomString( "randTest", 20 + ( i % 20 ) ) );
-//	  System.out.println( getLoremWords( i % 100 ) );
-//   }
-   }
-
+   /**
+	* Converts words to CamelCase single word.
+	* 
+	* @param in  (ex.) Hello World 
+	* @return (ex.) HelloWorld
+	*/
    public static String toCamelCase(String in){
 	  return org.apache.commons.lang3.text.WordUtils.capitalizeFully(toS(in)).replace(" ","");
    }
+   
+   /**
+	* Converts words from CamelCase to spaced words.
+	* 
+	* @param in  (ex.) HelloWorld 
+	* @return (ex.) Hello World
+	*/
    public static String fromCamelCase(String in){
 	  return org.apache.commons.lang3.StringUtils.join(org.apache.commons.lang3.StringUtils.splitByCharacterTypeCamelCase(
 			  toS(in))," ");
@@ -90,7 +92,11 @@ public class StringUtils {
 			  : random.toString().length() - 1);
 
    }
-
+/**
+ * Stores stack track as String
+ * @param exception Thrown 
+ * @return String containing stack trace.
+ */
    public static final String throwableStackTraceToString(final Throwable exception) {
 	  if (exception != null) {
 
@@ -131,15 +137,20 @@ public class StringUtils {
    }
 
    /**
-    * Safe toString
+    * Safe toString method that converts nulls to empty strings.
     *
     * @param source
-    * @return
+    * @return source or ""
     */
    public static String toS(final Object source) {
 	  return source == null ? "" : source.toString().trim();
    }
-
+/**
+ * Safe toString method with default value.
+ * @param source input
+ * @param defaultVal value to return if source is null
+ * @return input or default value if input is null
+ */
    public static String toS(final Object source, String defaultVal) {
 	  try {
 		 return (source == null || source.toString().isEmpty())
@@ -148,7 +159,11 @@ public class StringUtils {
 		 return defaultVal;
 	  }
    }
-
+/**
+ * Converts int to String (if value is 0, returns empty string)
+ * @param source
+ * @return 
+ */
    public static String toS(final int source) {
 	  return source == 0 ? "" : String.valueOf(source);
    }
@@ -197,7 +212,12 @@ public class StringUtils {
 	  }
 	  return org.apache.commons.lang3.StringUtils.removeEnd(l.toString(), ".") + ".";
    }
-
+/**
+ * Returns first part of string upto specified length (breaks at word, greedy)
+ * @param input
+ * @param length character limit
+ * @return 
+ */
    public static String truncateAtWord(String input, int length) {
 	  int offset;
 	  offset = 2;
@@ -238,7 +258,11 @@ public class StringUtils {
 	  }
 	  return StringUtils.toS(in);
    }
-
+/**
+ * Removes all html tags from string
+ * @param val
+ * @return 
+ */
    public static String removeHtmlMarkups(String val) {
 	  String clean = "";
 	  try {
@@ -248,16 +272,17 @@ public class StringUtils {
 		 try {
 			clean = matcher.replaceAll("");
 		 } catch (IllegalArgumentException ex) {
-			// Syntax error in the replacement text (unescaped $ signs?)
 		 } catch (IndexOutOfBoundsException ex) {
-			// Non-existent backreference used the replacement text
 		 }
-	  } catch (PatternSyntaxException ex) {
-		 // Syntax error in the regular expression
+	  } catch (PatternSyntaxException ex) { 
 	  }//
 	  return toS(clean);
    }
-
+/**
+ * HTML Encodes markup characters.
+ * @param src
+ * @return 
+ */
    public static String replaceEntities(String src) {
 	  src = src.replace("&", "&amp;");
 	  src = src.replace("<", "&lt;");
