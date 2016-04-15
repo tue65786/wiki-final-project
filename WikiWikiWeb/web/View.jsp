@@ -1,13 +1,16 @@
 <%@page import="edu.temple.cis3238.wiki.ui.tags.helpers.TopicByTopicIDPredicate"%>
 <%@page import="edu.temple.cis3238.wiki.vo.TopicVO"%>
 <%@page import="edu.temple.cis3238.wiki.utils.ServletHelpers"%>
+<%@page import="java.sql.Timestamp"%>
 <%@page import="java.util.Collections"%>
 <%@page import="java.util.Collections"%>
+<%@page import="java.util.Date"%>
 <%@page import="edu.temple.cis3238.wiki.vo.TagsVO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="edu.temple.cis3238.wiki.dao.GeneralDAO"%>
 <%@page import="edu.temple.cis3238.wiki.sql.DbConnection"%>
 <%@page import="edu.temple.cis3238.wiki.ui.tags.helpers.TagsTagSettings"%>
+<%@page import="WikiWikiWeb.Logger"%>
 <jsp:useBean id="tagsCollection" class="edu.temple.cis3238.wiki.ui.beans.TagsCollection" scope="session"/>
 <jsp:useBean id="topicCollection" class="edu.temple.cis3238.wiki.ui.beans.TopicCollection" scope="session"/>
 <jsp:useBean id="currentUser" class="edu.temple.cis3238.wiki.ui.beans.CurrentUser" scope="session" />
@@ -156,14 +159,15 @@
 						<%} else if (editSingle || insertSingle) {%>
 
 						<!-- EDITOR -- insert/update -->
-						<form action="${pageContext.request.contextPath}" method="get">
+						<form action="${pageContext.request.contextPath}/Logger" method="get">
 							<input type="hidden" name="editorMode" id="editorMode" value="<%= insertSingle ? "insert" : "update"%>" /> 
-							<intput type="hidden" name="topicPK" id="topicPK" value="<%=requestTopicID + ""%>" />
-							Topic Name:<input id="topicName" name="topicName" value="<%=editorTopicName%>"/>
+							<input type="hidden" name="topicPK" id="topicPK" value="<%=requestTopicID + ""%>" />
+							<input type="hidden" name="pTopicID" id="pTopicID" value="<%=editorTopicName%>" />
+							<div>Topic Name: <b><%=editorTopicName%></b></div>
 							<textarea id="editor" name="editor">
 								<%=editorTopicContent%>
 							</textarea><br />
-							<a href="View.jsp?command=view&pTopicID=&topicPK=">Cancel</a>	
+							<a href="View.jsp?command=view&pTopicID=<%=editorTopicName%>&topicPK=<%=requestTopicID%>">Cancel</a>	
 							<button>Submit</button>
 						</form>
 

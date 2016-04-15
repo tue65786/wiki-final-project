@@ -50,41 +50,49 @@ public class Logger extends HttpServlet {
 
 			}
 
-			String userName = request.getParameter("username");
-			out.println(userName + "<br />");
-
 			/*
-             * Gets the topic name and tag name(s) and prints them out
+             * Gets the username, topic name, and tag name(s) and prints them out
+			 * Only for testing
 			 */
-			String topicTitle = request.getParameter("topicName");
+//			String userName = request.getParameter("username");
+//			out.println(userName + "<br />");
 			String topicContent = request.getParameter("editor");
+			String topicTitle = request.getParameter("pTopicID");
 			ArrayList<String>[] topicsAndTags = Parser.parseAndCategorize(topicContent);
-			out.println(topicTitle + " " + topicsAndTags[0] + " " + topicsAndTags[1]);
+//			out.println(topicTitle + " " + topicsAndTags[0] + " " + topicsAndTags[1]);
 
 			/*
-             * Adds topic and tags to database
+             * Adds or Updates topic and tags to database;
 			 */
 			DbConnection dbc = new DbConnection();
 			GeneralDAO d = new GeneralDAO(dbc);
-			ArrayList<TagsVO> tagVOs = new ArrayList<>();
-			TagsVO tag;
 
-			TopicVO topic = new TopicVO(topicTitle, topicContent);
-			int topicId = d.addTopic(topic);
-			topic.setTopicID(topicId);
-			for (String tagName : topicsAndTags[1]) {
-				tag = new TagsVO(0, tagName, 0);
-				int tagId = d.addTag(tag);
-				tag.setTagID(tagId);
-				tagVOs.add(tag);
+			if (request.getParameter("editorMode").equals("update")) {
+				int topicID = new Integer(request.getParameter("topicPK"));
+				boolean updated = d.updateTopic(new TopicVO(topicID, topicTitle, topicContent, "",
+						"", 0));
+//				out.println(updated);
+			} else if (request.getParameter("editorMode").equals("insert")) {
+				ArrayList<TagsVO> tagVOs = new ArrayList<>();
+				TagsVO tag;
+
+				TopicVO newTopic = new TopicVO(topicTitle, topicContent);
+				int topicId = d.addTopic(newTopic);
+				newTopic.setTopicID(topicId);
+
+				for (String tagName : topicsAndTags[1]) {
+					tag = new TagsVO(0, tagName, 0);
+					int tagId = d.addTag(tag);
+					tag.setTagID(tagId);
+					tagVOs.add(tag);
+				}
+				boolean inserted = d.assignTopicTags(newTopic, tagVOs);
+				out.println(inserted);
 			}
-			d.assignTopicTags(topic, tagVOs);
 
 			dbc.close();
-
-			response.sendRedirect(
-					"/WikiWikiWeb/decison.jsp?username=" + currentUser.getUsername() + "&createSuccess=" + topicTitle);
-
+//				response.sendRedirect(
+//						"/WikiWikiWeb/decison.jsp?username=" + currentUser.getUsername() + "&createSuccess=" + topicTitle);
 		}
 	}
 
