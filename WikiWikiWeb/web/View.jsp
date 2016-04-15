@@ -35,6 +35,7 @@
 	TagsTagSettings settings;
 
 	web = new ServletHelpers(request, response);
+	
 	String requestAction = web.getStrParameter("command", "list");
 	String keywordSearch = web.getStrParameter("query", "all");
 	String requestTopic = web.getStrParameter("pTopicID", "");
@@ -49,26 +50,28 @@
 	boolean viewList = false;
 	boolean editSingle = false;
 	boolean insertSingle = false;
-	boolean validView = false;
 	String title = "";
 	dbc = new DbConnection();
 	dao = new GeneralDAO(dbc);
-
+	
+	//Single Topic
 	if (requestTopicID == 0 && !requestTopic.isEmpty()) {
 		TopicVO voTemp = dao.getTopicByName(requestTopic);
 		if (voTemp != null) {
 			requestTopicID = voTemp.getTopicID();
 		} else {
 			insertSingle = true;
-			//requestMessages = "<div style='color:red;font-weight:bold;'>Unable to load that topic.</div>";
 		}
+	//Tag Search
 	} else if (requestTagId == 0 && !requestTag.isEmpty()) {
 		TagsVO voTemp = dao.getTagByName(requestTag);
 		if (voTemp != null) {
 			requestTagId = voTemp.getTagID();
 		} else {
 			insertSingle = true;
-			requestMessages = "<div style='color:red;font-weight:bold;'>Unable to load topics for <u>" + requestTag + "</u>.</div>";
+			requestMessages = "<div style='color:red;font-weight:bold;'>Unable to load topics for <u>"
+					+ requestTag 
+					+ "</u>.</div>";
 		}
 	}
 
@@ -76,13 +79,8 @@
 		if (requestAction.equals("edit")) {
 			//editing --> editmode
 			editSingle = true;
-		} //save changes  --> back to viewmode
-		else if (requestAction.equals("save")) {
-			viewSingle = true;
-		} // ----> back to viewmode
-		else if (requestAction.equals("cancel")) {
-			viewSingle = true;
-		} else {// --> default view mode
+		} 
+		 else {// --> default view mode
 			viewSingle = true;
 		}
 	} // ----> search results
@@ -92,10 +90,7 @@
 		viewList = true;
 	}
 
-	//view state found
-	validView = viewList || viewSingle || editSingle;
-
-	//populate tags collection
+	//Populate tags collection
 	tags = dao.getTags();
 	Collections.sort(tags);
 	settings = TagsTagSettings.builder()
@@ -106,18 +101,21 @@
 			.tagsVOList(tags).build();
 	tagsCollection.setSettings(settings);
 
-	//populate topic collection
+	//Populate topic collection
 	if (requestTagId > 0) {
-		//tag search 
+		//Tag search 
 		topics = dao.getTopicsByTagID(requestTagId);
 	} else if (viewList && !keywordSearch.equals("all")) {
-		//keyword search
+		//Keyword search
 		topics = dao.searchTopic(keywordSearch);
 		requestMessages = "Displaying "+ topics.size() + "  result(s) for: <b>" + keywordSearch +"</b>";
 	} else {
-		//show all
+		
+		//Show all topics
 		topics = dao.getTopics();
-
+	}
+	if (!requestTag.isEmpty() && !topics.isEmpty()){
+		requestMessages = "Displaying "+ topics.size() + "  result(s) for tag: <b>" + requestTag +"</b>";
 	}
 	topicCollection.setTopics(topics);
 	topicCollection.setListType(type);
@@ -136,6 +134,7 @@
 
 	dbc.close();
 %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -154,11 +153,11 @@
 			<ul>
 				<li><a href='View.jsp'>Home</a></li>
 				<li><a href='View.jsp'>Index</a></li>
-				<% if (currentUser.isLoggedIn()){%>
+					<% if (currentUser.isLoggedIn()){%>
 				<li><a href='View.jsp?logout=true'>Logout</a></li>
-				<%} else{%>
+					<%} else{%>
 				<li><a href='index.jsp'>Login</a></li>
-				<%}%>
+					<%}%>
 			</ul>
 		</div>
 		<div class="colmask rightmenu">
@@ -180,13 +179,16 @@
 							<input type="hidden" name="editorMode" id="editorMode" value="<%= insertSingle ? "insert" : "update"%>" /> 
 							<input type="hidden" name="topicPK" id="topicPK" value="<%=requestTopicID + ""%>" />
 							<input type="hidden" name="pTopicID" id="pTopicID" value="<%=editorTopicName%>" />
-							<div>Topic Name: <b><%=editorTopicName%></b></div>
+							<div>
+								Topic Name: <b><%=editorTopicName%></b>
+							</div>
 							<textarea id="editor" name="editor">
 								<%=editorTopicContent%>
-							</textarea><br />
+							</textarea>
+							<br />
 							<input type="hidden" name="editorClean" id="editorClean" value=""/>
 							<a href="View.jsp?command=view&pTopicID=<%=editorTopicName%>&topicPK=<%=requestTopicID%>">Cancel</a>	
-							<button type="button" id="formSubmitButton" >Submit</button>
+							<button type="button" id="formSubmitButton">Submit</button>
 						</form>
 						<script type="text/javascript">
 							$('#formSubmitButton').click(function (e) {
@@ -200,16 +202,6 @@
 							});
 						</script>
 						<%} else if (viewList) {%>
-<!--						<table><tr><td style="width:75%;">&nbsp;</td>
-								<td>						
-									<select id="pageSize" name="pageSize">
-										<option>All</option>
-										<option>5</option>
-										<option>25</option>
-									</select>
-
-								</td></tr></table>-->
-
 						<wiki:TopicList topicsList="${topicCollection}" 
 										listStyle="LIST"  
 										sortField="" 
