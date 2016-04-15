@@ -36,7 +36,9 @@ body {
     transform: translate3d(-50%, -50%, 0);
 }
 
-#invalidCreds, #invalidPassword, #invalidUsername, #errorMessageUserName, #logout, #newUser {
+#invalidCreds, #invalidPassword,
+#invalidUsername, #errorMessageUserName,
+#logout, #newUser, #createSuccess {
     list-style: none;
     display: none;
 }

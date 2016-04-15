@@ -119,10 +119,13 @@
 		TopicByTopicIDPredicate currentTopicPredicate;
 		currentTopicPredicate = TopicByTopicIDPredicate.create(topics, requestTopicID);
 		topicCollection.setCurrentTopic(currentTopicPredicate.apply());
-		if (topicCollection.getCurrentTopic() != null){
+		if (topicCollection.getCurrentTopic() != null) {
 			editorTopicContent = topicCollection.getCurrentTopic().getTopicContent();
 			editorTopicName = topicCollection.getCurrentTopic().getTopicName();
 		}
+	} else {
+		// Topic is new and will be inserted
+		editorTopicName = requestTopic;
 	}
 
 	dbc.close();
@@ -159,7 +162,7 @@
 						<%} else if (editSingle || insertSingle) {%>
 
 						<!-- EDITOR -- insert/update -->
-						<form action="${pageContext.request.contextPath}/Logger" method="get">
+						<form action="${pageContext.request.contextPath}/Logger" method="post">
 							<input type="hidden" name="editorMode" id="editorMode" value="<%= insertSingle ? "insert" : "update"%>" /> 
 							<input type="hidden" name="topicPK" id="topicPK" value="<%=requestTopicID + ""%>" />
 							<input type="hidden" name="pTopicID" id="pTopicID" value="<%=editorTopicName%>" />

@@ -57,9 +57,11 @@ public class Logger extends HttpServlet {
 //			String userName = request.getParameter("username");
 //			out.println(userName + "<br />");
 			String topicContent = request.getParameter("editor");
+			topicContent = topicContent.substring("<div>".length(), topicContent.length() - "</div>".length());
 			String topicTitle = request.getParameter("pTopicID");
 			ArrayList<String>[] topicsAndTags = Parser.parseAndCategorize(topicContent);
-//			out.println(topicTitle + " " + topicsAndTags[0] + " " + topicsAndTags[1]);
+			out.println(topicContent + "<br />");
+			out.println(topicTitle + " " + topicsAndTags[0] + " " + topicsAndTags[1]);
 
 			/*
              * Adds or Updates topic and tags to database;
@@ -87,12 +89,12 @@ public class Logger extends HttpServlet {
 					tagVOs.add(tag);
 				}
 				boolean inserted = d.assignTopicTags(newTopic, tagVOs);
-				out.println(inserted);
+//				out.println(inserted);
 			}
 
 			dbc.close();
-//				response.sendRedirect(
-//						"/WikiWikiWeb/decison.jsp?username=" + currentUser.getUsername() + "&createSuccess=" + topicTitle);
+				response.sendRedirect(
+						"/WikiWikiWeb/View.jsp");
 		}
 	}
 
