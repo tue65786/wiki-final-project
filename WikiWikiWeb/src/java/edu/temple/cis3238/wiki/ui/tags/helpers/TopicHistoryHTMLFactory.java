@@ -79,6 +79,11 @@ public class TopicHistoryHTMLFactory {
 				"				WikEdDiffTool.diff('" +
 				 vo.getTopicContent().replaceAll("\\p{C}|\\p{Cc}|\\p{Cntrl}", "") +
 				 "', topicHist.topicConent, \"diffDiv\");\n" +
+				"var container = $('#content'),\n" +
+"    scrollTo = $('#diffDiv');\n"+
+				"container.animate({\n" +
+"    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()\n" +
+"});"+
 				"			}\n" +
 				"		</script>";
 	}
