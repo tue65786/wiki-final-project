@@ -5,6 +5,7 @@
  */
 package edu.temple.cis3238.parser;
 
+import edu.temple.cis3238.constants.QUERY_PARAMS;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -45,8 +46,11 @@ public class ParserTest {
     public void testParseAndAnnotate() {
         System.out.println("parseAndAnnotate");
         String inputWikiText = "The {{dog}} ate the [[cat]]";
-        String expResult = "The <a href=\"wiki.jsp?id=dog\">dog</a> ate the <a style=\"font-weight:bold\" href=\"wiki.jsp?id=cat\">cat</a> ";
-        String result = Parser.parseAndAnnotate(inputWikiText);
+        String expResult = "The <a href=\"View.jsp?pTagID=dog\">dog</a> ate the <a style='font-weight:bold' href=\"View.jsp?pTopicID=cat\">cat</a>";
+        String result = Parser.parseAndAnnotate(inputWikiText,"View.jsp",QUERY_PARAMS.TOPIC_NAME, "View.jsp",
+						QUERY_PARAMS.TAG_NAME);
+		
+		//The <a href="[tag.jsp?id=dog">dog</a> ate the <a style='font-weight:bold' href="wiki.jsp?id=cat">cat</a>]
         assertEquals(expResult, result);
        
     }

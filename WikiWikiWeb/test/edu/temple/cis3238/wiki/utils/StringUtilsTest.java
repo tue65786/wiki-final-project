@@ -93,8 +93,8 @@ public class StringUtilsTest {
    @Test
    public void testFormatDate_String() {
 	  System.out.println("formatDate yyyy-MM-dd HH:mm:ss");
-	  String dateStr = "2016-04-01 16:04:59:59.9999";
-	  String expResult = "2016-04-01 16:05";
+	  String dateStr = "2016-04-01 16:04:00:00.0000";
+	  String expResult = "2016-04-01 16:04:00:00.0000";
 	  String result = StringUtils.formatDate(dateStr);
 	  assertEquals(expResult, result);
    }

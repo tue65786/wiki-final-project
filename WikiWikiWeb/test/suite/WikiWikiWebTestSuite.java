@@ -27,7 +27,7 @@ HashTest.class,
 PasswordTest.class,
 TagsFromContentParserTest.class,
 TopicByTopicIDPredicateTest.class,
-TagsListFactory.class,
+TagsListFactoryTest.class,
 CollectionsUtilitiesTest.class,
 StringUtilsTest.class	
 })

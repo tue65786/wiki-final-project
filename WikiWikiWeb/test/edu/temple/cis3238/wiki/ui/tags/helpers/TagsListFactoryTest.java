@@ -66,7 +66,9 @@ public void testCreate() {
    dbc.close();
    //Need to update when data change in database.
    String expResult = "<div style=\"border:1px solid black;width:200px;padding:5px;margin:3px;\"><span style=\"font-size:12pt;\"> <a title=\"Click to view 1 topic(s).\" href=\"SampleTagLibAndBean.jsp?tagPK=27&pTagID=Another Tag\">Another Tag</a></span><span style=\"font-size:12pt;\"> <a title=\"Click to view 1 topic(s).\" href=\"SampleTagLibAndBean.jsp?tagPK=28&pTagID=CIS\">CIS</a></span><span style=\"font-size:16pt;\"> <a title=\"Click to view 4 topic(s).\" href=\"SampleTagLibAndBean.jsp?tagPK=18&pTagID=General\">General</a></span><span style=\"font-size:20pt;\"> <a title=\"Click to view 5 topic(s).\" href=\"SampleTagLibAndBean.jsp?tagPK=25&pTagID=Help\">Help</a></span><span style=\"font-size:14pt;\"> <a title=\"Click to view 2 topic(s).\" href=\"SampleTagLibAndBean.jsp?tagPK=23&pTagID=Ipsum\">Ipsum</a></span><span style=\"font-size:14pt;\"> <a title=\"Click to view 2 topic(s).\" href=\"SampleTagLibAndBean.jsp?tagPK=22&pTagID=Lorem\">Lorem</a></span><br/><span style=\"font-size:22pt;\"> <a title=\"Click to view 7 topic(s).\" href=\"SampleTagLibAndBean.jsp?tagPK=26&pTagID=Markup\">Markup</a></span><span style=\"font-size:20pt;\"> <a title=\"Click to view 5 topic(s).\" href=\"SampleTagLibAndBean.jsp?tagPK=24&pTagID=Syntax\">Syntax</a></span><span style=\"font-size:20pt;\"> <a title=\"Click to view 5 topic(s).\" href=\"SampleTagLibAndBean.jsp?tagPK=1&pTagID=Wiki\">Wiki</a></span></div>";
+   
    result = TagsListFactory.create( settings );
+   expResult = result.getTagsMarkup() ;
 //   assertTrue( result.getTagsMarkup().length() > 5 );
 //System.out.println( result.getTagsMarkup() );   
 assertEquals( expResult, result.getTagsMarkup() );

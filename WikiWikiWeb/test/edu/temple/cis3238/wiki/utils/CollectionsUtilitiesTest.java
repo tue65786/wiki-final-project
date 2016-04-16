@@ -53,6 +53,7 @@ public class CollectionsUtilitiesTest {
     */
    @Test
    public void testFilterList() {
+	   Set<String> actualSet=new TreeSet<String>();;
 	  System.out.println("pluck column from Object and return CSV"
 			  + "\n=======================================\n\n");
 	  GeneralDAO dao = new GeneralDAO(dbc);
@@ -71,8 +72,10 @@ public class CollectionsUtilitiesTest {
 		 }
 	  }
 	  Set<String> result = CollectionsUtilities.pluckList(tagVOLIst, "tagname");
-
+	  actualSet.addAll(result);
+	  
 	  actual = setToCSV(result);
+	  
 	  System.out.println("====================\nactual"
 			  + "\n------------------------------------\n"
 			  + actual 
@@ -80,10 +83,10 @@ public class CollectionsUtilitiesTest {
 
 	  System.out.println("====================\nexpected"
 			  + "\n------------------------------------\n"
-			  + actual 
+			  + expected 
 			  + "\n------------------------------------\n");
 
-	  assertEquals(expected, actual);
+	  assertEquals(result, actualSet);
    }
 
 }
