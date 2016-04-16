@@ -112,7 +112,7 @@ p {
 	clear:both;
 	float:left;
 	width:100%;			
-	overflow:hidden;		
+	overflow-x:hidden;		
 }
 /* Column wrap */
 .colright,
@@ -126,7 +126,7 @@ p {
 	float:left;
 	position:relative;
 	padding:0 0 1em 0;
-	overflow:hidden;
+	overflow-x:hidden;
 }
 /* Wiki Contents*/
 #content {
@@ -135,6 +135,8 @@ p {
     margin-top:19px;
     margin-bottom:4px;
     padding:15px 10px;
+		height: 400px;
+	overflow-y:scroll;
 } 
  
 ul.topiclist {list-style-type: none;width:75%;}
@@ -173,6 +175,8 @@ li p.stats{font-size: 11px;color: #666; line-height: normal;margin: 3px 0 1.5em 
 #footer {
 	clear:both;
 	float:left;
+	position: absolute;
+	bottom:25px;
 	width:100%;
 	border-top:1px solid #000;
 }

@@ -59,7 +59,7 @@
 	if (revertTopicHistoryID * requestTopicID > 0){
 		TopicHistoryVO thVO = new TopicHistoryVO(revertTopicHistoryID, null, null,0);
 		if (dao.revertTopicFromHistory(thVO)){ 
-			requestMessages = "<b>Topic sucessfully restored.</b>";
+			requestMessages = "<b style='font-size:14px'>Topic sucessfully restored from history.</b>";
 		}
 	}
 	//Single Topic

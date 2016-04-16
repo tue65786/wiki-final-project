@@ -3,7 +3,7 @@
 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-<link href="theme/layout.min.css" rel="stylesheet" type="text/css"/>
+<link href="theme/layout.css" rel="stylesheet" type="text/css"/>
 <link href="theme/jqwidgets/jqwidgets/styles/jqx.base.css" rel="stylesheet" type="text/css"/>
 <script src="theme/jqwidgets/jqwidgets/jqxcore.js" type="text/javascript"></script>
 <script src="theme/jqwidgets/jqwidgets/jqxdata.js" type="text/javascript"></script>
