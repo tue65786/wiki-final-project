@@ -20,7 +20,7 @@ import java.util.regex.*;
 public class StringUtils {
 
    public static final String DEFAULT_SQL_DATETIME_FMT = "yyyy-MM-dd HH:mm:ss.SSS";
-   public static final String DEFAULT_DISPLAY_DATETIME_FMT = "yyyy-MM-dd ( HH:mm )";
+   public static final String DEFAULT_DISPLAY_DATETIME_FMT = "yyyy-MM-dd HH:mm";
    private static final Logger LOG = Logger.getLogger(StringUtils.class.getName());
    private static final String PH_LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
@@ -87,9 +87,10 @@ public class StringUtils {
 	  Integer hash = r.hashCode();
 	  Integer random = (11 * r) + (hash * 11);
 	  int end = Math.abs(length - StringUtils.toS(prefix).length()) + 1;
-	  return prefix + random.toString().substring(0, end < random.toString().length()
-			  ? end
-			  : random.toString().length() - 1);
+	  return org.apache.commons.lang3.StringUtils.rightPad(prefix, length, random.toString());
+//	  prefix + random.toString().substring(0, end < random.toString().length()
+//			  ? end
+//			  : random.toString().length() - 1);
 
    }
 /**

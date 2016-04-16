@@ -174,7 +174,8 @@ li p.stats{font-size: 11px;color: #666; line-height: normal;margin: 3px 0 1.5em 
 /* Footer styles */
 #footer {
 	clear:both;
-	float:left;
+	float:le
+		ft;
 	position: absolute;
 	bottom:25px;
 	width:100%;
