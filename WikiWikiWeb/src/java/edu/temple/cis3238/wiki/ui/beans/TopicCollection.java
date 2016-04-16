@@ -11,7 +11,8 @@ import java.util.*;
 import java.util.logging.*;
 
 /**
- *  In-memory {@linkplain HttpSession} store for Topics
+ * In-memory {@linkplain HttpSession} store for Topics
+ *
  * @author Christian, Doreen, Dan
  * @see TopicVO
  * @see HttpSession
@@ -19,59 +20,65 @@ import java.util.logging.*;
  */
 public class TopicCollection implements Serializable {
 
-private static final Logger LOG = Logger.getLogger( TopicCollection.class.getName() );
-private static final long serialVersionUID = 7059187297992104099L;
+	private static final Logger LOG = Logger.getLogger(TopicCollection.class.getName());
+	private static final long serialVersionUID = 7059187297992104099L;
 
-public String listType;
-private TopicVO currentTopic;
-private ArrayList<TopicVO> topics;
+	public String listType;
+	private TopicVO currentTopic;
+	private ArrayList<TopicVO> topics;
 
-/**
- * @return the currentTopic
- */
-public TopicVO getCurrentTopic() {
-   return currentTopic;
-}
+	/**
+	 * @return the currentTopic
+	 */
+	public TopicVO getCurrentTopic() {
+		return currentTopic;
+	}
 
-/**
- * @param currentTopic the currentTopic to set
- */
-public void setCurrentTopic(TopicVO currentTopic) {
-   this.currentTopic = currentTopic;
-}
+	public boolean isCurrentTopicHistoryLoaded() {
+		return currentTopic != null 
+				&& currentTopic.getTopicHistoryCollection() != null 
+				&& !currentTopic.getTopicHistoryCollection().isEmpty();
+	}
 
-/**
- * @return the listType
- */
-public String getListType() {
-   return listType;
-}
+	/**
+	 * @param currentTopic the currentTopic to set
+	 */
+	public void setCurrentTopic(TopicVO currentTopic) {
+		this.currentTopic = currentTopic;
+	}
 
-/**
- * @param listType the listType to set
- */
-public void setListType(String listType) {
-   this.listType = listType;
-}
+	/**
+	 * @return the listType
+	 */
+	public String getListType() {
+		return listType;
+	}
 
-/**
- * @return the topics
- */
-public ArrayList<TopicVO> getTopics() {
-   return topics;
-}
+	/**
+	 * @param listType the listType to set
+	 */
+	public void setListType(String listType) {
+		this.listType = listType;
+	}
 
-/**
- * @param topics the topics to set
- */
-public void setTopics(ArrayList<TopicVO> topics) {
-   this.topics = topics;
-}
+	/**
+	 * @return the topics
+	 */
+	public ArrayList<TopicVO> getTopics() {
+		return topics;
+	}
 
-public TopicCollection() {
-   topics = new ArrayList<>();
-   currentTopic = new TopicVO( "", "" );
-   listType = "TABLE";
+	/**
+	 * @param topics the topics to set
+	 */
+	public void setTopics(ArrayList<TopicVO> topics) {
+		this.topics = topics;
+	}
 
-}
+	public TopicCollection() {
+		topics = new ArrayList<>();
+		currentTopic = new TopicVO("", "");
+		listType = "TABLE";
+
+	}
 }

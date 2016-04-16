@@ -938,14 +938,14 @@ public class GeneralDAO implements IGeneralDAO {
    public boolean revertTopicFromHistory(TopicHistoryVO _vo) {
 	  CallableStatement cs = null;
 	  int rowsAffected = 0;
-	  if (_vo == null || _vo.getTopicID() <= 0) {
+	  if (_vo == null || _vo.getTopicHistoryID()<= 0) {
 		 LOG.logp(Level.WARNING, this.getClass().getName(), "revertTopicFromHistory(TopicHistoryVO)",
 				 "Invalid TopicHistory Object");
 		 return false;
 	  }
 	  try {
 		 cs = dbc.getConn().prepareCall(DB_STRINGS.TOPICHISTORY_REVERT_TOPIC_BY_HISTORY_ID);
-		 cs.setInt(1, _vo.getTopicID());
+		 cs.setInt(1, _vo.getTopicHistoryID());
 
 		 //Execute update and retieve rows updated
 		 rowsAffected = cs.executeUpdate();

@@ -36,7 +36,7 @@
       <rtexprvalue>true</rtexprvalue>
       <type>edu.temple.cis3238.wiki.ui.beans.CurrentUser</type>
     </attribute>
-	<attribute>
+    <attribute>
       <name>topicViewRequestParam</name>
       <required>true</required>
       <rtexprvalue>true</rtexprvalue>
@@ -126,5 +126,16 @@
     <name>LayoutWrapper</name>
     <tag-class>edu.temple.cis3238.wiki.ui.tags.LayoutWrapper</tag-class>
     <body-content>scriptless</body-content>
+  </tag>
+  <tag>
+    <name>TopicHistoryTag</name>
+    <tag-class>edu.temple.cis3238.wiki.ui.tags.TopicHistoryTag</tag-class>
+    <body-content>scriptless</body-content>
+    <attribute>
+      <name>topicCollection</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>edu.temple.cis3238.wiki.ui.beans.TopicCollection</type>
+    </attribute>
   </tag>
 </taglib>

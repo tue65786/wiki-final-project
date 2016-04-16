@@ -1,7 +1,7 @@
 <%-- 
     Document   : SampleTopicHistory
     Created on : Apr 14, 2016, 5:05:49 PM
-    Author     : (c)2016 Guiding Technologies
+    Author     : 
 --%>
 
 <%@page import="edu.temple.cis3238.wiki.utils.StringUtils"%>
@@ -55,26 +55,17 @@
 		<link rel="stylesheet" type="text/css" href="theme/wikEd-diff-tool.css"/>
     </head>
     <body>
-
+		<h3>Current Topic Content</h3>
+		<%=topic.getTopicContent()%>
+		<p/><hr/><p/>
 		<%=tbl%>
 
-		<h3>Diff</h3>
+		<h3>Comparison (diff) </h3>
 		<div id="diffDiv">
-
 		</div>
 		
-		<div class="footerItemText">
-			<div class="legend">
-				
-				<ul>
-					<li><span class="wikEdDiffMarkRight" title="Moved block" id="wikEdDiffMark999" onmouseover="wikEdDiffBlockHandler(undefined, this, 'mouseover');"></span> Original block position</li>
-					<li><span title="+" class="wikEdDiffInsert">Inserted<span class="wikEdDiffSpace"><span class="wikEdDiffSpaceSymbol"></span> </span>text<span class="wikEdDiffNewline"> </span></span></li>
-					<li><span title="−" class="wikEdDiffDelete">Deleted<span class="wikEdDiffSpace"><span class="wikEdDiffSpaceSymbol"></span> </span>text<span class="wikEdDiffNewline"> </span></span></li>
-					<li><span class="wikEdDiffBlockLeft" title="◀" id="wikEdDiffBlock999" onmouseover="wikEdDiffBlockHandler(undefined, this, 'mouseover');">Moved<span class="wikEdDiffSpace"><span class="wikEdDiffSpaceSymbol"></span> </span>block<span class="wikEdDiffNewline"> </span></span></li>
-					<li><span class="newlineSymbol">¶</span> Newline <span class="spaceSymbol">·</span> Space <span class="tabSymbol">→</span> Tab</li>
-				</ul>
-			</div>
-		</div>
+		<div class="footerItemText"><div class="legend"><ul><li><span class="wikEdDiffMarkRight" title="Moved block" id="wikEdDiffMark999" onmouseover="wikEdDiffBlockHandler(undefined, this, 'mouseover');"></span> Original block position</li>
+<li><span title="+" class="wikEdDiffInsert">Inserted<span class="wikEdDiffSpace"><span class="wikEdDiffSpaceSymbol"></span> </span>text<span class="wikEdDiffNewline"> </span></span></li><li><span title="−" class="wikEdDiffDelete">Deleted<span class="wikEdDiffSpace"><span class="wikEdDiffSpaceSymbol"></span></span>text<span class="wikEdDiffNewline"> </span></span></li><li><span class="wikEdDiffBlockLeft" title="◀" id="wikEdDiffBlock999" onmouseover="wikEdDiffBlockHandler(undefined, this, 'mouseover');">Moved<span class="wikEdDiffSpace"><span class="wikEdDiffSpaceSymbol"></span> </span>block<span class="wikEdDiffNewline"> </span></span></li><li><span class="newlineSymbol">¶</span> Newline <span class="spaceSymbol">·</span> Space <span class="tabSymbol">→</span> Tab</li></ul>	</div></div>
 		<script type="text/javascript">
 			var topicHistoryArray = <%=topicHistoryJSON%>;
 			function loadDiffByTopicHistoryID(id) {
@@ -82,7 +73,6 @@
 				topicHist = _.findWhere(topicHistoryArray, {topicHistoryID: id});
 				WikEdDiffTool.diff('<%=topicContent%>', topicHist.topicConent, "diffDiv");
 			}
-
 		</script>
 	</body>
 </html>

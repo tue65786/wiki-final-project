@@ -42,8 +42,8 @@ public class TopicSingle extends SimpleTagSupport {
 			"<input type=\"hidden\" name=\"" + QUERY_PARAMS.TOPIC_ID + "\" id=\"" + QUERY_PARAMS.TOPIC_ID + "\" value=\"[[[ID]]]\"/>" +
 			"[[[EDIT]]]" +
 //			"<input name=\"action\" type=\"button\" id=\"btnSave\" value=\"save\"/>" +
-//			"<input type=\"button\" name=\"action\"  value=\"cancel\" id=\"btnCancel\"/>" +
-			"</p>" +
+//			"<input type=\"button\" name=\"action\"   value=\"cancel\" id=\"btnCancel\"/>" +
+			"</p><p/>" +
 			"</form>";
 	private static final String JAVASCRIPTS = "" +//
 			"<script type=\"text/javascript\">\n" +
@@ -143,7 +143,7 @@ public class TopicSingle extends SimpleTagSupport {
 
 	private String makeTopicItem(TopicVO vo) {
 		String ret = ITEM_TEMPLATE + "";
-		String loggedIn = "<button name=\"action\" style='cursor:pointer;font-variant:all-caps;' id=\"btnEdit\" value=\"edit\">Edit</button>";
+		String loggedIn = "<button name=\"action\" style=\"width:180px;cursor:pointer;font-variant:all-caps;\" id=\"btnEdit\" value=\"edit\">Edit Topic</button>";
 		return ret.
 				replace("[[[CONTENT]]]", edu.temple.cis3238.parser.Parser.parseAndAnnotate(
 						vo.getTopicContent(), "View.jsp", QUERY_PARAMS.TOPIC_NAME, "View.jsp",

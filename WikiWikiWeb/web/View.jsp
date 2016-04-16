@@ -1,3 +1,4 @@
+<%@page import="edu.temple.cis3238.wiki.vo.TopicHistoryVO"%>
 <%@page import="edu.temple.cis3238.wiki.ui.tags.helpers.TopicByTopicIDPredicate"%>
 <%@page import="edu.temple.cis3238.wiki.vo.TopicVO"%>
 <%@page import="edu.temple.cis3238.wiki.utils.ServletHelpers"%>
@@ -26,6 +27,7 @@
 	if (request.getParameter("logout") != null) {
 		currentUser.setUsername(request.getParameter("username"));
 	}
+	
 	ServletHelpers web;
 	String requestMessages = "";
 	ArrayList<TopicVO> topics;
@@ -42,6 +44,7 @@
 	int requestTopicID = web.getIntParameter("topicPK", 0);
 	String requestTag = web.getStrParameter("pTagID", "");
 	int requestTagId = web.getIntParameter("tagPK", 0);
+	int revertTopicHistoryID = web.getIntParameter("topicHistoryPK", 0);
 	String type = web.getStrParameter("type", "LIST");
 	String editorMode = web.getStrParameter("editorMode", "");
 	String editorTopicContent = "";
@@ -53,7 +56,12 @@
 	String title = "";
 	dbc = new DbConnection();
 	dao = new GeneralDAO(dbc);
-	
+	if (revertTopicHistoryID * requestTopicID > 0){
+		TopicHistoryVO thVO = new TopicHistoryVO(revertTopicHistoryID, null, null,0);
+		if (dao.revertTopicFromHistory(thVO)){ 
+			requestMessages = "<b>Topic sucessfully restored.</b>";
+		}
+	}
 	//Single Topic
 	if (requestTopicID == 0 && !requestTopic.isEmpty()) {
 		TopicVO voTemp = dao.getTopicByName(requestTopic);
@@ -126,6 +134,10 @@
 		if (topicCollection.getCurrentTopic() != null) {
 			editorTopicContent = topicCollection.getCurrentTopic().getTopicContent();
 			editorTopicName = topicCollection.getCurrentTopic().getTopicName();
+			if (currentUser.isLoggedIn()){
+			ArrayList<TopicHistoryVO> historyVO = dao.getTopicHistoryByTopicID(requestTopicID);
+			topicCollection.getCurrentTopic().setTopicHistoryCollection(historyVO);
+			}
 		}
 	} else {
 		// Topic is new and will be inserted
@@ -172,6 +184,11 @@
 									tagURLPrefix = "View.jsp" 
 									topicViewRequestParam = "View.jsp">
 						</wiki:topic>
+						<% if (currentUser.isLoggedIn()){%>
+						<p/>
+						<wiki:TopicHistoryTag topicCollection="${topicCollection}"/>
+						<%}%>	
+						
 						<%} else if (editSingle || insertSingle) {%>
 
 						<!-- EDITOR -- insert/update -->
