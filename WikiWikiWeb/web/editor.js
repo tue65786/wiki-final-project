@@ -2,7 +2,7 @@ $(document).ready(function () {
 	$("#editor").jqxEditor({
 		width: "100%",
 		tools: 'bold italic underline | format font size | color background | left \\n\
-                center right | outdent indent | ul ol | image | link | html | clean | \\n\
+                center right | outdent indent | ul ol | image | link | \\n\
                 topic tag',
 		createCommand: function (name) {
 			switch (name) {

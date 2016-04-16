@@ -24,7 +24,13 @@ public static String parseAndAnnotate(String inputWikiText){
       //if we encounter [[,]],{{,}} then we need to remove and put html tags there
       
     
-      
+      String output = inputWikiText.replaceAll("(\\[\\[)(.?[^\\]]*)(\\]\\])", "<a style='font-weight:bold' href=\""
+			  +topicURL+"?"+topicParam+"=$2\">$2</a>");
+	  output = output.replaceAll("(\\{\\{)(.?[^}]*)(\\}\\})", "<a href=\""
+			  +tagURL+"?"+tagParam+"=$2\">$2</a>");
+	  if (true){
+		  return output;
+	  }
       Scanner scanner = new Scanner(inputWikiText);
       //scanner.useDelimiter(" "); <<<<THIS THING OMG
       
