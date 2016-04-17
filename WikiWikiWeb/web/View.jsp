@@ -1,3 +1,4 @@
+<%@page import="edu.temple.cis3238.wiki.WikiEventMonitor"%>
 <%@page import="edu.temple.cis3238.wiki.vo.TopicHistoryVO"%>
 <%@page import="edu.temple.cis3238.wiki.ui.tags.helpers.TopicByTopicIDPredicate"%>
 <%@page import="edu.temple.cis3238.wiki.vo.TopicVO"%>
@@ -163,7 +164,7 @@
 			<%}%>
 			<h2 class="centered"><%=title%></h2>
 			<ul>
-				<li><a href='View.jsp'>Home</a></li>
+				<li><a href='View.jsp?pTopicID=Home'>Home</a></li>
 				<li><a href='View.jsp'>Index</a></li>
 					<% if (currentUser.isLoggedIn()){%>
 				<li><a href='View.jsp?logout=true'>Logout</a></li>
@@ -184,11 +185,11 @@
 									tagURLPrefix = "View.jsp" 
 									topicViewRequestParam = "View.jsp">
 						</wiki:topic>
+						<!--<div id="diffDiv"></div>-->	
 						<% if (currentUser.isLoggedIn()){%>
 						<p/>
 						<wiki:TopicHistoryTag topicCollection="${topicCollection}"/>
-						<%}%>	
-						
+						<%}%>
 						<%} else if (editSingle || insertSingle) {%>
 
 						<!-- EDITOR -- insert/update -->
@@ -251,7 +252,7 @@
 			</div>
 		</div>
 		<div id="footer">
-			&male; 2016. Version 3.2.38 
+			&male; 2016. Version 3.2.38. &nbsp;&nbsp;&nbsp;<%=WikiEventMonitor.getOnlineUsers()%>
 		</div>
 	</body>
 </html>

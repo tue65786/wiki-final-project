@@ -7,12 +7,16 @@
 
 package edu.temple.cis3238.wiki.ui.tags.helpers;
 
+import edu.temple.cis3238.wiki.ui.tags.*;
 import edu.temple.cis3238.wiki.utils.StringUtils;
 import edu.temple.cis3238.wiki.vo.*;
 
 /**
- * Factory helper methods for wrapping Topic fields in HTML Markup.
+ * Factory methods for wrapping Topic fields in HTML Markup.
  * @author (c)2016
+ * @see TopicVO
+ * @see TopicList
+ * @see TopicSingle
  */
 public class TopicHTMLFactory {
 

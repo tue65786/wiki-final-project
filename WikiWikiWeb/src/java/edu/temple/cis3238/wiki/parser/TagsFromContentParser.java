@@ -6,6 +6,7 @@
 package edu.temple.cis3238.wiki.parser;
 
 import edu.temple.cis3238.constants.STRINGS;
+import edu.temple.cis3238.wiki.dao.GeneralDAO;
 import static edu.temple.cis3238.wiki.utils.CollectionsUtilities.setToCSV;
 import edu.temple.cis3238.wiki.vo.*;
 import java.io.Serializable;
@@ -16,8 +17,11 @@ import java.util.regex.*;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- *
+ * Purpose: Extract tags from content. Extracts tags as String Set, TagVO Array and String CSV.
  * @author Dan
+ * @see TagsVO
+ * @see edu.temple.cis3238.wiki.dao.GeneralDAO
+ * @see edu.temple.cis3238.wiki.ui.tags.TopicSingle
  */
 public class TagsFromContentParser implements Serializable {
 
@@ -170,6 +174,10 @@ public class TagsFromContentParser implements Serializable {
 	  }
 
    }
+   /**
+	* Creates array of TagsVO objects (tag name only) from String set
+	* @see GeneralDAO
+	*/
 public static class TagsVOAdapter{
   public static ArrayList<TagsVO> generateFromNames(Set<String> names){
 	 ArrayList<TagsVO> voList = new ArrayList<TagsVO>();

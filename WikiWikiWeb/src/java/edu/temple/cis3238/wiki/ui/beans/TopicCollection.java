@@ -79,6 +79,5 @@ public class TopicCollection implements Serializable {
 		topics = new ArrayList<>();
 		currentTopic = new TopicVO("", "");
 		listType = "TABLE";
-
 	}
 }

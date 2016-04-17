@@ -15,12 +15,7 @@ import java.util.*;
 import javax.servlet.http.HttpSession;
 
 
-public class WikiEngine implements Serializable {
-   ////////////////////
-   //// Incomplete
-   //////////////////////
-
-  
+public class WikiEngine implements Serializable {  
    private static final long serialVersionUID = 8139564225677306305L;
 
    private static Map<String, HttpSession> sessions = new HashMap<String, HttpSession>();

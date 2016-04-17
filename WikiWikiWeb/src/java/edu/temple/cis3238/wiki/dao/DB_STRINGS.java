@@ -6,8 +6,10 @@
 package edu.temple.cis3238.wiki.dao;
 
 /**
- *
+ * Stored Procedure definitions for data abstraction (GeneralDAO)
  * @author (c)2016 Doreen, Dan, Christian
+ * @see GeneralDAO
+ * @see IGeneralDAO
  */
 public class DB_STRINGS {
 

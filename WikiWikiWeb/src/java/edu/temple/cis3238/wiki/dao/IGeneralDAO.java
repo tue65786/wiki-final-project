@@ -5,13 +5,19 @@
  */
 package edu.temple.cis3238.wiki.dao;
 
+import edu.temple.cis3238.wiki.sql.*;
 import edu.temple.cis3238.wiki.vo.*;
 import java.util.*;
 import java.util.concurrent.*;
 
 /**
- *
+ * Database access method definitions.
+ * <br/>Purpose: INSERT, SELECT, UPDATE and DELETE database data.
  * @author (c)2016 Doreen, Dan, Christian
+ * @see GeneralDAO
+ * @see IDbConnection
+ * @see DbConnection
+ * @see DB_STRINGS
  */
 public interface IGeneralDAO {
 

@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * 
+ * Test filter of Topic list by topicID
  */
 public class TopicByTopicIDPredicateTest {
 	
@@ -44,19 +44,27 @@ public class TopicByTopicIDPredicateTest {
 	 */
 	@Test
 	public void testCreateAndApply() {
-		System.out.println("create");
-		ArrayList<TopicVO> _voList = new ArrayList<>();
-		_voList.add(new TopicVO(1, "1", "1", "", "", 0));
-		_voList.add(new TopicVO(2, "2", "2", "", "", 0));
-		_voList.add(new TopicVO(11, "11", "11", "", "", 0));
-		_voList.add(new TopicVO(122, "122", "122", "", "", 0));
-		_voList.add(new TopicVO(71, "71", "71", "", "", 0));
-		int _topicID = 11;
-		ArrayList<TopicVO> expResult = new ArrayList<TopicVO>();
-		TopicVO expVO = new TopicVO(11, "11", "11", "", "", 0),actualVO;
-		expResult.add(new TopicVO(11, "11", "11", "", "", 0));
-		TopicByTopicIDPredicate result = TopicByTopicIDPredicate.create(_voList, _topicID);
-		actualVO =result.apply();
+		System.out.println("Test: create and apply Topics Predicate");
+		ArrayList<TopicVO> actualVOList = new ArrayList<>(),expResultVOList;
+		TopicVO expVO,actualVO;
+		int theTopicID;
+		TopicByTopicIDPredicate resultPredicate;
+		actualVOList.add(new TopicVO(1, "Topic 1", "One", "", "", 0));
+		actualVOList.add(new TopicVO(2, "Topic 2", "Two", "", "", 0));
+		actualVOList.add(new TopicVO(11, "Topic 11", "Eleven", "", "", 0));// < -- searching for
+		actualVOList.add(new TopicVO(122, "Topic 122", "One hundred and twenty two", "", "", 0));
+		actualVOList.add(new TopicVO(71, "Topic 71", "Seventy one", "", "", 0));
+		theTopicID = 11;
+		expResultVOList = new ArrayList<TopicVO>();
+		expVO = new TopicVO(11, "11", "11", "", "", 0);
+		expResultVOList.add(new TopicVO(11, "11", "11", "", "", 0));
+		resultPredicate = TopicByTopicIDPredicate.create(actualVOList, theTopicID);
+		actualVO =resultPredicate.apply();
+		System.out.println(
+				"edu.temple.cis3238.wiki.ui.tags.helpers.TopicByTopicIDPredicateTest.testCreateAndApply()\n" +
+						"-------------------------------------------------------------------------------------\n" +
+						"Expected: "+ expVO.toString()
+				+"\nActual: "+ actualVO.toString()+"\n---------------\n");
 		assertEquals(11, actualVO.getTopicID());
 		assertEquals(expVO, actualVO);
 		

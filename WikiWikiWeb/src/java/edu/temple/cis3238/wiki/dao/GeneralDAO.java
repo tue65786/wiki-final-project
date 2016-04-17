@@ -101,7 +101,7 @@ public class GeneralDAO implements IGeneralDAO {
 
    @Override
    public boolean assignOnlyTopicTags(TopicVO _topicVO, ArrayList<TagsVO> _tagsVOList) {
-	  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	  return false;
    }
 
    @Override
@@ -506,7 +506,6 @@ public class GeneralDAO implements IGeneralDAO {
    @Override
    public ArrayList<TagsVO> getTagsByTopicID(int _topicid) {
 	  ArrayList<TagsVO> voList = new ArrayList<TagsVO>();
-
 	  CallableStatement cs = null;
 	  ResultSet rs = null;
 	  TagsVO vo = null;

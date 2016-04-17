@@ -17,9 +17,6 @@ import javax.servlet.http.*;
  * @author
  */
 public class WikiEventMonitor implements ServletContextListener, ServletContextAttributeListener, HttpSessionListener, HttpSessionAttributeListener, ServletRequestListener, ServletRequestAttributeListener {
-	////////////////////
-	//// Incomplete
-	//////////////////////
 
 	private static Map<String, HttpSession> sessions = new HashMap<String, HttpSession>();
 	private static Map<String, Integer> lockedPages;
@@ -115,10 +112,10 @@ public class WikiEventMonitor implements ServletContextListener, ServletContextA
 		try {
 			sessions.put(session.getId(), session);
 			usersOnline++;
-			
+
 		} catch (UnsupportedOperationException | ClassCastException | NullPointerException | IllegalArgumentException e) {
 			System.out.println(
-					"edu.temple.cis3238.wiki.WikiEventMonitor.sessionCreated() -- " +e.toString());
+					"edu.temple.cis3238.wiki.WikiEventMonitor.sessionCreated() -- " + e.toString());
 		}
 	}
 
@@ -133,4 +130,15 @@ public class WikiEventMonitor implements ServletContextListener, ServletContextA
 	}
 	private static final Logger LOG = Logger.getLogger(
 			WikiEventMonitor.class.getName());
+/**
+ * Active user sessions for .
+ * @return 
+ */
+	public static String getOnlineUsers() {
+		if (usersOnline <= 1) {
+			return "<i>Thers is 1 user online</i>";
+		} else {
+			return "<i>There are " + usersOnline + " users online.</i>";
+		}
+	}
 }

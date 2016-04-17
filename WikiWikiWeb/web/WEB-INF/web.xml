@@ -8,6 +8,8 @@
         <servlet-name>Parser</servlet-name>
         <url-pattern>/Parser</url-pattern>
     </servlet-mapping>-->
+    <description>WikiWikiWeb Application Final Project [CIS3238]</description>
+    <display-name>WikiWikiWeb</display-name>
     <filter>
         <filter-name>WikiApplicationFilter</filter-name>
         <filter-class>edu.temple.cis3238.wiki.WikiApplicationFilter</filter-class>
@@ -25,4 +27,16 @@
             30
         </session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>View.jsp</welcome-file>
+    </welcome-file-list>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/Error.jsp?errorcode=404</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/Error.jsp</location>
+    </error-page>
 </web-app>
