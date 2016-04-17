@@ -8,7 +8,7 @@
 package edu.temple.cis3238.wiki.vo;
 
 /**
- * Purpose: Build UsersVO
+ * Purpose: Build UsersVO Entity
  * 
  */
 public class UsersVOBuilder {
@@ -19,30 +19,58 @@ public class UsersVOBuilder {
    private String _userRole;
    private String _emailAddress;
 
-   public UsersVOBuilder() {
+	/**
+	 *
+	 */
+	public UsersVOBuilder() {
    }
 
-   public UsersVOBuilder setUserID(int _userID) {
+	/**
+	 *
+	 * @param _userID
+	 * @return
+	 */
+	public UsersVOBuilder setUserID(int _userID) {
 	  this._userID = _userID;
 	  return this;
    }
 
-   public UsersVOBuilder setUserName(String _userName) {
+	/**
+	 *
+	 * @param _userName
+	 * @return
+	 */
+	public UsersVOBuilder setUserName(String _userName) {
 	  this._userName = _userName;
 	  return this;
    }
 
-   public UsersVOBuilder setPassword(String _password) {
+	/**
+	 *
+	 * @param _password
+	 * @return
+	 */
+	public UsersVOBuilder setPassword(String _password) {
 	  this._password = _password;
 	  return this;
    }
 
-   public UsersVOBuilder setUserRole(String _userRole) {
+	/**
+	 *
+	 * @param _userRole
+	 * @return
+	 */
+	public UsersVOBuilder setUserRole(String _userRole) {
 	  this._userRole = _userRole;
 	  return this;
    }
 
-   public UsersVOBuilder setEmailAddress(String _emailAddress) {
+	/**
+	 *
+	 * @param _emailAddress
+	 * @return
+	 */
+	public UsersVOBuilder setEmailAddress(String _emailAddress) {
 	  this._emailAddress = _emailAddress;
 	  return this;
    }

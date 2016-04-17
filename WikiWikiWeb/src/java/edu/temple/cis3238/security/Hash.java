@@ -11,7 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 
 /**
- *
+ * Password Hash
  * @author CAP
  */
 public class Hash {

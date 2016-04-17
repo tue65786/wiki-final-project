@@ -202,19 +202,41 @@ public boolean unassignTopicTags(TopicVO topicVO, ArrayList<TagsVO> tagsVOList);
  */
 public int addTag(TagsVO vo);
 
-public boolean deleteTag(TagsVO vo);
+	/**
+	 *
+	 * @param vo
+	 * @return
+	 */
+	public boolean deleteTag(TagsVO vo);
 
 //User Method
+
+	/**
+	 *
+	 * @param _username
+	 * @param _password
+	 * @return
+	 */
 public UsersVO findUserByUserNameAndPassword(String _username, String _password);
 
-public UsersVO findUserByName(String _username);
+	/**
+	 *
+	 * @param _username
+	 * @return
+	 */
+	public UsersVO findUserByName(String _username);
 /**
  * Retrieves all users
  * @return 
  */
 public ArrayList<UsersVO> getUsers();
 
-public UsersVO getUserByID(int _id);//USER_SELECT_BY_ID
+	/**
+	 *
+	 * @param _id
+	 * @return
+	 */
+	public UsersVO getUserByID(int _id);//USER_SELECT_BY_ID
 
 /**
  * Add new user

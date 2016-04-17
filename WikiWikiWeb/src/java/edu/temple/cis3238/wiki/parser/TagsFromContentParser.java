@@ -51,7 +51,12 @@ public class TagsFromContentParser implements Serializable {
 	  return wfwm.extract();
    }
 
-   public static boolean isStaticField(Field f) {
+	/**
+	 *
+	 * @param f
+	 * @return
+	 */
+	public static boolean isStaticField(Field f) {
 	  return Modifier.isStatic(f.getModifiers());
    }
    private String tagNameCSV;
@@ -59,7 +64,10 @@ public class TagsFromContentParser implements Serializable {
 
    private String topicContent;
 
-   protected TagsFromContentParser() {
+	/**
+	 *
+	 */
+	protected TagsFromContentParser() {
 	  extracted = false;
    }
 
@@ -179,12 +187,18 @@ public class TagsFromContentParser implements Serializable {
 	* @see GeneralDAO
 	*/
 public static class TagsVOAdapter{
-  public static ArrayList<TagsVO> generateFromNames(Set<String> names){
+
+	   /**
+	    *
+	    * @param names
+	    * @return
+	    */
+	   public static ArrayList<TagsVO> generateFromNames(Set<String> names){
 	 ArrayList<TagsVO> voList = new ArrayList<TagsVO>();
 	 for (String name :names){
 		voList.add(TagsVO.newInstance(new TagsVO(0,edu.temple.cis3238.wiki.utils.StringUtils.toS(name).trim(),0)));
-	 }
+	 } 
 	 return voList;
   } 
-}
+   }
 }

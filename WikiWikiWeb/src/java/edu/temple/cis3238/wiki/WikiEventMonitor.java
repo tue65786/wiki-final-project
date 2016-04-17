@@ -55,12 +55,11 @@ public class WikiEventMonitor implements ServletContextListener, ServletContextA
 
 	@Override
 	public void attributeRemoved(ServletContextAttributeEvent _event) {
-//	  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
 	}
 
 	@Override
 	public void attributeRemoved(HttpSessionBindingEvent _event) {
-//	  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
@@ -69,6 +68,10 @@ public class WikiEventMonitor implements ServletContextListener, ServletContextA
 				"edu.temple.cis3238.wiki.WikiEventMonitor.attribRemoved(): [name]" + _srae.getName());
 	}
 
+	/**
+	 *
+	 * @param _arg0
+	 */
 	@Override
 	public void attributeReplaced(ServletContextAttributeEvent _arg0) {
 //	  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -136,9 +139,9 @@ public class WikiEventMonitor implements ServletContextListener, ServletContextA
  */
 	public static String getOnlineUsers() {
 		if (usersOnline <= 1) {
-			return "<i>Thers is 1 user online</i>";
+			return "<i>There is (1) user online</i>";
 		} else {
-			return "<i>There are " + usersOnline + " users online.</i>";
+			return "<i>There are (" + usersOnline + ") users online.</i>";
 		}
 	}
 }

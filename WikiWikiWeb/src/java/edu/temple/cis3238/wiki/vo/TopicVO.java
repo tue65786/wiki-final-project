@@ -13,7 +13,7 @@ import java.util.logging.*;
 import org.apache.commons.lang3.builder.*;
 
 /**
- *
+ * Topic Entity
  * @author (c)2016 Doreen, Dan, Christian
  */
 public class TopicVO implements Serializable, Comparable<TopicVO>, IValueObject<TopicVO> {
@@ -30,8 +30,12 @@ private int topicID;
 private String topicModified;
 private String topicName;
 
-
-public static TopicVO newInstance(TopicVO vo) {
+	/**
+	 *
+	 * @param vo
+	 * @return
+	 */
+	public static TopicVO newInstance(TopicVO vo) {
    return new TopicVOBuilder()
 		   .setTopicID( vo.getTopicID() )
 		   .setTopicName( vo.getTopicName() )
@@ -101,8 +105,11 @@ public CopyOnWriteArrayList<TagsVO> getTagsCollection() {
    return tagsCollection;
 }
 
-
-public void setTagsCollection(CopyOnWriteArrayList<TagsVO> tagsCollection) {
+	/**
+	 *
+	 * @param tagsCollection
+	 */
+	public void setTagsCollection(CopyOnWriteArrayList<TagsVO> tagsCollection) {
    if ( tagsCollection != null && !tagsCollection.isEmpty() ) {
 	  this.tagsCollection = new CopyOnWriteArrayList<TagsVO>();
 	  tagsCollection.sort( new TagsVO() );
@@ -204,8 +211,11 @@ public void setTopicName(String topicName) {
    this.topicName = StringUtils.stripInvalidChars( topicName );
 }
 
-
-public boolean hasTagsCollection() {
+	/**
+	 *
+	 * @return
+	 */
+	public boolean hasTagsCollection() {
    return ( tagsCollection != null && !tagsCollection.isEmpty() );
 }
 @Override
@@ -223,12 +233,25 @@ public String toString() {
    return "TopicVO{" + "revisions=" + revisions + ", topicContent=" + getTopicContent() + ", topicCreated=" + getTopicCreated() + ", topicID=" + topicID + ", topicModified=" + getTopicModified() + ", topicName=" + getTopicName() + '}';
 }
 
-@Override
+	/**
+	 *
+	 * @return
+	 */
+	@Override
 public String toTableRow() {
    return "<tr><td>" + revisions + "</td><td>" + getTopicContent() + "</td><td>" + getTopicCreated() + "</td><td>" + topicID + "</td><td>" + getTopicModified() + "</td><td>" + getTopicName() + "</td></tr>";
 }
 
-public TopicVO(int _topicID, String _topicName, String _topicContent, String _topicCreated, String _topicModified, int _revisions) {
+	/**
+	 *
+	 * @param _topicID
+	 * @param _topicName
+	 * @param _topicContent
+	 * @param _topicCreated
+	 * @param _topicModified
+	 * @param _revisions
+	 */
+	public TopicVO(int _topicID, String _topicName, String _topicContent, String _topicCreated, String _topicModified, int _revisions) {
    this.topicID = _topicID;
    this.topicName = _topicName;
    this.topicContent = _topicContent;
@@ -237,7 +260,18 @@ public TopicVO(int _topicID, String _topicName, String _topicContent, String _to
    this.revisions = _revisions;
 }
 
-public TopicVO(int _topicID, String _topicName, String _topicContent, String _topicCreated, String _topicModified, int _revisions, ArrayList<TagsVO> _tagsCollection, ArrayList<TopicHistoryVO> _topicHistoryCollection) {
+	/**
+	 *
+	 * @param _topicID
+	 * @param _topicName
+	 * @param _topicContent
+	 * @param _topicCreated
+	 * @param _topicModified
+	 * @param _revisions
+	 * @param _tagsCollection
+	 * @param _topicHistoryCollection
+	 */
+	public TopicVO(int _topicID, String _topicName, String _topicContent, String _topicCreated, String _topicModified, int _revisions, ArrayList<TagsVO> _tagsCollection, ArrayList<TopicHistoryVO> _topicHistoryCollection) {
    this.topicID = _topicID;
    this.topicName = _topicName;
    this.topicContent = _topicContent;
@@ -254,7 +288,18 @@ public TopicVO(int _topicID, String _topicName, String _topicContent, String _to
    this.topicHistoryCollection = _topicHistoryCollection;
 }
 
-public TopicVO(int _topicID, String _topicName, String _topicContent, String _topicCreated, String _topicModified, int _revisions, CopyOnWriteArrayList<TagsVO> _tagsCollection, ArrayList<TopicHistoryVO> _topicHistoryCollection) {
+	/**
+	 *
+	 * @param _topicID
+	 * @param _topicName
+	 * @param _topicContent
+	 * @param _topicCreated
+	 * @param _topicModified
+	 * @param _revisions
+	 * @param _tagsCollection
+	 * @param _topicHistoryCollection
+	 */
+	public TopicVO(int _topicID, String _topicName, String _topicContent, String _topicCreated, String _topicModified, int _revisions, CopyOnWriteArrayList<TagsVO> _tagsCollection, ArrayList<TopicHistoryVO> _topicHistoryCollection) {
    this.topicID = _topicID;
    this.topicName = _topicName;
    this.topicContent = _topicContent;

@@ -106,6 +106,10 @@ public enum PAGE_COMMAND {
 		return COMMAND_ACTION_CODE;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String GETTER_JSP_SOURCE() {
 		JSP_SOURCE = toS(JSP_SOURCE).substring(JSP_SOURCE.lastIndexOf(
 				"/") + 1, JSP_SOURCE.length());
@@ -115,14 +119,26 @@ public enum PAGE_COMMAND {
 		return JSP_SOURCE;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String[] GETTER_PARAMS_REQUIRED() {
 		return PARAMS_REQUIRED;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String GETTER_PARAM_PRIMARY_KEY() {
 		return PARAM_PRIMARY_KEY;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String[] GETTER_PARAMS_OPTIONAL() {
 		return PARAMS_OPTIONAL;
 	}

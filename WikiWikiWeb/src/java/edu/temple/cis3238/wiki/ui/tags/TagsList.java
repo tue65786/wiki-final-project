@@ -46,7 +46,11 @@ public void doTag() throws JspException {
    }
 }
 
-   public void setTagsCollectionBeans(TagsCollection TagsCollectionBeans) {
+	/**
+	 *
+	 * @param TagsCollectionBeans
+	 */
+	public void setTagsCollectionBeans(TagsCollection TagsCollectionBeans) {
 	  this.tagsCollectionBeans = TagsCollectionBeans;
    }
 

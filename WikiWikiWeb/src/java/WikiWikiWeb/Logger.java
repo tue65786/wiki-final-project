@@ -21,6 +21,13 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "Logger", urlPatterns = {"/Logger"})
 public class Logger extends HttpServlet {
 
+	/**
+	 *
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	protected void createNewWiki(HttpServletRequest request,
 								 HttpServletResponse response)
 			throws ServletException, IOException {

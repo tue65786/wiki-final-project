@@ -11,8 +11,8 @@ import java.lang.reflect.Field;
 import java.util.logging.*;
 
 /**
- *
- * @author (c)2016 Guiding Technologies
+ * Apply Plucker Filter To Retrieve TagName columns.
+ * @author D
  */
 public class TagColumnPredicate implements //IPredicate<TagsVO>, 
 										   IPluck<TagsVO, String> {
@@ -29,6 +29,12 @@ public class TagColumnPredicate implements //IPredicate<TagsVO>,
    }
 
    //@Override
+
+	/**
+	 *
+	 * @param _type
+	 * @return
+	 */
    public boolean apply(TagsVO _type) {
 	  for (Field f : vo.getClass().getDeclaredFields()) {
 		 if (((excludeStaticFields && !isStaticField(f)) 
@@ -42,7 +48,13 @@ public class TagColumnPredicate implements //IPredicate<TagsVO>,
    }
    private static final Logger LOG = Logger.getLogger(TagColumnPredicate.class.getName());
 
-   @Override
+	/**
+	 *
+	 * @param _o
+	 * @param _fieldName
+	 * @return
+	 */
+	@Override
    public String pluck(TagsVO _o, String _fieldName) {
 	  for (Field f : vo.getClass().getDeclaredFields()) {
 		 if (((excludeStaticFields && !isStaticField(f))

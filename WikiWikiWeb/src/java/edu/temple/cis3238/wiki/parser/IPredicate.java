@@ -6,8 +6,9 @@
 package edu.temple.cis3238.wiki.parser;
 
 /**
- *
+ * Filter definition
  * @author (c)2016 C D D
+ * @param <T>
  */
 public interface IPredicate<T> {
    /**

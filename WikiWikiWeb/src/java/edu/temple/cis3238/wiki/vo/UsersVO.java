@@ -11,7 +11,7 @@ import java.util.*;
 import java.util.logging.*;
 
 /**
- *
+ * User Entity 
  * @author (c)2016 Doreen, Dan, Christian
  */
 public class UsersVO implements Serializable {
@@ -24,7 +24,12 @@ private int userID;
 private String userName;
 private String userRole;
 
-public static UsersVO newInstance(UsersVO _vo) {
+	/**
+	 *
+	 * @param _vo
+	 * @return
+	 */
+	public static UsersVO newInstance(UsersVO _vo) {
    return new UsersVOBuilder().setUserID( _vo.getUserID() ).setUserName( _vo.getUserName() ).setPassword( _vo.getPassword() ).setUserRole( _vo.getUserRole() ).setEmailAddress( _vo.getEmailAddress() ).build();
 }
 
@@ -136,7 +141,15 @@ public void setUserRole(String userRole) {
 	  return "UsersVO{" + "emailAddress=" + getEmailAddress() + ", password=" + getPassword() + ", userID=" + getUserID() + ", userName=" + getUserName() + ", userRole=" + getUserRole() + '}';
    }
 
-public UsersVO(int _userID, String _userName, String _password, String _userRole, String _emailAddress) {
+	/**
+	 *
+	 * @param _userID
+	 * @param _userName
+	 * @param _password
+	 * @param _userRole
+	 * @param _emailAddress
+	 */
+	public UsersVO(int _userID, String _userName, String _password, String _userRole, String _emailAddress) {
    this.userID = _userID;
    this.userName = StringUtils.toS(_userName );
    this.password =StringUtils.toS( _password );
@@ -144,7 +157,12 @@ public UsersVO(int _userID, String _userName, String _password, String _userRole
    this.emailAddress = StringUtils.toS(_emailAddress );
 }
 
-public UsersVO(String _userName, String _password) {
+	/**
+	 *
+	 * @param _userName
+	 * @param _password
+	 */
+	public UsersVO(String _userName, String _password) {
    this.userName = _userName;
    this.password = _password;
 }

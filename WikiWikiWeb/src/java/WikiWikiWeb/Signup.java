@@ -18,7 +18,14 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = {"/Signup"})
 public class Signup extends HttpServlet {
 
-   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+	/**
+	 *
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 		   throws ServletException, IOException {
 	  response.setContentType("text/html;charset=UTF-8");
 	  try (PrintWriter out = response.getWriter()) {

@@ -19,16 +19,34 @@ import java.util.regex.*;
  */
 public class StringUtils {
 
-   public static final String DEFAULT_SQL_DATETIME_FMT = "yyyy-MM-dd HH:mm:ss.SSS";
-   public static final String DEFAULT_DISPLAY_DATETIME_FMT = "yyyy-MM-dd HH:mm";
+	/**
+	 *
+	 */
+	public static final String DEFAULT_SQL_DATETIME_FMT = "yyyy-MM-dd HH:mm:ss.SSS";
+
+	/**
+	 *
+	 */
+	public static final String DEFAULT_DISPLAY_DATETIME_FMT = "yyyy-MM-dd HH:mm";
    private static final Logger LOG = Logger.getLogger(StringUtils.class.getName());
    private static final String PH_LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
-   public static String formatDate(String dateStr) {
+	/**
+	 *
+	 * @param dateStr
+	 * @return
+	 */
+	public static String formatDate(String dateStr) {
 	  return formatDate(dateStr, DEFAULT_DISPLAY_DATETIME_FMT);
    }
 
-   public static String formatDate(String dateStr, String formattedDateOut) {
+	/**
+	 *
+	 * @param dateStr
+	 * @param formattedDateOut
+	 * @return
+	 */
+	public static String formatDate(String dateStr, String formattedDateOut) {
 	  DateFormat dateformat = new SimpleDateFormat(DEFAULT_SQL_DATETIME_FMT, Locale.ENGLISH);
 	  DateFormat dateformatOut = new SimpleDateFormat(formattedDateOut, Locale.ENGLISH);
 	  try {
@@ -40,7 +58,12 @@ public class StringUtils {
 	  return dateStr;
    }
 
-   public static String coalesce(Object... items) {
+	/**
+	 *
+	 * @param items
+	 * @return
+	 */
+	public static String coalesce(Object... items) {
 	  if (items == null) {
 		 return "";
 	  }
@@ -110,7 +133,12 @@ public class StringUtils {
 	  }
    }
 
-   public static final String stackStraceAsStringDetails(final Throwable e) {
+	/**
+	 *
+	 * @param e
+	 * @return
+	 */
+	public static final String stackStraceAsStringDetails(final Throwable e) {
 	  StringBuilder sb = new StringBuilder("");
 	  if (e != null) {
 		 final StringWriter stringWriter = new StringWriter();

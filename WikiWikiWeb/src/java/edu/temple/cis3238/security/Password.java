@@ -6,12 +6,17 @@
 package edu.temple.cis3238.security;
 
 /**
- *
+ * Password Requirements
  * @author CAP
  */
 public class Password {
     
-    public static boolean isValidPassword(String password){
+	/**
+	 *
+	 * @param password
+	 * @return
+	 */
+	public static boolean isValidPassword(String password){
         //return true if a valid password
         //1. have at least 8 characaters
         //2. consists of only letters and numbers
@@ -42,12 +47,22 @@ public class Password {
         return true;
     }
     
-    public static boolean isSpecialChar(char c){
+	/**
+	 *
+	 * @param c
+	 * @return
+	 */
+	public static boolean isSpecialChar(char c){
         String specialChars = "/*!@#$%^&*()\"{}[]_|\\?/<>,.";
         return specialChars.indexOf(c) >= 0;
     }
     
-    public static boolean isValidUsername(String username){
+	/**
+	 *
+	 * @param username
+	 * @return
+	 */
+	public static boolean isValidUsername(String username){
         if(username.length() < 4 || username.length() > 25 ){
             return false;
         } 

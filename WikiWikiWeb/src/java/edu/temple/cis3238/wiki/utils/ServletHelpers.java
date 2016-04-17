@@ -25,8 +25,14 @@ private HttpServletRequest request;
 private HttpServletResponse response;
 private HttpSession session;
 
- 
-public  <T> T getAttribute(String sessionAttrib,T defaultValue ) {
+	/**
+	 *
+	 * @param <T>
+	 * @param sessionAttrib
+	 * @param defaultValue
+	 * @return
+	 */
+	public  <T> T getAttribute(String sessionAttrib,T defaultValue ) {
       Object param = session.getAttribute(sessionAttrib);
       T paramValue = null;
       try {
@@ -58,7 +64,7 @@ public  <T> T getAttribute(String sessionAttrib,T defaultValue ) {
    }
 	/**
 	* Retrieve integer parameter from {@linkplain HttpServletRequest}, or default value when null.
-	* @param attribute
+	 * @param qsParam
 	* @param defaultVal value to return if attribute is not found.
 	* @return 
 	*/
@@ -115,7 +121,12 @@ public  <T> T getAttribute(String sessionAttrib,T defaultValue ) {
 		return (paramString);
 	 }
 	 
-	 public Cookie getCookie(
+	/**
+	 *
+	 * @param cookieName
+	 * @return
+	 */
+	public Cookie getCookie(
        String cookieName ) {
       Cookie[] cookies = request.getCookies();
       if ( cookies != null ) {

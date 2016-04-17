@@ -9,10 +9,18 @@ import edu.temple.cis3238.wiki.parser.*;
 import edu.temple.cis3238.wiki.ui.tags.helpers.TopicByTopicIDPredicate;
 import edu.temple.cis3238.wiki.vo.TagsVO;
 import java.util.*;
-
+/**
+ * 
+ * VO Collection Helpers
+ */
 public class CollectionsUtilities {
 
-	  public static String setToCSV(Set<String> set) {
+	/**
+	 *
+	 * @param set
+	 * @return
+	 */
+	public static String setToCSV(Set<String> set) {
 	  StringBuilder sb = new StringBuilder("");
 	  Set<String> tagNameSet = new TreeSet<>();
 	  for (String t : set) {

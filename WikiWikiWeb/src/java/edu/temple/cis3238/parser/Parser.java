@@ -15,6 +15,11 @@ import java.util.ArrayList;
 
 public class Parser {
 
+	/**
+	 *
+	 * @param inputWikiText
+	 * @return
+	 */
 	public static String parseAndAnnotate(String inputWikiText) {
 		return parseAndAnnotate(inputWikiText, "wiki.jsp", "id", "tag.jsp", "id");
 	}

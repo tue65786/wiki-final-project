@@ -18,14 +18,25 @@ import javax.servlet.jsp.tagext.JspFragment;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 /**
- *
- * @author 
+ * Purpose: Create markup for displaying list of WikiTopics
+ * @author Dan
  */
 public class TopicList extends SimpleTagSupport {
 
-public static final String LIST_STYLES[] = { "TABLE", "LIST" };
-public static final int LIST_STYLE_LIST = 1;
-public static final int LIST_STYLE_TABLE = 0;
+	/**
+	 *
+	 */
+	public static final String LIST_STYLES[] = { "TABLE", "LIST" };
+
+	/**
+	 *
+	 */
+	public static final int LIST_STYLE_LIST = 1;
+
+	/**
+	 *
+	 */
+	public static final int LIST_STYLE_TABLE = 0;
 private static final String LIST_TEMPLATE = "<li><h4>[[[HREF]]]</h4>"
 		+ "<p class='wikicontent'>[[[ABSTRACT]]]</p>"
 		+ "<p class='tags'>[[[TAGS]]]</p>"
@@ -86,26 +97,61 @@ public void doTag() throws JspException {
 	  throw new JspException( "Error in TopicList tag", ex );
    }
 }
-public void setListStyle(String listStyle) {
+
+	/**
+	 *
+	 * @param listStyle
+	 */
+	public void setListStyle(String listStyle) {
    this.listStyle = StringUtils.toS( listStyle );
    System.out.println( "edu.temple.cis3238.wiki.ui.tags.TopicList.setListStyle()" );
 }
-public void setSortField(String sortField) {
+
+	/**
+	 *
+	 * @param sortField
+	 */
+	public void setSortField(String sortField) {
    this.sortField = sortField;
 }
-public void setTagLinkPage(String tagLinkPage) {
+
+	/**
+	 *
+	 * @param tagLinkPage
+	 */
+	public void setTagLinkPage(String tagLinkPage) {
    this.tagLinkPage = tagLinkPage;
 }
-public void setTagLinkRequestParam(String tagLinkRequestParam) {
+
+	/**
+	 *
+	 * @param tagLinkRequestParam
+	 */
+	public void setTagLinkRequestParam(String tagLinkRequestParam) {
    this.tagLinkRequestParam = tagLinkRequestParam;
 }
-public void setTopicLinkPage(String topicLinkPage) {
+
+	/**
+	 *
+	 * @param topicLinkPage
+	 */
+	public void setTopicLinkPage(String topicLinkPage) {
    this.topicLinkPage = topicLinkPage;
 }
-public void setTopicLinkRequestParam(String topicLinkRequestParam) {
+
+	/**
+	 *
+	 * @param topicLinkRequestParam
+	 */
+	public void setTopicLinkRequestParam(String topicLinkRequestParam) {
    this.topicLinkRequestParam = topicLinkRequestParam;
 }
-public void setTopicsList(TopicCollection _topicCollection) {
+
+	/**
+	 *
+	 * @param _topicCollection
+	 */
+	public void setTopicsList(TopicCollection _topicCollection) {
    this.topicsList = _topicCollection.getTopics();
 }
 

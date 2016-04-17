@@ -20,22 +20,37 @@ import static org.junit.Assert.*;
  */
 public class ParserTest {
     
-    public ParserTest() {
+	/**
+	 *
+	 */
+	public ParserTest() {
     }
     
-    @BeforeClass
+	/**
+	 *
+	 */
+	@BeforeClass
     public static void setUpClass() {
     }
     
-    @AfterClass
+	/**
+	 *
+	 */
+	@AfterClass
     public static void tearDownClass() {
     }
     
-    @Before
+	/**
+	 *
+	 */
+	@Before
     public void setUp() {
     }
     
-    @After
+	/**
+	 *
+	 */
+	@After
     public void tearDown() {
     }
 

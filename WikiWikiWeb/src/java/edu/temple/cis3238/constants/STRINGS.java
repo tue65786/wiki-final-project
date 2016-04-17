@@ -55,8 +55,15 @@ public class STRINGS {
    public static final String REGEX_HTML_MARKUP_CHARS = "<sty.*<.*>|<scr.*/script>|</?[a-z][a-z0-9]*[^<>]*>|<!--.*?-->";
  
    private static final String CamelCaseRegEx = "(?<!\\[\\[\\[)[A-Z|\\?][A-Za-z0-9]*[a-z][A-Za-z0-9]*[A-Z][A-Za-z0-9]*(?!\\]\\]\\])(?=\\b)(?![\\\\]|[/]|[\\.]\\w)";
-   public static final String REGEX_TAG_MATCHER = "(\\{\\{)(.?[^}]*)(\\}\\})";
+
+	/**
+	 *
+	 */
+	public static final String REGEX_TAG_MATCHER = "(\\{\\{)(.?[^}]*)(\\}\\})";
    
-   public static final String REGEX_TOPIC_MATCHER = "(\\[\\[)(.?[^\\]]*)(\\]\\])";
+	/**
+	 *
+	 */
+	public static final String REGEX_TOPIC_MATCHER = "(\\[\\[)(.?[^\\]]*)(\\]\\])";
    
 }
