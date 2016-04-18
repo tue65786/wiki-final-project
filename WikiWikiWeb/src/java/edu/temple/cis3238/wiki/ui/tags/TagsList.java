@@ -15,8 +15,8 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 /**
  *
  * Custom tag that generates HTML from ArrayList of {@linkplain TagsVO}.
- * <br/>Pre condition: {@linkplain TagsCollection} populated from {@linkplain GeneralDAO}.
- * <br/>Default Style: <a href='https://en.wikipedia.org/wiki/Tag_cloud'>Tag Cloud<sub>WikiPedia</sub></a>
+ * <br>Pre condition: {@linkplain TagsCollection} populated from {@linkplain GeneralDAO}.
+ * <br>Default Style: <a href='https://en.wikipedia.org/wiki/Tag_cloud'>Tag Cloud<sub>WikiPedia</sub></a>
  */
 public class TagsList extends SimpleTagSupport {
 

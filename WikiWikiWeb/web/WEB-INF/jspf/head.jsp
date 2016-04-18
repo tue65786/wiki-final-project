@@ -29,7 +29,8 @@
 <script type="text/javascript" src="editor.js"></script>
 <script type="text/javascript" src="http://guidemecoach.com/gains-mcc/js/json2.js"></script>
 <script type="text/javascript" src="http://underscorejs.org/underscore-min.js"></script>
-
+<script type="text/javascript" src="theme/jquery-highlight.js"></script>
+<style>.highlight { background-color: yellow }</style>
 <%
 	TopicCollection collection = (TopicCollection) session.getAttribute("topicCollection");
 	String title = "";

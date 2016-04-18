@@ -16,8 +16,8 @@ import java.util.regex.*;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- *
- * @author DAn
+ * Controller For Processing View to POJO
+ * @author Dan
  */
 public class GeneralController implements Serializable {
 

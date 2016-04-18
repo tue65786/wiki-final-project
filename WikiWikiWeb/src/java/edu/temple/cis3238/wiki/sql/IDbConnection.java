@@ -8,19 +8,19 @@ package edu.temple.cis3238.wiki.sql;
 import java.sql.*;
 
 /**
- *
+ * Defines Database Connection Wrapper
  * @author (c)2016 Dan
  */
 public interface IDbConnection {
 
 /**
- *
+ * JDBC Connection
  * @return Connection to database
  */
 public Connection getConn();
 
 /**
- * 
+ * Capture JDBC Error messages
  * @return Connection error message 
  */
 public String getError();

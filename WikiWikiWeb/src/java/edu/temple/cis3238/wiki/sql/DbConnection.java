@@ -12,15 +12,28 @@ import java.util.logging.*;
 
 /**
  * Retrieves SQL Connection.
- * <br/><b>NOTE </b>:  Connections <u>must call</u> {@linkplain #close()} to prevent memory leaks. Call to  {@linkplain #close()} should immediately  <u>follow completion of  database work.</u> <i>(eg. ResultSet has no more results)</i>
+ * <br><b>NOTE </b>:  Connections <u>must call</u> {@linkplain #close()} to prevent memory leaks. Call to  {@linkplain #close()} should immediately  <u>follow completion of  database work.</u> <i>(eg. ResultSet has no more results)</i>
  * @author (c)2016 Doreen, Dan, Christian
  */
 public class DbConnection implements IDbConnection {
 
-private static final boolean DEBUG = true;
+/**
+ * Display debugging information
+ */
+	private static final boolean DEBUG = true;
+	/**
+	 * JDBC Driver class
+	 */
 private static final String JDBC_DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 private static final Logger LOG = Logger.getLogger( DbConnection.class.getName() );
+/**
+ * Properties as defined in database.properties file
+ * @see PropertyUtils
+ */
 private static Properties dbProps = null;
+/**
+ * Tracks open connections
+ */
 private static int openConnections = 0;
 private final String PROPS_FILE = "database.properties";
 private Connection conn;

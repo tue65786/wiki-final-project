@@ -1,3 +1,5 @@
+<%@page import="edu.temple.cis3238.wiki.utils.StringUtils"%>
+<%@page import="edu.temple.cis3238.wiki.ui.tags.helpers.TopicHistoryHTMLFactory"%>
 <%@page import="edu.temple.cis3238.wiki.WikiEventMonitor"%>
 <%@page import="edu.temple.cis3238.wiki.vo.TopicHistoryVO"%>
 <%@page import="edu.temple.cis3238.wiki.ui.tags.helpers.TopicByTopicIDPredicate"%>
@@ -22,6 +24,9 @@
 <%@taglib prefix="wiki" uri="/WEB-INF/tlds/wiki.tld"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+  if ( request.getSession().isNew()){
+	WikiEventMonitor.setUsersOnline(WikiEventMonitor.getUsersOnline()+1);
+  }
 	if (request.getParameter("login") != null) {
 		currentUser.setUsername(request.getParameter("username"));
 	}
@@ -50,6 +55,8 @@
 	String editorMode = web.getStrParameter("editorMode", "");
 	String editorTopicContent = "";
 	String editorTopicName = "";
+	String highlightText = StringUtils.coalesce(requestTag,web.getStrParameter("query", ""),""); 
+	boolean shouldHightlightText = (highlightText.length()>0);
 	boolean viewSingle = false;
 	boolean viewList = false;
 	boolean editSingle = false;
@@ -188,7 +195,10 @@
 						<!--<div id="diffDiv"></div>-->	
 						<% if (currentUser.isLoggedIn()){%>
 						<p/>
-						<wiki:TopicHistoryTag topicCollection="${topicCollection}"/>
+						<div id="compareDiv" style="display:none;">
+						<h3>Comparison (diff) </h3>
+						<%=TopicHistoryHTMLFactory.createDiffDivAndLegend()%>
+						</div>
 						<%}%>
 						<%} else if (editSingle || insertSingle) {%>
 
@@ -228,6 +238,11 @@
 										topicLinkPage="View.jsp" 
 										topicLinkRequestParam="pTopicID">
 						</wiki:TopicList> 
+						<% if (shouldHightlightText){%>
+						<script type='text/javascript'>
+						$('.topiclist > li').highlight('<%=highlightText%>');
+						</script>
+						<%}%>
 						<%}%>
 					</div>
 					<!-- Main div end-->
@@ -247,6 +262,9 @@
 					</div>
 					<div style="margin: 5px 0px;padding-top:3px;">&nbsp;</div>
 					<wiki:TagsList tagsCollectionBeans="${tagsCollection}" />
+					<% if (viewSingle && !editSingle && currentUser.isLoggedIn()) {%>
+					<wiki:TopicHistoryTag topicCollection="${topicCollection}"/>
+					<%}%>
 					<!--end sidebar-->
 				</div>
 			</div>

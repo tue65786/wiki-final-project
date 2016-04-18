@@ -189,7 +189,7 @@ public class TagsFromContentParser implements Serializable {
 public static class TagsVOAdapter{
 
 	   /**
-	    *
+	    * Adapts Set of TagoVOs  from String Set. 
 	    * @param names
 	    * @return
 	    */

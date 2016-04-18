@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Debug methods for displaying database tables
  * @author (c)2016 Doreen, Dan, Christian
  */
 public class DbUtils {

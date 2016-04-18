@@ -5,17 +5,22 @@
  */
 package edu.temple.cis3238.wiki.utils;
 
+import edu.temple.cis3238.wiki.ui.servlets.UploaderServlet;
 import edu.temple.cis3238.wiki.vo.*;
 import javax.servlet.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.*;
 import java.util.regex.*;
+import org.apache.commons.fileupload.UploadContext;
 
 
 /**
- *
+ * Helper methods for validating and uploading files
+ * 
  * @author dan
+ * @see UploaderServlet
+ * @see UploadContext
  */
 public class FileUtils {
    private static final Logger LOG = Logger.getLogger( FileUtils.class.getName() );

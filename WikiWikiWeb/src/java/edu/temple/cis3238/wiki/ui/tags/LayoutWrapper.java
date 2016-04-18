@@ -13,7 +13,7 @@ import javax.servlet.jsp.tagext.JspFragment;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 /**
- *
+ * Layout Tag Base
  * @author (c)2016 3238
  */
 public class LayoutWrapper extends SimpleTagSupport {

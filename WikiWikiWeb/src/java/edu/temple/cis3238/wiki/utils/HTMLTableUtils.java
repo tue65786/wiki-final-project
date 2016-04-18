@@ -8,7 +8,7 @@
 package edu.temple.cis3238.wiki.utils;
 
 /**
- *
+ * Markup helper for HTML tables
  * @author (c)2016
  */
 public class HTMLTableUtils {

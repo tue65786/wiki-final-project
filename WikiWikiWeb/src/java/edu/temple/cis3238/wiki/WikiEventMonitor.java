@@ -20,6 +20,20 @@ public class WikiEventMonitor implements ServletContextListener, ServletContextA
 
 	private static Map<String, HttpSession> sessions = new HashMap<String, HttpSession>();
 	private static Map<String, Integer> lockedPages;
+
+	/**
+	 * @return the usersOnline
+	 */
+	public static int getUsersOnline() {
+		return (usersOnline==0 ? 1 :usersOnline); 
+	}
+
+	/**
+	 * @param aUsersOnline the usersOnline to set
+	 */
+	public static void setUsersOnline(int aUsersOnline) {
+		usersOnline = aUsersOnline;
+	}
 	Lock lock;
 	WikiEngine engine;
 	private static int usersOnline = 0;
@@ -55,11 +69,12 @@ public class WikiEventMonitor implements ServletContextListener, ServletContextA
 
 	@Override
 	public void attributeRemoved(ServletContextAttributeEvent _event) {
-
+//	  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
 	public void attributeRemoved(HttpSessionBindingEvent _event) {
+//	  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
@@ -68,10 +83,6 @@ public class WikiEventMonitor implements ServletContextListener, ServletContextA
 				"edu.temple.cis3238.wiki.WikiEventMonitor.attribRemoved(): [name]" + _srae.getName());
 	}
 
-	/**
-	 *
-	 * @param _arg0
-	 */
 	@Override
 	public void attributeReplaced(ServletContextAttributeEvent _arg0) {
 //	  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -94,6 +105,7 @@ public class WikiEventMonitor implements ServletContextListener, ServletContextA
 
 	@Override
 	public void contextInitialized(ServletContextEvent _sce) {
+sessions = new HashMap<String, HttpSession>();
 //	  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
@@ -114,7 +126,7 @@ public class WikiEventMonitor implements ServletContextListener, ServletContextA
 		HttpSession session = se.getSession();
 		try {
 			sessions.put(session.getId(), session);
-			usersOnline++;
+			setUsersOnline(getUsersOnline() + 1);
 
 		} catch (UnsupportedOperationException | ClassCastException | NullPointerException | IllegalArgumentException e) {
 			System.out.println(
@@ -129,19 +141,16 @@ public class WikiEventMonitor implements ServletContextListener, ServletContextA
 					_se.getSession().getId());
 		} catch (NullPointerException | UnsupportedOperationException | ClassCastException e) {
 		}
-		usersOnline--;
+		setUsersOnline(getUsersOnline() - 1);
 	}
 	private static final Logger LOG = Logger.getLogger(
 			WikiEventMonitor.class.getName());
-/**
- * Active user sessions for .
- * @return 
- */
+
 	public static String getOnlineUsers() {
-		if (usersOnline <= 1) {
-			return "<i>There is (1) user online</i>";
+		if (getUsersOnline() <= 1) {
+			return "There is 1 user online";
 		} else {
-			return "<i>There are (" + usersOnline + ") users online.</i>";
+			return "There are " + getUsersOnline() + " users online.";
 		}
 	}
 }

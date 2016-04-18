@@ -27,6 +27,7 @@
 				$("#invalidCreds").slideDown("slow");
             <% }%>
 			});
+
         </script>
 
         <div id="bg-image"></div>
@@ -38,13 +39,17 @@
 
             <form action="${pageContext.request.contextPath}/Login" method="post">
                 <div>Username:</div>
-                <input name="user" /><br />
+                <input name="user" id="username" /><br />
                 <div>Password:</div>
                 <input type="password" name="pass" /><br />
                 <button>Submit</button><br />
                 <a href="signup.jsp">New User</a>
             </form>
         </div>
-
+		<script type="text/javascript">
+			$(document).ready(function () {
+			$("#username").focus();
+		});
+		</script>
     </body>
 </html>

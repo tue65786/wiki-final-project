@@ -16,13 +16,30 @@ import java.util.logging.Logger;
  * Markup for topic history.
  */
 public class TopicHistoryHTMLFactory {
-
+/**
+ * Replacement Alt. Row
+ */
 	private static final String ALTROW = "[[[AROW]]]";
+/**
+ * Replacement: Index.
+ */
 	private static final String INDEX = "[[[INDEX]]]";
+	/**
+	 * Replacement: Date.
+	 */
 	private static final String DATE = "[[[DATE]]]";
+	/**
+	 * Replacement TopicHistory ID.
+	 */
 	private static final String HISTORYID = "[[[IDHIST]]]";
+	/**
+	 * Replacement: Topic ID.
+	 */
 	private static final String TOPICID = "[[[IDTOPIC]]]";
-	private static final String HISTORY_ROW = "<tr ><td style='border-bottom:1px solid #e5e5e5;' class='infoTD [[[AROW]]]'>[[[INDEX]]].&nbsp;[[[DATE]]]</td><td style='border-bottom:1px solid #e5e5e5;' class='diffTD [[[AROW]]]'><a href='#' onclick='loadDiffByTopicHistoryID([[[IDHIST]]]);'>view diff</a></td><td style='border-bottom:1px solid #e5e5e5;' class='revertTD [[[AROW]]]'><a href=\"View.jsp?topicHistoryPK=[[[IDHIST]]]&topicPK=[[[IDTOPIC]]]\">restore this version</a></td></tr>";
+	/**
+	 * Template for TopicHistory
+	 */
+	private static final String HISTORY_ROW = "<tr><td style='border-bottom:1px solid #e5e5e5;' class='infoTD [[[AROW]]]'>[[[INDEX]]].&nbsp;[[[DATE]]]</td><td style='border-bottom:1px solid #e5e5e5;' class='diffTD [[[AROW]]]'><a href='#' onclick='loadDiffByTopicHistoryID([[[IDHIST]]]);'>view diff</a></td><td style='border-bottom:1px solid #e5e5e5;' class='revertTD [[[AROW]]]'><a href=\"View.jsp?topicHistoryPK=[[[IDHIST]]]&topicPK=[[[IDTOPIC]]]\">restore this version</a></td></tr>";
 
 	private static String createHistoryList(ArrayList<TopicHistoryVO> voList) {
 		if (voList == null || voList.isEmpty()) {
@@ -49,7 +66,7 @@ public class TopicHistoryHTMLFactory {
 				.replace(ALTROW, evenrow ? "evenrow" : "")
 				.replace(INDEX, row + "")
 				.replace(DATE, StringUtils.formatDate(topicHistoryVO.getTopicHistoryCreated(),
-						"EEE, d MMM yyyy hh:mm aaa"))
+						"EEE, d MMM yy hh:mm aaa"))
 				.replace(HISTORYID, topicHistoryVO.getTopicHistoryID() + "")
 				.replace(TOPICID, topicHistoryVO.getTopicID() + "");
 
@@ -58,8 +75,8 @@ public class TopicHistoryHTMLFactory {
  * 
  * @return Diff color key
  */
-	private static String createDiffLegend() {
-		return "<div class=\"footerItemText\"><div class=\"legend\"><ul><li><span class=\"wikEdDiffMarkRight\" title=\"Moved block\" id=\"wikEdDiffMark999\" onmouseover=\"wikEdDiffBlockHandler(undefined, this, 'mouseover');\"></span> Original block position</li>\n<li><span title=\"+\" class=\"wikEdDiffInsert\">Inserted<span class=\"wikEdDiffSpace\"><span class=\"wikEdDiffSpaceSymbol\"></span> </span>text<span class=\"wikEdDiffNewline\"> </span></span></li><li><span title=\"−\" class=\"wikEdDiffDelete\">Deleted<span class=\"wikEdDiffSpace\"><span class=\"wikEdDiffSpaceSymbol\"></span></span>text<span class=\"wikEdDiffNewline\"> </span></span></li><li><span class=\"wikEdDiffBlockLeft\" title=\"◀\" id=\"wikEdDiffBlock999\" onmouseover=\"wikEdDiffBlockHandler(undefined, this, 'mouseover');\">Moved<span class=\"wikEdDiffSpace\"><span class=\"wikEdDiffSpaceSymbol\"></span> </span>block<span class=\"wikEdDiffNewline\"> </span></span></li><li><span class=\"newlineSymbol\">¶</span> Newline <span class=\"spaceSymbol\">·</span> Space <span class=\"tabSymbol\">→</span> Tab</li></ul>	</div></div>";
+	public static String createDiffDivAndLegend() {
+		return "<div id=\"diffDiv\"></div>\n<div class=\"footerItemText\"><div class=\"legend\"><ul><li><span class=\"wikEdDiffMarkRight\" title=\"Moved block\" id=\"wikEdDiffMark999\" onmouseover=\"wikEdDiffBlockHandler(undefined, this, 'mouseover');\"></span> Original block position</li>\n<li><span title=\"+\" class=\"wikEdDiffInsert\">Inserted<span class=\"wikEdDiffSpace\"><span class=\"wikEdDiffSpaceSymbol\"></span> </span>text<span class=\"wikEdDiffNewline\"> </span></span></li><li><span title=\"−\" class=\"wikEdDiffDelete\">Deleted<span class=\"wikEdDiffSpace\"><span class=\"wikEdDiffSpaceSymbol\"></span></span>text<span class=\"wikEdDiffNewline\"> </span></span></li><li><span class=\"wikEdDiffBlockLeft\" title=\"◀\" id=\"wikEdDiffBlock999\" onmouseover=\"wikEdDiffBlockHandler(undefined, this, 'mouseover');\">Moved<span class=\"wikEdDiffSpace\"><span class=\"wikEdDiffSpaceSymbol\"></span> </span>block<span class=\"wikEdDiffNewline\"> </span></span></li><li><span class=\"newlineSymbol\">¶</span> Newline <span class=\"spaceSymbol\">·</span> Space <span class=\"tabSymbol\">→</span> Tab</li></ul>	</div></div>";
 	}
 /**
  * 
@@ -89,6 +106,7 @@ public class TopicHistoryHTMLFactory {
 				"	var topicHistoryArray = " + topicHistoryJSON + ";\n" +
 				"	function loadDiffByTopicHistoryID(id) {\n" +
 				"	var topicHist;\n" +
+				"$(\"#compareDiv\").show();\n"+
 				"	topicHist = _.findWhere(topicHistoryArray, {topicHistoryID: id});\n" +
 				"	WikEdDiffTool.diff('" +
 				 vo.getTopicContent().replaceAll("\\p{C}|\\p{Cc}|\\p{Cntrl}", "") +
@@ -114,10 +132,10 @@ public class TopicHistoryHTMLFactory {
 		return createIncludes() 
 				+"<hr/>\n" 
 				+createHistoryList(historyVOList)
-				+ "\n<h3>Comparison (diff) </h3>\n" 
-				+ "	<div id=\"diffDiv\">\n" 
-				+ "	</div>\n" 
-				+ createDiffLegend()
+//				+ "\n<h3>Comparison (diff) </h3>\n" 
+//				+ "	<div id=\"diffDiv\">\n" 
+//				+ "	</div>\n" 
+//				+ createDiffLegend()
 				+ createScriptBlock(topicVO, historyVOList);
 	}
 	private static final Logger LOG = Logger.getLogger(TopicHistoryHTMLFactory.class.getName());
