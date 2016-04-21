@@ -19,10 +19,6 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
  *
  */
 public class TopicSingle extends SimpleTagSupport {
-	////////////////////
-	//// Incomplete
-	//////////////////////
-
 	private TopicVO topicVO;
 	private CurrentUser currentUser;
 	private boolean showTags;
@@ -30,7 +26,15 @@ public class TopicSingle extends SimpleTagSupport {
 	private String cssTopicTitleClass;
 	private String cssTopicBodyClass;
 	private String cssTagListClass;
+	/**
+ * Topic query string param.
+ * @see QUERY_PARAMS#TOPIC_ID
+ * @see TopicVO
+ */
 	private String topicViewRequestParam;
+/**
+ * topicCollection bean.
+ */
 	private TopicCollection topicCollection;
 	private static final String ITEM_TEMPLATE = "<form id=\"topicForm\" action=\"[[[URL]]]\" method=\"get\">" +
 			"<h4>[[[PAGENAME]]]</h4>" +
@@ -95,6 +99,7 @@ public class TopicSingle extends SimpleTagSupport {
 	}
 
 	/**
+	 * 
 	 * @param topicCollection the topicCollection to set
 	 */
 	public void setTopicCollection(TopicCollection topicCollection) {
@@ -140,7 +145,11 @@ public class TopicSingle extends SimpleTagSupport {
 	private String getCssTagListClass() {
 		return cssTagListClass != null ? cssTagListClass : "tags";
 	}
-
+/**
+ * Generates markup from VO
+ * @param vo the topicVO
+ * @return Markup
+ */
 	private String makeTopicItem(TopicVO vo) {
 		String ret = ITEM_TEMPLATE + "";
 		String loggedIn = "<button name=\"action\" style=\"width:180px;cursor:pointer;font-variant:all-caps;\" id=\"btnEdit\" value=\"edit\">Edit Topic</button>";

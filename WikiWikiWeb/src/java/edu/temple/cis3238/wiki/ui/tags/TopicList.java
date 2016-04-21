@@ -29,20 +29,26 @@ public class TopicList extends SimpleTagSupport {
 	public static final String LIST_STYLES[] = { "TABLE", "LIST" };
 
 	/**
-	 *
+	 * Int. value for topic display style "List"
 	 */
 	public static final int LIST_STYLE_LIST = 1;
 
 	/**
-	 *
+	 * Int. value for topic display style "Table"
 	 */
 	public static final int LIST_STYLE_TABLE = 0;
+	/**
+	 * Template for display style  "List"
+	 */
 private static final String LIST_TEMPLATE = "<li><h4>[[[HREF]]]</h4>"
 		+ "<p class='wikicontent'>[[[ABSTRACT]]]</p>"
 		+ "<p class='tags'>[[[TAGS]]]</p>"
 		+ "<p class='stats'>[[[STATS]]]</p>"
 		+ "</li>";
 private static final String TABLE_POST = "</table>";
+	/**
+	 * Template for display style  "Table"
+	 */
 private static final String TABLE_PRE = "<table class='topicTable'><tr><th>&nbsp;</th><th>Title</th><th>Modified</th><th>Tags </th></tr>";
 private static final String TABLE_ROW_TEMPLATE = "<tr class='[[[CLASS]]]'>"
 		+ "<td>[[[ROW]]]</td>"
@@ -53,10 +59,27 @@ private static final String TABLE_ROW_TEMPLATE = "<tr class='[[[CLASS]]]'>"
 private String listStyle;
 private String sortField;
 private String tagLinkPage;
+/**
+ * Topic query string param.
+ * @see QUERY_PARAMS#TAG_ID
+ * @see TagsVO
+ */
 private String tagLinkRequestParam;
 private String topicLinkPage;
+/**
+ * Topic query string param.
+ * @see QUERY_PARAMS#TOPIC_ID
+ * @see TopicVO
+ */
 private String topicLinkRequestParam;
+/**
+ * List of TopicVOs.
+ * @see TopicVO
+ */
 private ArrayList<TopicVO> topicsList;
+/**
+ *  topicCollection bean.
+ */
 TopicCollection topicCollection;
 
 /**
@@ -116,7 +139,7 @@ public void doTag() throws JspException {
 }
 
 	/**
-	 *
+	 * Set tag link page
 	 * @param tagLinkPage
 	 */
 	public void setTagLinkPage(String tagLinkPage) {
@@ -140,7 +163,7 @@ public void doTag() throws JspException {
 }
 
 	/**
-	 *
+	 * Sets the Topic Request URL.
 	 * @param topicLinkRequestParam
 	 */
 	public void setTopicLinkRequestParam(String topicLinkRequestParam) {
@@ -148,7 +171,7 @@ public void doTag() throws JspException {
 }
 
 	/**
-	 *
+	 * Set topicCollection bean
 	 * @param _topicCollection
 	 */
 	public void setTopicsList(TopicCollection _topicCollection) {
@@ -170,9 +193,9 @@ private String makeTopicItem(TopicVO vo) {
 }
 /**
  * Output table row
- * @param vo
- * @param row
- * @return 
+ * @param vo Topic item
+ * @param row index of current row - for alternation
+ * @return Markup
  */
 private String makeTopicRow(TopicVO vo, int row) {
    boolean oddrow = row % 2 == 0;

@@ -35,7 +35,7 @@ public class Login extends HttpServlet {
 			response.sendRedirect("/WikiWikiWeb/index.jsp?invalidCreds");
 			//request.getRequestDispatcher("/index.jsp?invalidCreds").forward(request, response);
 		 } else {
-			response.sendRedirect("/WikiWikiWeb/View.jsp?username=" + username + "&login=true");
+			response.sendRedirect("/WikiWikiWeb/View.jsp?pTopicID=Home&topicPK=35&username=" + username + "&login=true");
 			//request.getRequestDispatcher("/decison.jsp?username=" + username).forward(request, response);
 
 		 }

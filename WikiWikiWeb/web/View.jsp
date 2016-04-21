@@ -24,6 +24,7 @@
 <%@taglib prefix="wiki" uri="/WEB-INF/tlds/wiki.tld"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+	String requestMessages = "";
   if ( request.getSession().isNew()){
 	WikiEventMonitor.setUsersOnline(WikiEventMonitor.getUsersOnline()+1);
   }
@@ -32,10 +33,12 @@
 	}
 	if (request.getParameter("logout") != null) {
 		currentUser.setUsername(request.getParameter("username"));
+		requestMessages = "<b>You have logged out.</b>";
+		WikiEventMonitor.setUsersOnline(WikiEventMonitor.getUsersOnline()-1);
 	}
 	
 	ServletHelpers web;
-	String requestMessages = "";
+	
 	ArrayList<TopicVO> topics;
 	DbConnection dbc;
 	GeneralDAO dao;

@@ -18,13 +18,37 @@ public class TagsListFactory {
 private static final String CLOUD_ITEM_HREF_MARKUP = "<a title=\"Click to view [[[COUNTTOPIC]]] topic(s).\" href=\"[[[URL]]]?[[[QSP]]]=[[[TAGID]]]&pTagID=[[[TAGNAME]]]\">[[[TAGNAME]]]</a>";
 private static final String CLOUD_ITEM_STYLE_PREFIX = "<span style=\"font-size:";
 private static final String CLOUD_ITEM_STYLE_SUFFIX = "pt;\"> ";
+/**
+ * Font Size Large
+ */
 private static final int LARGE = 18;
+/**
+ * Font Size XL
+ */
 private static final int LARGE_X = 20;
+/**
+ * Font Size 2XL
+ */
 private static final int LARGE_XX = 24;
+/**
+ * Font Size Medium 
+ */
 private static final int MEDIUM = 14;
+/**
+ * Font Size Small.
+ */
 private static final int SMALL = 12;
-private static final int SMALL_X = 11;
-private static final int SMALL_XX = 10;
+/**
+ * Font Size X Small.
+ */
+private static final int SMALL_X = 10;
+/**
+ * Font Size 2X Small.
+ */
+private static final int SMALL_XX = 8;
+/**
+ * Array of font sizes.
+ */
 private static final String[] FONT_SCALE = {
    CLOUD_ITEM_STYLE_PREFIX + SMALL_XX + CLOUD_ITEM_STYLE_SUFFIX,
    CLOUD_ITEM_STYLE_PREFIX + SMALL_X + CLOUD_ITEM_STYLE_SUFFIX,
@@ -156,7 +180,10 @@ private void setScale() {
    }
    couldRange = ( (double) cloudMaxRange - cloudMinRange + 1.0 ) / ( FONT_SCALE.length - 1.0 );
 }
-
+/**
+ * Constructs new factory object.
+ * @param _settings TagFactory settings (required param)
+ */
 private TagsListFactory(TagsTagSettings _settings) {
    this.settings = _settings;
 }

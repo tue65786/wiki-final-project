@@ -68,7 +68,7 @@ public class TagsTagSettings implements Serializable {
 	}
 
 	/**
-	 *
+	 * Style setting for Factory
 	 * @param _style
 	 */
 	public void setStyle(String _style) {

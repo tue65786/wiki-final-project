@@ -48,7 +48,10 @@ public class TopicHistoryTag extends SimpleTagSupport {
 			throw new JspException("Error in TopicHistoryTag tag", ex);
 		}
 	}
-
+/**
+ * Populate topicCollection
+ * @param topicCollection Collection Bean
+ */
 	public void setTopicCollection(TopicCollection topicCollection) {
 		this.topicCollection = topicCollection;
 	}

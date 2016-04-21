@@ -8,8 +8,10 @@
 package edu.temple.cis3238.wiki.parser;
 
 /**
- *
- * @author (c)2016 Guiding Technologies
+ * Interface to retrieve field value from Object
+ * @see TagsFromContentParser
+ * @see TagColumnPredicate
+ * @author dan
  */
 public interface IPluck<VO, VI> {
    

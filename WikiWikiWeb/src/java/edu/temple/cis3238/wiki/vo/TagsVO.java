@@ -12,19 +12,22 @@ import java.util.logging.*;
 import org.apache.commons.lang3.builder.*;
 
 /**
- *
+ * Entity Class for Tags (Index terms)
  * @author (c)2016 Doreen, Dan, Christian
  */
 public class TagsVO implements Serializable, Comparable<TagsVO>, IValueObject<TagsVO>, Comparator<TagsVO> {
 
    private static final Logger LOG = Logger.getLogger(TagsVO.class.getName());
-
    private static final long serialVersionUID = -6547517199465130892L;
    private int parentTagId;
    private int tagID;
    public String tagName;
    private int topicCount;
-
+/**
+ * Instance method
+ * @param vo topic
+ * @return static clone.
+ */
    public static TagsVO newInstance(TagsVO vo) {
 	  return new TagsVO(vo.getTagID(), vo.getTagName(), vo.getParentTagId(), vo.getTopicCount());
    }
@@ -35,7 +38,9 @@ public class TagsVO implements Serializable, Comparable<TagsVO>, IValueObject<Ta
 		 return 1;
 	  }
 	  return new CompareToBuilder()
-			  .append(_left.getTagName().toLowerCase(), _right.getTagName().toLowerCase())
+			  .append(_left.getTagName().toLowerCase(), _right
+					  .getTagName()
+					  .toLowerCase())
 			  .build();
    }
 
@@ -45,8 +50,15 @@ public class TagsVO implements Serializable, Comparable<TagsVO>, IValueObject<Ta
 		 return 1;
 	  }
 	  return new CompareToBuilder()
-			  .append(this.getTagName().toLowerCase(), _that.getTagName().toLowerCase())
-			  .append(this.getTagID(), _that.getTagID())
+			  .append(this
+					  .getTagName()
+					  .toLowerCase(),
+					  _that
+							  .getTagName()
+							  .toLowerCase())
+			  .append(this
+					  .getTagID(), _that
+					  .getTagID())
 			  .build();
    }
 
@@ -63,7 +75,10 @@ public class TagsVO implements Serializable, Comparable<TagsVO>, IValueObject<Ta
 	  }
 	  final TagsVO other = (TagsVO) obj;
 
-	  if (!Objects.equals(this.getTagName().toLowerCase().trim(), other.getTagName().toLowerCase())) {
+	  if (!Objects.equals(this.getTagName()
+			  .toLowerCase().trim(), other
+					  .getTagName()
+					  .toLowerCase())) {
 		 return false;
 	  }
 	  return true;
@@ -119,6 +134,7 @@ public class TagsVO implements Serializable, Comparable<TagsVO>, IValueObject<Ta
    }
 
    /**
+	* Set count of topics assigned to tag.
     * @param topicCount the topicCount to set
     */
    public void setTopicCount(int topicCount) {
@@ -128,18 +144,36 @@ public class TagsVO implements Serializable, Comparable<TagsVO>, IValueObject<Ta
    @Override
    public int hashCode() {
 	  int hash = 7;
-	  hash = 89 * hash + Objects.hashCode(this.getTagName().toLowerCase().trim());
+	  hash = 89 * hash + Objects
+			  .hashCode(this.getTagName()
+			  .toLowerCase()
+			  .trim());
 	  return hash;
    }
 
    @Override
    public String toString() {
-	  return "TagsVO{" + "tagID=" + tagID + ", tagName=" + getTagName() + " , topicCount=" + getTopicCount() + ", parentTagId=" + parentTagId + '}';
+	  return "TagsVO{" + "tagID=" 
+			  + tagID 
+			  + ", tagName=" 
+			  + getTagName() 
+			  + " , topicCount=" 
+			  + getTopicCount() 
+			  + ", parentTagId=" 
+			  + parentTagId + '}';
    }
 
    @Override
    public String toTableRow() {
-	  return "<tr><td>" + tagID + "</td><td>" + getTagName() + "</td><td>" + getTopicCount() + "</td><td>" + parentTagId + "</td></tr>";
+	  return "<tr><td>" 
+			  + tagID 
+			  + "</td><td>" 
+			  + getTagName() 
+			  + "</td><td>" 
+			  + getTopicCount() 
+			  + "</td><td>" 
+			  + parentTagId 
+			  + "</td></tr>";
    }
 
    public TagsVO() {

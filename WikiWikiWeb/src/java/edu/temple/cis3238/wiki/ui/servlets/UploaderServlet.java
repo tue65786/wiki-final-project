@@ -20,7 +20,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
- *
+ * Handles uploading a file to server from form.
  * @author
  */
 @WebServlet(name = "UploaderServlet", urlPatterns = { "/Uploader" })
