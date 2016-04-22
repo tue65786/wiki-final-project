@@ -1,3 +1,5 @@
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -64,10 +66,10 @@ return false;
    }
    /**
 	* Creates directories and subdirs for specified file.
-	* @param context
+	* @param context servlet
 	* @param uploadDirectory [basepath]/uploads/[TopicID]/[FILENAME]
-	* @param topic
-	* @return
+	* @param topic topicVO
+	* @return Absolute path
 	* @see edu.temple.cis3238.wiki.ui.servlets.UploadServlet
 	*/
    public static String makeDir(ServletContext context, String uploadDirectory, TopicVO topic) {

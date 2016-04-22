@@ -12,11 +12,11 @@ import javax.servlet.jsp.PageContext;
 import org.apache.tomcat.util.http.RequestUtil;
 
 /**
+ * Not complete. 
+ *Purpose: <br>To control the state of the wiki.
  * */
 public class WikiContext implements Cloneable, Serializable {
-   ////////////////////
-   //// Incomplete
-   //////////////////////
+ 
    private static final long serialVersionUID = 2889058640201059039L;
 
    private HttpServletRequest request;

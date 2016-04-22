@@ -31,19 +31,24 @@ import javax.servlet.http.*;
  
  */
 public class WikiApplicationFilter implements Filter {
-   private static final boolean debug = false;
-   ////////////////////
-   //// Incomplete
-   //////////////////////
+   /**
+	* Print debug info.
+	*/
+	private static final boolean debug = false;
    static RequestWrapper RequestWrapper(HttpServletRequest _request) {
 	  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
    }
+   /**
+	* Current context Session
+	*/
    private HttpSession session;
-   // The filter configuration object we are associated with.  If
-   // this value is null, this filter instance is not currently
-   // configured. 
+   /**
+	* The filter configuration object we are associated with.  If this value is null, this filter instance is not currently configured
+   */
    private FilterConfig filterConfig = null;
-
+/**
+ * Instantiate Application Filter
+ */
    public WikiApplicationFilter() {
    }
 

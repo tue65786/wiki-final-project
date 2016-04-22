@@ -45,9 +45,9 @@ public class CollectionsUtilities {
 	  for (TagsVO element : voList) {
 		 TagsVO vo = (TagsVO) element;
 		 String v;
-		 IPluck<TagsVO, String> predicate;
-		 predicate =  new TagColumnPredicate(vo, column, true);
-		 v = predicate.pluck(vo, column);
+		 IPluck<TagsVO, String> transformer;
+		 transformer =  new TagColumnPredicate(vo, column, true);
+		 v = transformer.pluck(vo, column);
 
 		 if (v != null) {
 			result.add(v);
@@ -57,17 +57,17 @@ public class CollectionsUtilities {
    }
    /**
 	* Apply Predicate to Collection
-	* @param <T>
-	* @param col
-	* @param predicate Class implementing predicate, has apply with criteria
+	* @param <T> Generic Collection Type.
+	* @param col Column to search for
+	* @param transformer Class implementing Plucker, has apply with criteria
 	* @see TagColumnPredicate
 	* @see TopicByTopicIDPredicate
 	* @return Sublist of items that meet criteria specified by {@linkplain IPredicate}
 	*/
-    public static <T> ArrayList<T> filterList( ArrayList<T> col, IPredicate<T> predicate ) {
+    public static <T> ArrayList<T> filterList( ArrayList<T> col, IPredicate<T> transformer ) {
       ArrayList<T> result = new ArrayList<T>();
       for ( T element : col ) {
-         if ( predicate.apply(element) ) {
+         if ( transformer.apply(element) ) {
             result.add(element);
          }
       }

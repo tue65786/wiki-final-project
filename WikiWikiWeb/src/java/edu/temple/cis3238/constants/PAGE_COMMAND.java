@@ -5,10 +5,11 @@
  */
 package edu.temple.cis3238.constants;
 
+import edu.temple.cis3238.wiki.controller.GeneralController;
 import static edu.temple.cis3238.wiki.utils.StringUtils.toS;
 
 /**
- *
+ * Page commands handled by {@linkplain GeneralController}
  */
 public enum PAGE_COMMAND {
 	/**

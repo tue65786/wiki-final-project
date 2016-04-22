@@ -25,20 +25,27 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
 	String requestMessages = "";
-  if ( request.getSession().isNew()){
-	WikiEventMonitor.setUsersOnline(WikiEventMonitor.getUsersOnline()+1);
-  }
+	if (request.getSession().isNew()) {
+		WikiEventMonitor.setUsersOnline(WikiEventMonitor.getUsersOnline() + 1);
+	}
 	if (request.getParameter("login") != null) {
 		currentUser.setUsername(request.getParameter("username"));
 	}
 	if (request.getParameter("logout") != null) {
 		currentUser.setUsername(request.getParameter("username"));
+		try {
+			if (WikiEventMonitor.getUsersOnline() > 1) {
+				WikiEventMonitor.setUsersOnline(WikiEventMonitor.getUsersOnline() - 1);
+			}
+		} catch (Exception e) {
+		}
+
 		requestMessages = "<b>You have logged out.</b>";
-		WikiEventMonitor.setUsersOnline(WikiEventMonitor.getUsersOnline()-1);
+
 	}
-	
+
 	ServletHelpers web;
-	
+
 	ArrayList<TopicVO> topics;
 	DbConnection dbc;
 	GeneralDAO dao;
@@ -46,7 +53,7 @@
 	TagsTagSettings settings;
 
 	web = new ServletHelpers(request, response);
-	
+
 	String requestAction = web.getStrParameter("command", "list");
 	String keywordSearch = web.getStrParameter("query", "all");
 	String requestTopic = web.getStrParameter("pTopicID", "");
@@ -58,8 +65,8 @@
 	String editorMode = web.getStrParameter("editorMode", "");
 	String editorTopicContent = "";
 	String editorTopicName = "";
-	String highlightText = StringUtils.coalesce(requestTag,web.getStrParameter("query", ""),""); 
-	boolean shouldHightlightText = (highlightText.length()>0);
+	String highlightText = StringUtils.coalesce(requestTag, web.getStrParameter("query", ""), "");
+	boolean shouldHightlightText = (highlightText.length() > 0);
 	boolean viewSingle = false;
 	boolean viewList = false;
 	boolean editSingle = false;
@@ -67,9 +74,9 @@
 	String title = "";
 	dbc = new DbConnection();
 	dao = new GeneralDAO(dbc);
-	if (revertTopicHistoryID * requestTopicID > 0){
-		TopicHistoryVO thVO = new TopicHistoryVO(revertTopicHistoryID, null, null,0);
-		if (dao.revertTopicFromHistory(thVO)){ 
+	if (revertTopicHistoryID * requestTopicID > 0) {
+		TopicHistoryVO thVO = new TopicHistoryVO(revertTopicHistoryID, null, null, 0);
+		if (dao.revertTopicFromHistory(thVO)) {
 			requestMessages = "<b style='font-size:14px'>Topic sucessfully restored from history.</b>";
 		}
 	}
@@ -81,16 +88,16 @@
 		} else {
 			insertSingle = true;
 		}
-	//Tag Search
+		//Tag Search
 	} else if (requestTagId == 0 && !requestTag.isEmpty()) {
 		TagsVO voTemp = dao.getTagByName(requestTag);
 		if (voTemp != null) {
 			requestTagId = voTemp.getTagID();
 		} else {
 			insertSingle = true;
-			requestMessages = "<div style='color:red;font-weight:bold;'>Unable to load topics for <u>"
-					+ requestTag 
-					+ "</u>.</div>";
+			requestMessages = "<div style='color:red;font-weight:bold;'>Unable to load topics for <u>" +
+					requestTag +
+					"</u>.</div>";
 		}
 	}
 
@@ -98,8 +105,7 @@
 		if (requestAction.equals("edit")) {
 			//editing --> editmode
 			editSingle = true;
-		} 
-		 else {// --> default view mode
+		} else {// --> default view mode
 			viewSingle = true;
 		}
 	} // ----> search results
@@ -127,14 +133,14 @@
 	} else if (viewList && !keywordSearch.equals("all")) {
 		//Keyword search
 		topics = dao.searchTopic(keywordSearch);
-		requestMessages = "Displaying "+ topics.size() + "  result(s) for: <b>" + keywordSearch +"</b>";
+		requestMessages = "Displaying " + topics.size() + "  result(s) for: <b>" + keywordSearch + "</b>";
 	} else {
-		
+
 		//Show all topics
 		topics = dao.getTopics();
 	}
-	if (!requestTag.isEmpty() && !topics.isEmpty()){
-		requestMessages = "Displaying "+ topics.size() + "  result(s) for tag: <b>" + requestTag +"</b>";
+	if (!requestTag.isEmpty() && !topics.isEmpty()) {
+		requestMessages = "Displaying " + topics.size() + "  result(s) for tag: <b>" + requestTag + "</b>";
 	}
 	topicCollection.setTopics(topics);
 	topicCollection.setListType(type);
@@ -145,9 +151,9 @@
 		if (topicCollection.getCurrentTopic() != null) {
 			editorTopicContent = topicCollection.getCurrentTopic().getTopicContent();
 			editorTopicName = topicCollection.getCurrentTopic().getTopicName();
-			if (currentUser.isLoggedIn()){
-			ArrayList<TopicHistoryVO> historyVO = dao.getTopicHistoryByTopicID(requestTopicID);
-			topicCollection.getCurrentTopic().setTopicHistoryCollection(historyVO);
+			if (currentUser.isLoggedIn()) {
+				ArrayList<TopicHistoryVO> historyVO = dao.getTopicHistoryByTopicID(requestTopicID);
+				topicCollection.getCurrentTopic().setTopicHistoryCollection(historyVO);
 			}
 		}
 	} else {
@@ -169,16 +175,16 @@
     <body>
         <div id="header">
 			<h1>WikiWikiWeb</h1>
-			<% if (currentUser.isLoggedIn()){%>
+			<% if (currentUser.isLoggedIn()) {%>
 			<h4>Welcome back, <%=currentUser.getUsername()%></h4>
 			<%}%>
 			<h2 class="centered"><%=title%></h2>
 			<ul>
 				<li><a href='View.jsp?pTopicID=Home'>Home</a></li>
 				<li><a href='View.jsp'>Index</a></li>
-					<% if (currentUser.isLoggedIn()){%>
+					<% if (currentUser.isLoggedIn()) {%>
 				<li><a href='View.jsp?logout=true'>Logout</a></li>
-					<%} else{%>
+					<%} else {%>
 				<li><a href='index.jsp'>Login</a></li>
 					<%}%>
 			</ul>
@@ -196,11 +202,11 @@
 									topicViewRequestParam = "View.jsp">
 						</wiki:topic>
 						<!--<div id="diffDiv"></div>-->	
-						<% if (currentUser.isLoggedIn()){%>
+						<% if (currentUser.isLoggedIn()) {%>
 						<p/>
 						<div id="compareDiv" style="display:none;">
-						<h3>Comparison (diff) </h3>
-						<%=TopicHistoryHTMLFactory.createDiffDivAndLegend()%>
+							<h3>Comparison (diff) </h3>
+							<%=TopicHistoryHTMLFactory.createDiffDivAndLegend()%>
 						</div>
 						<%}%>
 						<%} else if (editSingle || insertSingle) {%>
@@ -241,9 +247,9 @@
 										topicLinkPage="View.jsp" 
 										topicLinkRequestParam="pTopicID">
 						</wiki:TopicList> 
-						<% if (shouldHightlightText){%>
+						<% if (shouldHightlightText) {%>
 						<script type='text/javascript'>
-						$('.topiclist > li').highlight('<%=highlightText%>');
+							$('.topiclist > li').highlight('<%=highlightText%>');
 						</script>
 						<%}%>
 						<%}%>

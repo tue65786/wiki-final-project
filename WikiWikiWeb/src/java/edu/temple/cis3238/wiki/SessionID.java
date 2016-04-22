@@ -11,8 +11,9 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 /**
- *
- * @author (c)2016 Guiding Technologies
+ * Manages session ID to track online users.
+ * @author 
+ * @see WikiEventMonitor
  */
 public class SessionID   {
 

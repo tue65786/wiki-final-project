@@ -14,7 +14,10 @@ import java.io.Serializable;
 import java.util.*;
 import javax.servlet.http.HttpSession;
 
-
+/**
+ * Home Controller Engine
+ * @author d
+ */
 public class WikiEngine implements Serializable {  
    private static final long serialVersionUID = 8139564225677306305L;
 

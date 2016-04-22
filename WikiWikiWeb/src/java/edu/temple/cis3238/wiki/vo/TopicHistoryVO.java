@@ -11,7 +11,9 @@ import java.util.*;
 import java.util.logging.*;
 
 /**
- *
+ * Entity representation of TopicHistory table.<br> Stores revisions for associated Topic.
+ * @see TopicVO
+ * @see TopicVO#topicHistoryCollection
  * @author (c)2016 Doreen, Dan, Christian
  */
 public class TopicHistoryVO implements Serializable {
@@ -19,11 +21,27 @@ public class TopicHistoryVO implements Serializable {
 private static final Logger LOG = Logger.getLogger( TopicHistoryVO.class.getName() );
 
 private static final long serialVersionUID = 2051694591563091203L;
+/**
+ * The topic content.
+ */
 private String topicConent;
+/**
+ * History timestamp.
+ */
 private String topicHistoryCreated;
+/**
+ * Primary key.
+ */
 private int topicHistoryID;
+/**
+ * Foreign key reference to topic.
+ */
 private int topicID;
-
+/**
+ * Instance method for creating new topic history record,
+ * @param _vo Topic History
+ * @return  Clone of VO
+ */
 public static TopicHistoryVO newInstance(TopicHistoryVO _vo) {
    return new TopicHistoryVO( _vo.getTopicHistoryID(), _vo.getTopicConent(), _vo.getTopicHistoryCreated(), _vo.getTopicID() );
 }
@@ -53,6 +71,7 @@ public boolean equals(Object _obj) {
 }
 
 /**
+ * Retrieve the content for history item.
  * @return the topicConent
  */
 public String getTopicConent() {
@@ -60,6 +79,7 @@ public String getTopicConent() {
 }
 
 /**
+ * Set the content for History
  * @param topicConent the topicConent to set
  */
 public void setTopicConent(String topicConent) {
